@@ -1,0 +1,132 @@
+{
+  "name": "Employee",
+  "fields": [
+    {
+      "fieldName": "employeeNumber",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "firstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "middleName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "gender",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "birthDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique"]
+    },
+    {
+      "fieldName": "cellPhone",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "maritalStatus",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "active",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "contractStartDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "contractEndDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "bankName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branchName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bankAccount",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "insuranceRegistrationNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "districtId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "facilityId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "categoryId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "trainingId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "carderId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "picture",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "departMentCode",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "attachmentId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "confirmationId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "projectId",
+      "fieldType": "Long"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "department",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "departmentId",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20200902164818",
+  "entityTableName": "employees",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

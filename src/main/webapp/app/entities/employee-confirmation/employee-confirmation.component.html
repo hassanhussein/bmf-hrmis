@@ -1,0 +1,65 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="hrmisApp.employeeConfirmation.home.title">Employee Confirmations</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-employee-confirmation" [routerLink]="['/employee-confirmation/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="hrmisApp.employeeConfirmation.home.createLabel">
+            Create a new Employee Confirmation
+            </span>
+        </button>
+    </h2>
+
+    <bmf-alert-error></bmf-alert-error>
+
+    <bmf-alert></bmf-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="employeeConfirmations?.length === 0">
+        <span jhiTranslate="hrmisApp.employeeConfirmation.home.notFound">No employeeConfirmations found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="employeeConfirmations && employeeConfirmations.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr>
+                    <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
+                    <th scope="col" ><span jhiTranslate="hrmisApp.employeeConfirmation.isConfirmed">Is Confirmed</span></th>
+                    <th scope="col" ><span jhiTranslate="hrmisApp.employeeConfirmation.confirmationLetter">Confirmation Letter</span></th>
+                    <th scope="col" ><span jhiTranslate="hrmisApp.employeeConfirmation.date">Date</span></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let employeeConfirmation of employeeConfirmations ;trackBy: trackId">
+                    <td><a [routerLink]="['/employee-confirmation', employeeConfirmation.id, 'view']">{{ employeeConfirmation.id }}</a></td>
+                    <td>{{ employeeConfirmation.isConfirmed }}</td>
+                    <td>{{ employeeConfirmation.confirmationLetter }}</td>
+                    <td>{{ employeeConfirmation.date | date:'mediumDate' }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/employee-confirmation', employeeConfirmation.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/employee-confirmation', employeeConfirmation.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(employeeConfirmation)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="employeeConfirmation">
+            <h2><span jhiTranslate="hrmisApp.employeeConfirmation.detail.title">Employee Confirmation</span> {{ employeeConfirmation.id }}</h2>
+
+            <hr>
+
+            <bmf-alert-error></bmf-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="hrmisApp.employeeConfirmation.isConfirmed">Is Confirmed</span></dt>
+                <dd>
+                    <span>{{ employeeConfirmation.isConfirmed }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employeeConfirmation.confirmationLetter">Confirmation Letter</span></dt>
+                <dd>
+                    <span>{{ employeeConfirmation.confirmationLetter }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employeeConfirmation.date">Date</span></dt>
+                <dd>
+                    <span>{{ employeeConfirmation.date }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/employee-confirmation', employeeConfirmation.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

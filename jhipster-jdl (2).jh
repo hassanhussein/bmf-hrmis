@@ -1,0 +1,97 @@
+entity Employee(employees) {
+
+ employeeNumber String required,
+ firstName String ,
+ middleName String,
+ lastName String ,
+ gender String ,
+ birthDate LocalDate ,
+ email String unique,
+ cellPhone String,
+ maritalStatus String,
+ active Boolean,
+ contractStartDate LocalDate,
+ contractEndDate LocalDate,
+ bankName String ,
+ branchName String ,
+ bankAccount String ,
+ insuranceRegistrationNumber String, 
+ districtId Long,
+ facilityId Long,
+ categoryId Long,
+ trainingId Long,
+ carderId Long,
+ picture ImageBlob,
+ departMentCode Long ,
+ attachmentId Long ,
+ confirmationId Long ,
+ projectId Long
+
+}
+
+entity EmployeeConfirmation(employee_confirmations) {
+ 
+ isConfirmed Boolean,
+ confirmationLetter String,
+ date LocalDate 
+ 
+}
+
+entity EmploymentCategory(employment_categories) {
+
+code String,
+
+name String
+
+}
+
+entity Project(projects) {
+
+code String,
+
+name String,
+
+startDate LocalDate,
+
+endDate LocalDate
+
+}
+
+
+entity Department(departments) {
+
+code String unique,
+
+name String
+
+}
+
+entity Carder(carders) {
+
+code String,
+name String
+
+}
+
+entity Attachment(attachments) {
+  name String 
+  contentId String
+  contentLength Long
+  mimeType String
+}
+
+relationship OneToMany {
+ 	Department to
+	Employee{departmentId}
+}
+
+
+paginate Employee with pagination
+dto all with mapstruct
+filter Employee
+
+
+
+
+
+

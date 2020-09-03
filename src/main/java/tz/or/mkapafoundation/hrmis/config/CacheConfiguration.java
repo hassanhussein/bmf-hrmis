@@ -48,6 +48,14 @@ public class CacheConfiguration {
             createCache(cm, tz.or.mkapafoundation.hrmis.domain.User.class.getName());
             createCache(cm, tz.or.mkapafoundation.hrmis.domain.Authority.class.getName());
             createCache(cm, tz.or.mkapafoundation.hrmis.domain.User.class.getName() + ".authorities");
+            createCache(cm, tz.or.mkapafoundation.hrmis.domain.Employee.class.getName());
+            createCache(cm, tz.or.mkapafoundation.hrmis.domain.EmployeeConfirmation.class.getName());
+            createCache(cm, tz.or.mkapafoundation.hrmis.domain.EmploymentCategory.class.getName());
+            createCache(cm, tz.or.mkapafoundation.hrmis.domain.Project.class.getName());
+            createCache(cm, tz.or.mkapafoundation.hrmis.domain.Department.class.getName());
+            createCache(cm, tz.or.mkapafoundation.hrmis.domain.Department.class.getName() + ".employees");
+            createCache(cm, tz.or.mkapafoundation.hrmis.domain.Carder.class.getName());
+            createCache(cm, tz.or.mkapafoundation.hrmis.domain.Attachment.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

@@ -1,0 +1,63 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="hrmisApp.carder.home.title">Carders</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-carder" [routerLink]="['/carder/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="hrmisApp.carder.home.createLabel">
+            Create a new Carder
+            </span>
+        </button>
+    </h2>
+
+    <bmf-alert-error></bmf-alert-error>
+
+    <bmf-alert></bmf-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="carders?.length === 0">
+        <span jhiTranslate="hrmisApp.carder.home.notFound">No carders found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="carders && carders.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr>
+                    <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
+                    <th scope="col" ><span jhiTranslate="hrmisApp.carder.code">Code</span></th>
+                    <th scope="col" ><span jhiTranslate="hrmisApp.carder.name">Name</span></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let carder of carders ;trackBy: trackId">
+                    <td><a [routerLink]="['/carder', carder.id, 'view']">{{ carder.id }}</a></td>
+                    <td>{{ carder.code }}</td>
+                    <td>{{ carder.name }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/carder', carder.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/carder', carder.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(carder)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

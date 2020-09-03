@@ -1,0 +1,48 @@
+{
+  "hrmisApp": {
+    "employee": {
+      "home": {
+        "title": "Employees",
+        "createLabel": "Create a new Employee",
+        "createOrEditLabel": "Create or edit a Employee",
+        "notFound": "No Employees found"
+      },
+      "created": "A new Employee is created with identifier {{ param }}",
+      "updated": "A Employee is updated with identifier {{ param }}",
+      "deleted": "A Employee is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Employee {{ id }}?"
+      },
+      "detail": {
+        "title": "Employee"
+      },
+      "employeeNumber": "Employee Number",
+      "firstName": "First Name",
+      "middleName": "Middle Name",
+      "lastName": "Last Name",
+      "gender": "Gender",
+      "birthDate": "Birth Date",
+      "email": "Email",
+      "cellPhone": "Cell Phone",
+      "maritalStatus": "Marital Status",
+      "active": "Active",
+      "contractStartDate": "Contract Start Date",
+      "contractEndDate": "Contract End Date",
+      "bankName": "Bank Name",
+      "branchName": "Branch Name",
+      "bankAccount": "Bank Account",
+      "insuranceRegistrationNumber": "Insurance Registration Number",
+      "districtId": "District Id",
+      "facilityId": "Facility Id",
+      "categoryId": "Category Id",
+      "trainingId": "Training Id",
+      "carderId": "Carder Id",
+      "picture": "Picture",
+      "departMentCode": "Depart Ment Code",
+      "attachmentId": "Attachment Id",
+      "confirmationId": "Confirmation Id",
+      "projectId": "Project Id",
+      "departmentId": "Department Id"
+    }
+  }
+}

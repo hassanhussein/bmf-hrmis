@@ -1,0 +1,141 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="employee">
+            <h2><span jhiTranslate="hrmisApp.employee.detail.title">Employee</span> {{ employee.id }}</h2>
+
+            <hr>
+
+            <bmf-alert-error></bmf-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="hrmisApp.employee.employeeNumber">Employee Number</span></dt>
+                <dd>
+                    <span>{{ employee.employeeNumber }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.firstName">First Name</span></dt>
+                <dd>
+                    <span>{{ employee.firstName }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.middleName">Middle Name</span></dt>
+                <dd>
+                    <span>{{ employee.middleName }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.lastName">Last Name</span></dt>
+                <dd>
+                    <span>{{ employee.lastName }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.gender">Gender</span></dt>
+                <dd>
+                    <span>{{ employee.gender }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.birthDate">Birth Date</span></dt>
+                <dd>
+                    <span>{{ employee.birthDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.email">Email</span></dt>
+                <dd>
+                    <span>{{ employee.email }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.cellPhone">Cell Phone</span></dt>
+                <dd>
+                    <span>{{ employee.cellPhone }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.maritalStatus">Marital Status</span></dt>
+                <dd>
+                    <span>{{ employee.maritalStatus }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.active">Active</span></dt>
+                <dd>
+                    <span>{{ employee.active }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.contractStartDate">Contract Start Date</span></dt>
+                <dd>
+                    <span>{{ employee.contractStartDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.contractEndDate">Contract End Date</span></dt>
+                <dd>
+                    <span>{{ employee.contractEndDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.bankName">Bank Name</span></dt>
+                <dd>
+                    <span>{{ employee.bankName }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.branchName">Branch Name</span></dt>
+                <dd>
+                    <span>{{ employee.branchName }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.bankAccount">Bank Account</span></dt>
+                <dd>
+                    <span>{{ employee.bankAccount }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.insuranceRegistrationNumber">Insurance Registration Number</span></dt>
+                <dd>
+                    <span>{{ employee.insuranceRegistrationNumber }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.districtId">District Id</span></dt>
+                <dd>
+                    <span>{{ employee.districtId }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.facilityId">Facility Id</span></dt>
+                <dd>
+                    <span>{{ employee.facilityId }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.categoryId">Category Id</span></dt>
+                <dd>
+                    <span>{{ employee.categoryId }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.trainingId">Training Id</span></dt>
+                <dd>
+                    <span>{{ employee.trainingId }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.carderId">Carder Id</span></dt>
+                <dd>
+                    <span>{{ employee.carderId }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.picture">Picture</span></dt>
+                <dd>
+                    <div *ngIf="employee.picture">
+                        <a (click)="openFile(employee.pictureContentType, employee.picture)">
+                            <img [src]="'data:' + employee.pictureContentType + ';base64,' + employee.picture" style="max-width: 100%;" alt="employee image"/>
+                        </a>
+                        {{ employee.pictureContentType }}, {{ byteSize(employee.picture) }}
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.departMentCode">Depart Ment Code</span></dt>
+                <dd>
+                    <span>{{ employee.departMentCode }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.attachmentId">Attachment Id</span></dt>
+                <dd>
+                    <span>{{ employee.attachmentId }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.confirmationId">Confirmation Id</span></dt>
+                <dd>
+                    <span>{{ employee.confirmationId }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.projectId">Project Id</span></dt>
+                <dd>
+                    <span>{{ employee.projectId }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.departmentId">Department Id</span></dt>
+                <dd>
+                    <div *ngIf="employee.departmentIdId">
+                        <a [routerLink]="['/department', employee.departmentIdId, 'view']">{{ employee.departmentIdId }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/employee', employee.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

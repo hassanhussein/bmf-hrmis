@@ -1,0 +1,23 @@
+{
+  "hrmisApp": {
+    "carder": {
+      "home": {
+        "title": "Carders",
+        "createLabel": "Create a new Carder",
+        "createOrEditLabel": "Create or edit a Carder",
+        "notFound": "No Carders found"
+      },
+      "created": "A new Carder is created with identifier {{ param }}",
+      "updated": "A Carder is updated with identifier {{ param }}",
+      "deleted": "A Carder is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Carder {{ id }}?"
+      },
+      "detail": {
+        "title": "Carder"
+      },
+      "code": "Code",
+      "name": "Name"
+    }
+  }
+}

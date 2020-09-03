@@ -1,0 +1,23 @@
+{
+  "hrmisApp": {
+    "employmentCategory": {
+      "home": {
+        "title": "Employment Categories",
+        "createLabel": "Create a new Employment Category",
+        "createOrEditLabel": "Create or edit a Employment Category",
+        "notFound": "No Employment Categories found"
+      },
+      "created": "A new Employment Category is created with identifier {{ param }}",
+      "updated": "A Employment Category is updated with identifier {{ param }}",
+      "deleted": "A Employment Category is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Employment Category {{ id }}?"
+      },
+      "detail": {
+        "title": "Employment Category"
+      },
+      "code": "Code",
+      "name": "Name"
+    }
+  }
+}

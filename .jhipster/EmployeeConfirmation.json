@@ -1,0 +1,29 @@
+{
+  "name": "EmployeeConfirmation",
+  "fields": [
+    {
+      "fieldName": "isConfirmed",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "confirmationLetter",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "relationships": [],
+  "changelogDate": "20200902164918",
+  "entityTableName": "employee_confirmations",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

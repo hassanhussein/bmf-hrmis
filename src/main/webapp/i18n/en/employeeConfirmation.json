@@ -1,0 +1,24 @@
+{
+  "hrmisApp": {
+    "employeeConfirmation": {
+      "home": {
+        "title": "Employee Confirmations",
+        "createLabel": "Create a new Employee Confirmation",
+        "createOrEditLabel": "Create or edit a Employee Confirmation",
+        "notFound": "No Employee Confirmations found"
+      },
+      "created": "A new Employee Confirmation is created with identifier {{ param }}",
+      "updated": "A Employee Confirmation is updated with identifier {{ param }}",
+      "deleted": "A Employee Confirmation is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Employee Confirmation {{ id }}?"
+      },
+      "detail": {
+        "title": "Employee Confirmation"
+      },
+      "isConfirmed": "Is Confirmed",
+      "confirmationLetter": "Confirmation Letter",
+      "date": "Date"
+    }
+  }
+}
