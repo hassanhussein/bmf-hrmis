@@ -3,11 +3,13 @@
   "fields": [
     {
       "fieldName": "code",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["unique"]
     },
     {
       "fieldName": "name",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
     }
   ],
   "relationships": [],

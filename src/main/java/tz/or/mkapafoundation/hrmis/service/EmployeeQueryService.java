@@ -94,33 +94,6 @@ public class EmployeeQueryService extends QueryService<Employee> {
             if (criteria.getEmployeeNumber() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getEmployeeNumber(), Employee_.employeeNumber));
             }
-            if (criteria.getFirstName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getFirstName(), Employee_.firstName));
-            }
-            if (criteria.getMiddleName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getMiddleName(), Employee_.middleName));
-            }
-            if (criteria.getLastName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getLastName(), Employee_.lastName));
-            }
-            if (criteria.getGender() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getGender(), Employee_.gender));
-            }
-            if (criteria.getBirthDate() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getBirthDate(), Employee_.birthDate));
-            }
-            if (criteria.getEmail() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getEmail(), Employee_.email));
-            }
-            if (criteria.getCellPhone() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getCellPhone(), Employee_.cellPhone));
-            }
-            if (criteria.getMaritalStatus() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getMaritalStatus(), Employee_.maritalStatus));
-            }
-            if (criteria.getActive() != null) {
-                specification = specification.and(buildSpecification(criteria.getActive(), Employee_.active));
-            }
             if (criteria.getContractStartDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getContractStartDate(), Employee_.contractStartDate));
             }
@@ -139,6 +112,12 @@ public class EmployeeQueryService extends QueryService<Employee> {
             if (criteria.getInsuranceRegistrationNumber() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getInsuranceRegistrationNumber(), Employee_.insuranceRegistrationNumber));
             }
+            if (criteria.getDateJoining() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDateJoining(), Employee_.dateJoining));
+            }
+            if (criteria.getDesignation() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getDesignation(), Employee_.designation));
+            }
             if (criteria.getDistrictId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDistrictId(), Employee_.districtId));
             }
@@ -154,17 +133,27 @@ public class EmployeeQueryService extends QueryService<Employee> {
             if (criteria.getCarderId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getCarderId(), Employee_.carderId));
             }
-            if (criteria.getDepartMentCode() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDepartMentCode(), Employee_.departMentCode));
-            }
-            if (criteria.getAttachmentId() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getAttachmentId(), Employee_.attachmentId));
+            if (criteria.getDepartmentName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getDepartmentName(), Employee_.departmentName));
             }
             if (criteria.getConfirmationId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getConfirmationId(), Employee_.confirmationId));
             }
-            if (criteria.getProjectId() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getProjectId(), Employee_.projectId));
+            if (criteria.getIsConfirmed() != null) {
+                specification = specification.and(buildSpecification(criteria.getIsConfirmed(), Employee_.isConfirmed));
+            }
+            if (criteria.getConfirmationLetterName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getConfirmationLetterName(), Employee_.confirmationLetterName));
+            }
+            if (criteria.getProjectName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getProjectName(), Employee_.projectName));
+            }
+            if (criteria.getActive() != null) {
+                specification = specification.and(buildSpecification(criteria.getActive(), Employee_.active));
+            }
+            if (criteria.getAttachmentsId() != null) {
+                specification = specification.and(buildSpecification(criteria.getAttachmentsId(),
+                    root -> root.join(Employee_.attachments, JoinType.LEFT).get(Attachment_.id)));
             }
             if (criteria.getDepartmentIdId() != null) {
                 specification = specification.and(buildSpecification(criteria.getDepartmentIdId(),

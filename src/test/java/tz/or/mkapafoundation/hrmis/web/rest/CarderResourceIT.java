@@ -7,6 +7,8 @@ import tz.or.mkapafoundation.hrmis.repository.CarderRepository;
 import tz.or.mkapafoundation.hrmis.service.CarderService;
 import tz.or.mkapafoundation.hrmis.service.dto.CarderDTO;
 import tz.or.mkapafoundation.hrmis.service.mapper.CarderMapper;
+import tz.or.mkapafoundation.hrmis.service.dto.CarderCriteria;
+import tz.or.mkapafoundation.hrmis.service.CarderQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,6 +50,9 @@ public class CarderResourceIT {
 
     @Autowired
     private CarderService carderService;
+
+    @Autowired
+    private CarderQueryService carderQueryService;
 
     @Autowired
     private EntityManager em;
@@ -129,6 +134,26 @@ public class CarderResourceIT {
 
     @Test
     @Transactional
+    public void checkNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = carderRepository.findAll().size();
+        // set the field null
+        carder.setName(null);
+
+        // Create the Carder, which fails.
+        CarderDTO carderDTO = carderMapper.toDto(carder);
+
+
+        restCarderMockMvc.perform(post("/api/carders").with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(carderDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Carder> carderList = carderRepository.findAll();
+        assertThat(carderList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllCarders() throws Exception {
         // Initialize the database
         carderRepository.saveAndFlush(carder);
@@ -156,6 +181,217 @@ public class CarderResourceIT {
             .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME));
     }
+
+
+    @Test
+    @Transactional
+    public void getCardersByIdFiltering() throws Exception {
+        // Initialize the database
+        carderRepository.saveAndFlush(carder);
+
+        Long id = carder.getId();
+
+        defaultCarderShouldBeFound("id.equals=" + id);
+        defaultCarderShouldNotBeFound("id.notEquals=" + id);
+
+        defaultCarderShouldBeFound("id.greaterThanOrEqual=" + id);
+        defaultCarderShouldNotBeFound("id.greaterThan=" + id);
+
+        defaultCarderShouldBeFound("id.lessThanOrEqual=" + id);
+        defaultCarderShouldNotBeFound("id.lessThan=" + id);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllCardersByCodeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        carderRepository.saveAndFlush(carder);
+
+        // Get all the carderList where code equals to DEFAULT_CODE
+        defaultCarderShouldBeFound("code.equals=" + DEFAULT_CODE);
+
+        // Get all the carderList where code equals to UPDATED_CODE
+        defaultCarderShouldNotBeFound("code.equals=" + UPDATED_CODE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCardersByCodeIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        carderRepository.saveAndFlush(carder);
+
+        // Get all the carderList where code not equals to DEFAULT_CODE
+        defaultCarderShouldNotBeFound("code.notEquals=" + DEFAULT_CODE);
+
+        // Get all the carderList where code not equals to UPDATED_CODE
+        defaultCarderShouldBeFound("code.notEquals=" + UPDATED_CODE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCardersByCodeIsInShouldWork() throws Exception {
+        // Initialize the database
+        carderRepository.saveAndFlush(carder);
+
+        // Get all the carderList where code in DEFAULT_CODE or UPDATED_CODE
+        defaultCarderShouldBeFound("code.in=" + DEFAULT_CODE + "," + UPDATED_CODE);
+
+        // Get all the carderList where code equals to UPDATED_CODE
+        defaultCarderShouldNotBeFound("code.in=" + UPDATED_CODE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCardersByCodeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        carderRepository.saveAndFlush(carder);
+
+        // Get all the carderList where code is not null
+        defaultCarderShouldBeFound("code.specified=true");
+
+        // Get all the carderList where code is null
+        defaultCarderShouldNotBeFound("code.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllCardersByCodeContainsSomething() throws Exception {
+        // Initialize the database
+        carderRepository.saveAndFlush(carder);
+
+        // Get all the carderList where code contains DEFAULT_CODE
+        defaultCarderShouldBeFound("code.contains=" + DEFAULT_CODE);
+
+        // Get all the carderList where code contains UPDATED_CODE
+        defaultCarderShouldNotBeFound("code.contains=" + UPDATED_CODE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCardersByCodeNotContainsSomething() throws Exception {
+        // Initialize the database
+        carderRepository.saveAndFlush(carder);
+
+        // Get all the carderList where code does not contain DEFAULT_CODE
+        defaultCarderShouldNotBeFound("code.doesNotContain=" + DEFAULT_CODE);
+
+        // Get all the carderList where code does not contain UPDATED_CODE
+        defaultCarderShouldBeFound("code.doesNotContain=" + UPDATED_CODE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllCardersByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        carderRepository.saveAndFlush(carder);
+
+        // Get all the carderList where name equals to DEFAULT_NAME
+        defaultCarderShouldBeFound("name.equals=" + DEFAULT_NAME);
+
+        // Get all the carderList where name equals to UPDATED_NAME
+        defaultCarderShouldNotBeFound("name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCardersByNameIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        carderRepository.saveAndFlush(carder);
+
+        // Get all the carderList where name not equals to DEFAULT_NAME
+        defaultCarderShouldNotBeFound("name.notEquals=" + DEFAULT_NAME);
+
+        // Get all the carderList where name not equals to UPDATED_NAME
+        defaultCarderShouldBeFound("name.notEquals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCardersByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        carderRepository.saveAndFlush(carder);
+
+        // Get all the carderList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultCarderShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
+
+        // Get all the carderList where name equals to UPDATED_NAME
+        defaultCarderShouldNotBeFound("name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCardersByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        carderRepository.saveAndFlush(carder);
+
+        // Get all the carderList where name is not null
+        defaultCarderShouldBeFound("name.specified=true");
+
+        // Get all the carderList where name is null
+        defaultCarderShouldNotBeFound("name.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllCardersByNameContainsSomething() throws Exception {
+        // Initialize the database
+        carderRepository.saveAndFlush(carder);
+
+        // Get all the carderList where name contains DEFAULT_NAME
+        defaultCarderShouldBeFound("name.contains=" + DEFAULT_NAME);
+
+        // Get all the carderList where name contains UPDATED_NAME
+        defaultCarderShouldNotBeFound("name.contains=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCardersByNameNotContainsSomething() throws Exception {
+        // Initialize the database
+        carderRepository.saveAndFlush(carder);
+
+        // Get all the carderList where name does not contain DEFAULT_NAME
+        defaultCarderShouldNotBeFound("name.doesNotContain=" + DEFAULT_NAME);
+
+        // Get all the carderList where name does not contain UPDATED_NAME
+        defaultCarderShouldBeFound("name.doesNotContain=" + UPDATED_NAME);
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultCarderShouldBeFound(String filter) throws Exception {
+        restCarderMockMvc.perform(get("/api/carders?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(carder.getId().intValue())))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)));
+
+        // Check, that the count call also returns 1
+        restCarderMockMvc.perform(get("/api/carders/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultCarderShouldNotBeFound(String filter) throws Exception {
+        restCarderMockMvc.perform(get("/api/carders?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restCarderMockMvc.perform(get("/api/carders/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("0"));
+    }
+
     @Test
     @Transactional
     public void getNonExistingCarder() throws Exception {

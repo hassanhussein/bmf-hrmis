@@ -27,32 +27,25 @@ describe('Service Tests', () => {
       elemDefault = new Employee(
         0,
         'AAAAAAA',
+        currentDate,
+        currentDate,
         'AAAAAAA',
         'AAAAAAA',
         'AAAAAAA',
         'AAAAAAA',
         currentDate,
         'AAAAAAA',
+        0,
+        0,
+        0,
+        0,
+        0,
         'AAAAAAA',
-        'AAAAAAA',
+        0,
         false,
-        currentDate,
-        currentDate,
         'AAAAAAA',
         'AAAAAAA',
-        'AAAAAAA',
-        'AAAAAAA',
-        0,
-        0,
-        0,
-        0,
-        0,
-        'image/png',
-        'AAAAAAA',
-        0,
-        0,
-        0,
-        0
+        false
       );
     });
 
@@ -60,9 +53,9 @@ describe('Service Tests', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            birthDate: currentDate.format(DATE_FORMAT),
             contractStartDate: currentDate.format(DATE_FORMAT),
             contractEndDate: currentDate.format(DATE_FORMAT),
+            dateJoining: currentDate.format(DATE_FORMAT),
           },
           elemDefault
         );
@@ -78,18 +71,18 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            birthDate: currentDate.format(DATE_FORMAT),
             contractStartDate: currentDate.format(DATE_FORMAT),
             contractEndDate: currentDate.format(DATE_FORMAT),
+            dateJoining: currentDate.format(DATE_FORMAT),
           },
           elemDefault
         );
 
         const expected = Object.assign(
           {
-            birthDate: currentDate,
             contractStartDate: currentDate,
             contractEndDate: currentDate,
+            dateJoining: currentDate,
           },
           returnedFromService
         );
@@ -105,40 +98,34 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             employeeNumber: 'BBBBBB',
-            firstName: 'BBBBBB',
-            middleName: 'BBBBBB',
-            lastName: 'BBBBBB',
-            gender: 'BBBBBB',
-            birthDate: currentDate.format(DATE_FORMAT),
-            email: 'BBBBBB',
-            cellPhone: 'BBBBBB',
-            maritalStatus: 'BBBBBB',
-            active: true,
             contractStartDate: currentDate.format(DATE_FORMAT),
             contractEndDate: currentDate.format(DATE_FORMAT),
             bankName: 'BBBBBB',
             branchName: 'BBBBBB',
             bankAccount: 'BBBBBB',
             insuranceRegistrationNumber: 'BBBBBB',
+            dateJoining: currentDate.format(DATE_FORMAT),
+            designation: 'BBBBBB',
             districtId: 1,
             facilityId: 1,
             categoryId: 1,
             trainingId: 1,
             carderId: 1,
-            picture: 'BBBBBB',
-            departMentCode: 1,
-            attachmentId: 1,
+            departmentName: 'BBBBBB',
             confirmationId: 1,
-            projectId: 1,
+            isConfirmed: true,
+            confirmationLetterName: 'BBBBBB',
+            projectName: 'BBBBBB',
+            active: true,
           },
           elemDefault
         );
 
         const expected = Object.assign(
           {
-            birthDate: currentDate,
             contractStartDate: currentDate,
             contractEndDate: currentDate,
+            dateJoining: currentDate,
           },
           returnedFromService
         );
@@ -154,40 +141,34 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             employeeNumber: 'BBBBBB',
-            firstName: 'BBBBBB',
-            middleName: 'BBBBBB',
-            lastName: 'BBBBBB',
-            gender: 'BBBBBB',
-            birthDate: currentDate.format(DATE_FORMAT),
-            email: 'BBBBBB',
-            cellPhone: 'BBBBBB',
-            maritalStatus: 'BBBBBB',
-            active: true,
             contractStartDate: currentDate.format(DATE_FORMAT),
             contractEndDate: currentDate.format(DATE_FORMAT),
             bankName: 'BBBBBB',
             branchName: 'BBBBBB',
             bankAccount: 'BBBBBB',
             insuranceRegistrationNumber: 'BBBBBB',
+            dateJoining: currentDate.format(DATE_FORMAT),
+            designation: 'BBBBBB',
             districtId: 1,
             facilityId: 1,
             categoryId: 1,
             trainingId: 1,
             carderId: 1,
-            picture: 'BBBBBB',
-            departMentCode: 1,
-            attachmentId: 1,
+            departmentName: 'BBBBBB',
             confirmationId: 1,
-            projectId: 1,
+            isConfirmed: true,
+            confirmationLetterName: 'BBBBBB',
+            projectName: 'BBBBBB',
+            active: true,
           },
           elemDefault
         );
 
         const expected = Object.assign(
           {
-            birthDate: currentDate,
             contractStartDate: currentDate,
             contractEndDate: currentDate,
+            dateJoining: currentDate,
           },
           returnedFromService
         );

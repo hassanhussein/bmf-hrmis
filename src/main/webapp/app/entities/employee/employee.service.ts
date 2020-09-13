@@ -51,20 +51,20 @@ export class EmployeeService {
 
   protected convertDateFromClient(employee: IEmployee): IEmployee {
     const copy: IEmployee = Object.assign({}, employee, {
-      birthDate: employee.birthDate && employee.birthDate.isValid() ? employee.birthDate.format(DATE_FORMAT) : undefined,
       contractStartDate:
         employee.contractStartDate && employee.contractStartDate.isValid() ? employee.contractStartDate.format(DATE_FORMAT) : undefined,
       contractEndDate:
         employee.contractEndDate && employee.contractEndDate.isValid() ? employee.contractEndDate.format(DATE_FORMAT) : undefined,
+      dateJoining: employee.dateJoining && employee.dateJoining.isValid() ? employee.dateJoining.format(DATE_FORMAT) : undefined,
     });
     return copy;
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.birthDate = res.body.birthDate ? moment(res.body.birthDate) : undefined;
       res.body.contractStartDate = res.body.contractStartDate ? moment(res.body.contractStartDate) : undefined;
       res.body.contractEndDate = res.body.contractEndDate ? moment(res.body.contractEndDate) : undefined;
+      res.body.dateJoining = res.body.dateJoining ? moment(res.body.dateJoining) : undefined;
     }
     return res;
   }
@@ -72,9 +72,9 @@ export class EmployeeService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((employee: IEmployee) => {
-        employee.birthDate = employee.birthDate ? moment(employee.birthDate) : undefined;
         employee.contractStartDate = employee.contractStartDate ? moment(employee.contractStartDate) : undefined;
         employee.contractEndDate = employee.contractEndDate ? moment(employee.contractEndDate) : undefined;
+        employee.dateJoining = employee.dateJoining ? moment(employee.dateJoining) : undefined;
       });
     }
     return res;

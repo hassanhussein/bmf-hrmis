@@ -3,7 +3,6 @@ package tz.or.mkapafoundation.hrmis.service.dto;
 import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import javax.persistence.Lob;
 
 /**
  * A DTO for the {@link tz.or.mkapafoundation.hrmis.domain.Employee} entity.
@@ -14,25 +13,6 @@ public class EmployeeDTO implements Serializable {
 
     @NotNull
     private String employeeNumber;
-
-    private String firstName;
-
-    private String middleName;
-
-    private String lastName;
-
-    private String gender;
-
-    private LocalDate birthDate;
-
-    
-    private String email;
-
-    private String cellPhone;
-
-    private String maritalStatus;
-
-    private Boolean active;
 
     private LocalDate contractStartDate;
 
@@ -46,27 +26,33 @@ public class EmployeeDTO implements Serializable {
 
     private String insuranceRegistrationNumber;
 
+    private LocalDate dateJoining;
+
+    private String designation;
+
+    @NotNull
     private Long districtId;
 
     private Long facilityId;
 
+    @NotNull
     private Long categoryId;
 
     private Long trainingId;
 
     private Long carderId;
 
-    @Lob
-    private byte[] picture;
-
-    private String pictureContentType;
-    private Long departMentCode;
-
-    private Long attachmentId;
+    private String departmentName;
 
     private Long confirmationId;
 
-    private Long projectId;
+    private Boolean isConfirmed;
+
+    private String confirmationLetterName;
+
+    private String projectName;
+
+    private Boolean active;
 
 
     private Long departmentIdId;
@@ -85,78 +71,6 @@ public class EmployeeDTO implements Serializable {
 
     public void setEmployeeNumber(String employeeNumber) {
         this.employeeNumber = employeeNumber;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getCellPhone() {
-        return cellPhone;
-    }
-
-    public void setCellPhone(String cellPhone) {
-        this.cellPhone = cellPhone;
-    }
-
-    public String getMaritalStatus() {
-        return maritalStatus;
-    }
-
-    public void setMaritalStatus(String maritalStatus) {
-        this.maritalStatus = maritalStatus;
-    }
-
-    public Boolean isActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
     }
 
     public LocalDate getContractStartDate() {
@@ -207,6 +121,22 @@ public class EmployeeDTO implements Serializable {
         this.insuranceRegistrationNumber = insuranceRegistrationNumber;
     }
 
+    public LocalDate getDateJoining() {
+        return dateJoining;
+    }
+
+    public void setDateJoining(LocalDate dateJoining) {
+        this.dateJoining = dateJoining;
+    }
+
+    public String getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
+
     public Long getDistrictId() {
         return districtId;
     }
@@ -247,36 +177,12 @@ public class EmployeeDTO implements Serializable {
         this.carderId = carderId;
     }
 
-    public byte[] getPicture() {
-        return picture;
+    public String getDepartmentName() {
+        return departmentName;
     }
 
-    public void setPicture(byte[] picture) {
-        this.picture = picture;
-    }
-
-    public String getPictureContentType() {
-        return pictureContentType;
-    }
-
-    public void setPictureContentType(String pictureContentType) {
-        this.pictureContentType = pictureContentType;
-    }
-
-    public Long getDepartMentCode() {
-        return departMentCode;
-    }
-
-    public void setDepartMentCode(Long departMentCode) {
-        this.departMentCode = departMentCode;
-    }
-
-    public Long getAttachmentId() {
-        return attachmentId;
-    }
-
-    public void setAttachmentId(Long attachmentId) {
-        this.attachmentId = attachmentId;
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
     }
 
     public Long getConfirmationId() {
@@ -287,12 +193,36 @@ public class EmployeeDTO implements Serializable {
         this.confirmationId = confirmationId;
     }
 
-    public Long getProjectId() {
-        return projectId;
+    public Boolean isIsConfirmed() {
+        return isConfirmed;
     }
 
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
+    public void setIsConfirmed(Boolean isConfirmed) {
+        this.isConfirmed = isConfirmed;
+    }
+
+    public String getConfirmationLetterName() {
+        return confirmationLetterName;
+    }
+
+    public void setConfirmationLetterName(String confirmationLetterName) {
+        this.confirmationLetterName = confirmationLetterName;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public Boolean isActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public Long getDepartmentIdId() {
@@ -326,31 +256,25 @@ public class EmployeeDTO implements Serializable {
         return "EmployeeDTO{" +
             "id=" + getId() +
             ", employeeNumber='" + getEmployeeNumber() + "'" +
-            ", firstName='" + getFirstName() + "'" +
-            ", middleName='" + getMiddleName() + "'" +
-            ", lastName='" + getLastName() + "'" +
-            ", gender='" + getGender() + "'" +
-            ", birthDate='" + getBirthDate() + "'" +
-            ", email='" + getEmail() + "'" +
-            ", cellPhone='" + getCellPhone() + "'" +
-            ", maritalStatus='" + getMaritalStatus() + "'" +
-            ", active='" + isActive() + "'" +
             ", contractStartDate='" + getContractStartDate() + "'" +
             ", contractEndDate='" + getContractEndDate() + "'" +
             ", bankName='" + getBankName() + "'" +
             ", branchName='" + getBranchName() + "'" +
             ", bankAccount='" + getBankAccount() + "'" +
             ", insuranceRegistrationNumber='" + getInsuranceRegistrationNumber() + "'" +
+            ", dateJoining='" + getDateJoining() + "'" +
+            ", designation='" + getDesignation() + "'" +
             ", districtId=" + getDistrictId() +
             ", facilityId=" + getFacilityId() +
             ", categoryId=" + getCategoryId() +
             ", trainingId=" + getTrainingId() +
             ", carderId=" + getCarderId() +
-            ", picture='" + getPicture() + "'" +
-            ", departMentCode=" + getDepartMentCode() +
-            ", attachmentId=" + getAttachmentId() +
+            ", departmentName='" + getDepartmentName() + "'" +
             ", confirmationId=" + getConfirmationId() +
-            ", projectId=" + getProjectId() +
+            ", isConfirmed='" + isIsConfirmed() + "'" +
+            ", confirmationLetterName='" + getConfirmationLetterName() + "'" +
+            ", projectName='" + getProjectName() + "'" +
+            ", active='" + isActive() + "'" +
             ", departmentIdId=" + getDepartmentIdId() +
             "}";
     }

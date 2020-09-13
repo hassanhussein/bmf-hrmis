@@ -3,12 +3,20 @@ package tz.or.mkapafoundation.hrmis.web.rest;
 import tz.or.mkapafoundation.hrmis.service.DepartmentService;
 import tz.or.mkapafoundation.hrmis.web.rest.errors.BadRequestAlertException;
 import tz.or.mkapafoundation.hrmis.service.dto.DepartmentDTO;
+import tz.or.mkapafoundation.hrmis.service.dto.DepartmentCriteria;
+import tz.or.mkapafoundation.hrmis.service.DepartmentQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
+import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,8 +42,11 @@ public class DepartmentResource {
 
     private final DepartmentService departmentService;
 
-    public DepartmentResource(DepartmentService departmentService) {
+    private final DepartmentQueryService departmentQueryService;
+
+    public DepartmentResource(DepartmentService departmentService, DepartmentQueryService departmentQueryService) {
         this.departmentService = departmentService;
+        this.departmentQueryService = departmentQueryService;
     }
 
     /**
@@ -81,12 +92,28 @@ public class DepartmentResource {
     /**
      * {@code GET  /departments} : get all the departments.
      *
+     * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of departments in body.
      */
     @GetMapping("/departments")
-    public List<DepartmentDTO> getAllDepartments() {
-        log.debug("REST request to get all Departments");
-        return departmentService.findAll();
+    public ResponseEntity<List<DepartmentDTO>> getAllDepartments(DepartmentCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Departments by criteria: {}", criteria);
+        Page<DepartmentDTO> page = departmentQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /departments/count} : count all the departments.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/departments/count")
+    public ResponseEntity<Long> countDepartments(DepartmentCriteria criteria) {
+        log.debug("REST request to count Departments by criteria: {}", criteria);
+        return ResponseEntity.ok().body(departmentQueryService.countByCriteria(criteria));
     }
 
     /**

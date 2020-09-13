@@ -13,6 +13,7 @@ public class DepartmentDTO implements Serializable {
     
     private String code;
 
+    @NotNull
     private String name;
 
     

@@ -1,9 +1,11 @@
 package tz.or.mkapafoundation.hrmis.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import java.io.Serializable;
 
@@ -33,6 +35,16 @@ public class Attachment implements Serializable {
 
     @Column(name = "mime_type")
     private String mimeType;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties(value = "attachmentss", allowSetters = true)
+    private AttachmentType type;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties(value = "attachments", allowSetters = true)
+    private EmployeeRecord employee;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -93,6 +105,32 @@ public class Attachment implements Serializable {
 
     public void setMimeType(String mimeType) {
         this.mimeType = mimeType;
+    }
+
+    public AttachmentType getType() {
+        return type;
+    }
+
+    public Attachment type(AttachmentType attachmentType) {
+        this.type = attachmentType;
+        return this;
+    }
+
+    public void setType(AttachmentType attachmentType) {
+        this.type = attachmentType;
+    }
+
+    public EmployeeRecord getEmployee() {
+        return employee;
+    }
+
+    public Attachment employee(EmployeeRecord employeeRecord) {
+        this.employee = employeeRecord;
+        return this;
+    }
+
+    public void setEmployee(EmployeeRecord employeeRecord) {
+        this.employee = employeeRecord;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

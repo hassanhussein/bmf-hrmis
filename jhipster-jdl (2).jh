@@ -16,25 +16,79 @@ entity Employee(employees) {
  branchName String ,
  bankAccount String ,
  insuranceRegistrationNumber String, 
- districtId Long,
+ districtId Long required,
  facilityId Long,
- categoryId Long,
+ categoryId Long required,
  trainingId Long,
  carderId Long,
  picture ImageBlob,
- departMentCode Long ,
- attachmentId Long ,
+ departmentName String,
+ attachment String,
  confirmationId Long ,
- projectId Long
+ isConfirmed Boolean,
+ confirmationLetterName String,
+ projectName String
 
 }
 
-entity EmployeeConfirmation(employee_confirmations) {
+entity FacilityType(facility_types) {
+
+ code String unique,
+ name String required,
+ description String,
+ displayOrder Integer,
+ active Boolean 
  
- isConfirmed Boolean,
- confirmationLetter String,
- date LocalDate 
- 
+}
+
+
+
+entity GeographicLevel (geographic_levels) {
+
+ code String unique,
+ name String required,
+ levelNumber Integer unique,
+ active Boolean
+
+}
+
+
+entity GeographicZone (geographic_zones) {
+
+ code String unique,
+ name String required,
+ latitude Float,
+ longitude Float,
+ levelid Integer unique,
+ parentid Long
+
+}
+
+relationship ManyToOne {
+	GeographicZone{parent} to GeographicZone
+}
+
+relationship ManyToOne {
+	GeographicZone{levelId} to GeographicLevel
+}
+
+
+entity Facility (facilities) {
+
+    active Boolean required,
+    code String unique,
+    name String required,
+    postalAddress String,
+    ward String,
+    village String,
+    comment String,
+    description String,
+    enabled Boolean required,
+    startDate Date,
+    geographiczoneid Long required,
+    operatedby String,
+    typeid Long required
+
 }
 
 entity EmploymentCategory(employment_categories) {

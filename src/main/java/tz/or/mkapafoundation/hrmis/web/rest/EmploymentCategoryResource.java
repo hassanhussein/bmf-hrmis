@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -45,7 +46,7 @@ public class EmploymentCategoryResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/employment-categories")
-    public ResponseEntity<EmploymentCategoryDTO> createEmploymentCategory(@RequestBody EmploymentCategoryDTO employmentCategoryDTO) throws URISyntaxException {
+    public ResponseEntity<EmploymentCategoryDTO> createEmploymentCategory(@Valid @RequestBody EmploymentCategoryDTO employmentCategoryDTO) throws URISyntaxException {
         log.debug("REST request to save EmploymentCategory : {}", employmentCategoryDTO);
         if (employmentCategoryDTO.getId() != null) {
             throw new BadRequestAlertException("A new employmentCategory cannot already have an ID", ENTITY_NAME, "idexists");
@@ -66,7 +67,7 @@ public class EmploymentCategoryResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/employment-categories")
-    public ResponseEntity<EmploymentCategoryDTO> updateEmploymentCategory(@RequestBody EmploymentCategoryDTO employmentCategoryDTO) throws URISyntaxException {
+    public ResponseEntity<EmploymentCategoryDTO> updateEmploymentCategory(@Valid @RequestBody EmploymentCategoryDTO employmentCategoryDTO) throws URISyntaxException {
         log.debug("REST request to update EmploymentCategory : {}", employmentCategoryDTO);
         if (employmentCategoryDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

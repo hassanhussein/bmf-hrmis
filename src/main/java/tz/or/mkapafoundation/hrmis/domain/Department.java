@@ -7,8 +7,6 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * A Department.
@@ -29,12 +27,9 @@ public class Department implements Serializable {
     @Column(name = "code", unique = true)
     private String code;
 
-    @Column(name = "name")
+    @NotNull
+    @Column(name = "name", nullable = false)
     private String name;
-
-    @OneToMany(mappedBy = "departmentId")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<Employee> employees = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -69,31 +64,6 @@ public class Department implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Set<Employee> getEmployees() {
-        return employees;
-    }
-
-    public Department employees(Set<Employee> employees) {
-        this.employees = employees;
-        return this;
-    }
-
-    public Department addEmployee(Employee employee) {
-        this.employees.add(employee);
-        employee.setDepartmentId(this);
-        return this;
-    }
-
-    public Department removeEmployee(Employee employee) {
-        this.employees.remove(employee);
-        employee.setDepartmentId(null);
-        return this;
-    }
-
-    public void setEmployees(Set<Employee> employees) {
-        this.employees = employees;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

@@ -40,6 +40,7 @@ export const departmentRoute: Routes = [
     component: DepartmentComponent,
     data: {
       authorities: [Authority.USER],
+      defaultSort: 'id,asc',
       pageTitle: 'hrmisApp.department.home.title',
     },
     canActivate: [UserRouteAccessService],

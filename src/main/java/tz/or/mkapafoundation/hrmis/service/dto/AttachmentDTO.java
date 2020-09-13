@@ -1,5 +1,6 @@
 package tz.or.mkapafoundation.hrmis.service.dto;
 
+import javax.validation.constraints.*;
 import java.io.Serializable;
 
 /**
@@ -17,6 +18,12 @@ public class AttachmentDTO implements Serializable {
 
     private String mimeType;
 
+
+    private Long typeId;
+
+    private String typeName;
+
+    private Long employeeId;
     
     public Long getId() {
         return id;
@@ -58,6 +65,30 @@ public class AttachmentDTO implements Serializable {
         this.mimeType = mimeType;
     }
 
+    public Long getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(Long attachmentTypeId) {
+        this.typeId = attachmentTypeId;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String attachmentTypeName) {
+        this.typeName = attachmentTypeName;
+    }
+
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeRecordId) {
+        this.employeeId = employeeRecordId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -84,6 +115,9 @@ public class AttachmentDTO implements Serializable {
             ", contentId='" + getContentId() + "'" +
             ", contentLength=" + getContentLength() +
             ", mimeType='" + getMimeType() + "'" +
+            ", typeId=" + getTypeId() +
+            ", typeName='" + getTypeName() + "'" +
+            ", employeeId=" + getEmployeeId() +
             "}";
     }
 }

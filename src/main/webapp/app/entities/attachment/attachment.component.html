@@ -27,6 +27,8 @@
                     <th scope="col" ><span jhiTranslate="hrmisApp.attachment.contentId">Content Id</span></th>
                     <th scope="col" ><span jhiTranslate="hrmisApp.attachment.contentLength">Content Length</span></th>
                     <th scope="col" ><span jhiTranslate="hrmisApp.attachment.mimeType">Mime Type</span></th>
+                    <th scope="col" ><span jhiTranslate="hrmisApp.attachment.type">Type</span></th>
+                    <th scope="col" ><span jhiTranslate="hrmisApp.attachment.employee">Employee</span></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -37,6 +39,16 @@
                     <td>{{ attachment.contentId }}</td>
                     <td>{{ attachment.contentLength }}</td>
                     <td>{{ attachment.mimeType }}</td>
+                    <td>
+                        <div *ngIf="attachment.typeId">
+                            <a [routerLink]="['/attachment-type', attachment.typeId , 'view']" >{{ attachment.typeName }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="attachment.employeeId">
+                            <a [routerLink]="['/employee-record', attachment.employeeId , 'view']" >{{ attachment.employeeId }}</a>
+                        </div>
+                    </td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

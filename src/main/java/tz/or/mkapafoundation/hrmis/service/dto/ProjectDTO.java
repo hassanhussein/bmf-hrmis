@@ -1,6 +1,7 @@
 package tz.or.mkapafoundation.hrmis.service.dto;
 
 import java.time.LocalDate;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 
 /**
@@ -10,8 +11,10 @@ public class ProjectDTO implements Serializable {
     
     private Long id;
 
+    
     private String code;
 
+    @NotNull
     private String name;
 
     private LocalDate startDate;

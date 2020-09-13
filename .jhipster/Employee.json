@@ -7,43 +7,6 @@
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "firstName",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "middleName",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "lastName",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "gender",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "birthDate",
-      "fieldType": "LocalDate"
-    },
-    {
-      "fieldName": "email",
-      "fieldType": "String",
-      "fieldValidateRules": ["unique"]
-    },
-    {
-      "fieldName": "cellPhone",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "maritalStatus",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "active",
-      "fieldType": "Boolean"
-    },
-    {
       "fieldName": "contractStartDate",
       "fieldType": "LocalDate"
     },
@@ -68,8 +31,17 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "dateJoining",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "designation",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "districtId",
-      "fieldType": "Long"
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "facilityId",
@@ -77,7 +49,8 @@
     },
     {
       "fieldName": "categoryId",
-      "fieldType": "Long"
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "trainingId",
@@ -88,28 +61,37 @@
       "fieldType": "Long"
     },
     {
-      "fieldName": "picture",
-      "fieldType": "byte[]",
-      "fieldTypeBlobContent": "image"
-    },
-    {
-      "fieldName": "departMentCode",
-      "fieldType": "Long"
-    },
-    {
-      "fieldName": "attachmentId",
-      "fieldType": "Long"
+      "fieldName": "departmentName",
+      "fieldType": "String"
     },
     {
       "fieldName": "confirmationId",
       "fieldType": "Long"
     },
     {
-      "fieldName": "projectId",
-      "fieldType": "Long"
+      "fieldName": "isConfirmed",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "confirmationLetterName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "projectName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "active",
+      "fieldType": "Boolean"
     }
   ],
   "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "attachment",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "attachments"
+    },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "department",

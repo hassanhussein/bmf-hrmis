@@ -67,6 +67,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // @formatter:off
         http
             .csrf()
+            .ignoringAntMatchers("/api/attachments/upload")
+            .ignoringAntMatchers("/api/attachments/download")
             .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
         .and()
             .addFilterBefore(corsFilter, CsrfFilter.class)
@@ -86,6 +88,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
             .authorizeRequests()
             .antMatchers("/api/auth-info").permitAll()
+            .antMatchers(HttpMethod.POST, "/api/attachments/upload").permitAll()
+            .antMatchers(HttpMethod.GET, "/api/attachments/download").permitAll()
             .antMatchers("/api/**").authenticated()
             .antMatchers("/management/health").permitAll()
             .antMatchers("/management/info").permitAll()

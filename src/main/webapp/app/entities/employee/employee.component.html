@@ -24,31 +24,25 @@
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
                     <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="employeeNumber"><span jhiTranslate="hrmisApp.employee.employeeNumber">Employee Number</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="firstName"><span jhiTranslate="hrmisApp.employee.firstName">First Name</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="middleName"><span jhiTranslate="hrmisApp.employee.middleName">Middle Name</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="lastName"><span jhiTranslate="hrmisApp.employee.lastName">Last Name</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="gender"><span jhiTranslate="hrmisApp.employee.gender">Gender</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="birthDate"><span jhiTranslate="hrmisApp.employee.birthDate">Birth Date</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="email"><span jhiTranslate="hrmisApp.employee.email">Email</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="cellPhone"><span jhiTranslate="hrmisApp.employee.cellPhone">Cell Phone</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="maritalStatus"><span jhiTranslate="hrmisApp.employee.maritalStatus">Marital Status</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="active"><span jhiTranslate="hrmisApp.employee.active">Active</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="contractStartDate"><span jhiTranslate="hrmisApp.employee.contractStartDate">Contract Start Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="contractEndDate"><span jhiTranslate="hrmisApp.employee.contractEndDate">Contract End Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="bankName"><span jhiTranslate="hrmisApp.employee.bankName">Bank Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="branchName"><span jhiTranslate="hrmisApp.employee.branchName">Branch Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="bankAccount"><span jhiTranslate="hrmisApp.employee.bankAccount">Bank Account</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="insuranceRegistrationNumber"><span jhiTranslate="hrmisApp.employee.insuranceRegistrationNumber">Insurance Registration Number</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="dateJoining"><span jhiTranslate="hrmisApp.employee.dateJoining">Date Joining</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="designation"><span jhiTranslate="hrmisApp.employee.designation">Designation</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="districtId"><span jhiTranslate="hrmisApp.employee.districtId">District Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="facilityId"><span jhiTranslate="hrmisApp.employee.facilityId">Facility Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="categoryId"><span jhiTranslate="hrmisApp.employee.categoryId">Category Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="trainingId"><span jhiTranslate="hrmisApp.employee.trainingId">Training Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="carderId"><span jhiTranslate="hrmisApp.employee.carderId">Carder Id</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="picture"><span jhiTranslate="hrmisApp.employee.picture">Picture</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="departMentCode"><span jhiTranslate="hrmisApp.employee.departMentCode">Depart Ment Code</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="attachmentId"><span jhiTranslate="hrmisApp.employee.attachmentId">Attachment Id</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="departmentName"><span jhiTranslate="hrmisApp.employee.departmentName">Department Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="confirmationId"><span jhiTranslate="hrmisApp.employee.confirmationId">Confirmation Id</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="projectId"><span jhiTranslate="hrmisApp.employee.projectId">Project Id</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="isConfirmed"><span jhiTranslate="hrmisApp.employee.isConfirmed">Is Confirmed</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="confirmationLetterName"><span jhiTranslate="hrmisApp.employee.confirmationLetterName">Confirmation Letter Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="projectName"><span jhiTranslate="hrmisApp.employee.projectName">Project Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="active"><span jhiTranslate="hrmisApp.employee.active">Active</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="departmentIdId"><span jhiTranslate="hrmisApp.employee.departmentId">Department Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
@@ -57,36 +51,25 @@
                 <tr *ngFor="let employee of employees ;trackBy: trackId">
                     <td><a [routerLink]="['/employee', employee.id, 'view']">{{ employee.id }}</a></td>
                     <td>{{ employee.employeeNumber }}</td>
-                    <td>{{ employee.firstName }}</td>
-                    <td>{{ employee.middleName }}</td>
-                    <td>{{ employee.lastName }}</td>
-                    <td>{{ employee.gender }}</td>
-                    <td>{{ employee.birthDate | date:'mediumDate' }}</td>
-                    <td>{{ employee.email }}</td>
-                    <td>{{ employee.cellPhone }}</td>
-                    <td>{{ employee.maritalStatus }}</td>
-                    <td>{{ employee.active }}</td>
                     <td>{{ employee.contractStartDate | date:'mediumDate' }}</td>
                     <td>{{ employee.contractEndDate | date:'mediumDate' }}</td>
                     <td>{{ employee.bankName }}</td>
                     <td>{{ employee.branchName }}</td>
                     <td>{{ employee.bankAccount }}</td>
                     <td>{{ employee.insuranceRegistrationNumber }}</td>
+                    <td>{{ employee.dateJoining | date:'mediumDate' }}</td>
+                    <td>{{ employee.designation }}</td>
                     <td>{{ employee.districtId }}</td>
                     <td>{{ employee.facilityId }}</td>
                     <td>{{ employee.categoryId }}</td>
                     <td>{{ employee.trainingId }}</td>
                     <td>{{ employee.carderId }}</td>
-                    <td>
-                        <a *ngIf="employee.picture" (click)="openFile(employee.pictureContentType, employee.picture)">
-                            <img [src]="'data:' + employee.pictureContentType + ';base64,' + employee.picture" style="max-height: 30px;" alt="employee image"/>
-                        </a>
-                        <span *ngIf="employee.picture">{{ employee.pictureContentType }}, {{ byteSize(employee.picture) }}</span>
-                    </td>
-                    <td>{{ employee.departMentCode }}</td>
-                    <td>{{ employee.attachmentId }}</td>
+                    <td>{{ employee.departmentName }}</td>
                     <td>{{ employee.confirmationId }}</td>
-                    <td>{{ employee.projectId }}</td>
+                    <td>{{ employee.isConfirmed }}</td>
+                    <td>{{ employee.confirmationLetterName }}</td>
+                    <td>{{ employee.projectName }}</td>
+                    <td>{{ employee.active }}</td>
                     <td>
                         <div *ngIf="employee.departmentIdId">
                             <a [routerLink]="['/department', employee.departmentIdId , 'view']" >{{ employee.departmentIdId }}</a>

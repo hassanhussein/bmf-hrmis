@@ -7,13 +7,12 @@ import tz.or.mkapafoundation.hrmis.service.mapper.DepartmentMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link Department}.
@@ -49,14 +48,14 @@ public class DepartmentService {
     /**
      * Get all the departments.
      *
+     * @param pageable the pagination information.
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public List<DepartmentDTO> findAll() {
+    public Page<DepartmentDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Departments");
-        return departmentRepository.findAll().stream()
-            .map(departmentMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+        return departmentRepository.findAll(pageable)
+            .map(departmentMapper::toDto);
     }
 
 

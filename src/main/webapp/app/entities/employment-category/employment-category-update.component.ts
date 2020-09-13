@@ -17,8 +17,8 @@ export class EmploymentCategoryUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    code: [],
-    name: [],
+    code: [null, []],
+    name: [null, [Validators.required]],
   });
 
   constructor(

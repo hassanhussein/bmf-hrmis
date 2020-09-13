@@ -29,24 +29,6 @@ public class EmployeeCriteria implements Serializable, Criteria {
 
     private StringFilter employeeNumber;
 
-    private StringFilter firstName;
-
-    private StringFilter middleName;
-
-    private StringFilter lastName;
-
-    private StringFilter gender;
-
-    private LocalDateFilter birthDate;
-
-    private StringFilter email;
-
-    private StringFilter cellPhone;
-
-    private StringFilter maritalStatus;
-
-    private BooleanFilter active;
-
     private LocalDateFilter contractStartDate;
 
     private LocalDateFilter contractEndDate;
@@ -59,6 +41,10 @@ public class EmployeeCriteria implements Serializable, Criteria {
 
     private StringFilter insuranceRegistrationNumber;
 
+    private LocalDateFilter dateJoining;
+
+    private StringFilter designation;
+
     private LongFilter districtId;
 
     private LongFilter facilityId;
@@ -69,13 +55,19 @@ public class EmployeeCriteria implements Serializable, Criteria {
 
     private LongFilter carderId;
 
-    private LongFilter departMentCode;
-
-    private LongFilter attachmentId;
+    private StringFilter departmentName;
 
     private LongFilter confirmationId;
 
-    private LongFilter projectId;
+    private BooleanFilter isConfirmed;
+
+    private StringFilter confirmationLetterName;
+
+    private StringFilter projectName;
+
+    private BooleanFilter active;
+
+    private LongFilter attachmentsId;
 
     private LongFilter departmentIdId;
 
@@ -85,30 +77,26 @@ public class EmployeeCriteria implements Serializable, Criteria {
     public EmployeeCriteria(EmployeeCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.employeeNumber = other.employeeNumber == null ? null : other.employeeNumber.copy();
-        this.firstName = other.firstName == null ? null : other.firstName.copy();
-        this.middleName = other.middleName == null ? null : other.middleName.copy();
-        this.lastName = other.lastName == null ? null : other.lastName.copy();
-        this.gender = other.gender == null ? null : other.gender.copy();
-        this.birthDate = other.birthDate == null ? null : other.birthDate.copy();
-        this.email = other.email == null ? null : other.email.copy();
-        this.cellPhone = other.cellPhone == null ? null : other.cellPhone.copy();
-        this.maritalStatus = other.maritalStatus == null ? null : other.maritalStatus.copy();
-        this.active = other.active == null ? null : other.active.copy();
         this.contractStartDate = other.contractStartDate == null ? null : other.contractStartDate.copy();
         this.contractEndDate = other.contractEndDate == null ? null : other.contractEndDate.copy();
         this.bankName = other.bankName == null ? null : other.bankName.copy();
         this.branchName = other.branchName == null ? null : other.branchName.copy();
         this.bankAccount = other.bankAccount == null ? null : other.bankAccount.copy();
         this.insuranceRegistrationNumber = other.insuranceRegistrationNumber == null ? null : other.insuranceRegistrationNumber.copy();
+        this.dateJoining = other.dateJoining == null ? null : other.dateJoining.copy();
+        this.designation = other.designation == null ? null : other.designation.copy();
         this.districtId = other.districtId == null ? null : other.districtId.copy();
         this.facilityId = other.facilityId == null ? null : other.facilityId.copy();
         this.categoryId = other.categoryId == null ? null : other.categoryId.copy();
         this.trainingId = other.trainingId == null ? null : other.trainingId.copy();
         this.carderId = other.carderId == null ? null : other.carderId.copy();
-        this.departMentCode = other.departMentCode == null ? null : other.departMentCode.copy();
-        this.attachmentId = other.attachmentId == null ? null : other.attachmentId.copy();
+        this.departmentName = other.departmentName == null ? null : other.departmentName.copy();
         this.confirmationId = other.confirmationId == null ? null : other.confirmationId.copy();
-        this.projectId = other.projectId == null ? null : other.projectId.copy();
+        this.isConfirmed = other.isConfirmed == null ? null : other.isConfirmed.copy();
+        this.confirmationLetterName = other.confirmationLetterName == null ? null : other.confirmationLetterName.copy();
+        this.projectName = other.projectName == null ? null : other.projectName.copy();
+        this.active = other.active == null ? null : other.active.copy();
+        this.attachmentsId = other.attachmentsId == null ? null : other.attachmentsId.copy();
         this.departmentIdId = other.departmentIdId == null ? null : other.departmentIdId.copy();
     }
 
@@ -131,78 +119,6 @@ public class EmployeeCriteria implements Serializable, Criteria {
 
     public void setEmployeeNumber(StringFilter employeeNumber) {
         this.employeeNumber = employeeNumber;
-    }
-
-    public StringFilter getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(StringFilter firstName) {
-        this.firstName = firstName;
-    }
-
-    public StringFilter getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(StringFilter middleName) {
-        this.middleName = middleName;
-    }
-
-    public StringFilter getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(StringFilter lastName) {
-        this.lastName = lastName;
-    }
-
-    public StringFilter getGender() {
-        return gender;
-    }
-
-    public void setGender(StringFilter gender) {
-        this.gender = gender;
-    }
-
-    public LocalDateFilter getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDateFilter birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public StringFilter getEmail() {
-        return email;
-    }
-
-    public void setEmail(StringFilter email) {
-        this.email = email;
-    }
-
-    public StringFilter getCellPhone() {
-        return cellPhone;
-    }
-
-    public void setCellPhone(StringFilter cellPhone) {
-        this.cellPhone = cellPhone;
-    }
-
-    public StringFilter getMaritalStatus() {
-        return maritalStatus;
-    }
-
-    public void setMaritalStatus(StringFilter maritalStatus) {
-        this.maritalStatus = maritalStatus;
-    }
-
-    public BooleanFilter getActive() {
-        return active;
-    }
-
-    public void setActive(BooleanFilter active) {
-        this.active = active;
     }
 
     public LocalDateFilter getContractStartDate() {
@@ -253,6 +169,22 @@ public class EmployeeCriteria implements Serializable, Criteria {
         this.insuranceRegistrationNumber = insuranceRegistrationNumber;
     }
 
+    public LocalDateFilter getDateJoining() {
+        return dateJoining;
+    }
+
+    public void setDateJoining(LocalDateFilter dateJoining) {
+        this.dateJoining = dateJoining;
+    }
+
+    public StringFilter getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(StringFilter designation) {
+        this.designation = designation;
+    }
+
     public LongFilter getDistrictId() {
         return districtId;
     }
@@ -293,20 +225,12 @@ public class EmployeeCriteria implements Serializable, Criteria {
         this.carderId = carderId;
     }
 
-    public LongFilter getDepartMentCode() {
-        return departMentCode;
+    public StringFilter getDepartmentName() {
+        return departmentName;
     }
 
-    public void setDepartMentCode(LongFilter departMentCode) {
-        this.departMentCode = departMentCode;
-    }
-
-    public LongFilter getAttachmentId() {
-        return attachmentId;
-    }
-
-    public void setAttachmentId(LongFilter attachmentId) {
-        this.attachmentId = attachmentId;
+    public void setDepartmentName(StringFilter departmentName) {
+        this.departmentName = departmentName;
     }
 
     public LongFilter getConfirmationId() {
@@ -317,12 +241,44 @@ public class EmployeeCriteria implements Serializable, Criteria {
         this.confirmationId = confirmationId;
     }
 
-    public LongFilter getProjectId() {
-        return projectId;
+    public BooleanFilter getIsConfirmed() {
+        return isConfirmed;
     }
 
-    public void setProjectId(LongFilter projectId) {
-        this.projectId = projectId;
+    public void setIsConfirmed(BooleanFilter isConfirmed) {
+        this.isConfirmed = isConfirmed;
+    }
+
+    public StringFilter getConfirmationLetterName() {
+        return confirmationLetterName;
+    }
+
+    public void setConfirmationLetterName(StringFilter confirmationLetterName) {
+        this.confirmationLetterName = confirmationLetterName;
+    }
+
+    public StringFilter getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(StringFilter projectName) {
+        this.projectName = projectName;
+    }
+
+    public BooleanFilter getActive() {
+        return active;
+    }
+
+    public void setActive(BooleanFilter active) {
+        this.active = active;
+    }
+
+    public LongFilter getAttachmentsId() {
+        return attachmentsId;
+    }
+
+    public void setAttachmentsId(LongFilter attachmentsId) {
+        this.attachmentsId = attachmentsId;
     }
 
     public LongFilter getDepartmentIdId() {
@@ -346,30 +302,26 @@ public class EmployeeCriteria implements Serializable, Criteria {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(employeeNumber, that.employeeNumber) &&
-            Objects.equals(firstName, that.firstName) &&
-            Objects.equals(middleName, that.middleName) &&
-            Objects.equals(lastName, that.lastName) &&
-            Objects.equals(gender, that.gender) &&
-            Objects.equals(birthDate, that.birthDate) &&
-            Objects.equals(email, that.email) &&
-            Objects.equals(cellPhone, that.cellPhone) &&
-            Objects.equals(maritalStatus, that.maritalStatus) &&
-            Objects.equals(active, that.active) &&
             Objects.equals(contractStartDate, that.contractStartDate) &&
             Objects.equals(contractEndDate, that.contractEndDate) &&
             Objects.equals(bankName, that.bankName) &&
             Objects.equals(branchName, that.branchName) &&
             Objects.equals(bankAccount, that.bankAccount) &&
             Objects.equals(insuranceRegistrationNumber, that.insuranceRegistrationNumber) &&
+            Objects.equals(dateJoining, that.dateJoining) &&
+            Objects.equals(designation, that.designation) &&
             Objects.equals(districtId, that.districtId) &&
             Objects.equals(facilityId, that.facilityId) &&
             Objects.equals(categoryId, that.categoryId) &&
             Objects.equals(trainingId, that.trainingId) &&
             Objects.equals(carderId, that.carderId) &&
-            Objects.equals(departMentCode, that.departMentCode) &&
-            Objects.equals(attachmentId, that.attachmentId) &&
+            Objects.equals(departmentName, that.departmentName) &&
             Objects.equals(confirmationId, that.confirmationId) &&
-            Objects.equals(projectId, that.projectId) &&
+            Objects.equals(isConfirmed, that.isConfirmed) &&
+            Objects.equals(confirmationLetterName, that.confirmationLetterName) &&
+            Objects.equals(projectName, that.projectName) &&
+            Objects.equals(active, that.active) &&
+            Objects.equals(attachmentsId, that.attachmentsId) &&
             Objects.equals(departmentIdId, that.departmentIdId);
     }
 
@@ -378,30 +330,26 @@ public class EmployeeCriteria implements Serializable, Criteria {
         return Objects.hash(
         id,
         employeeNumber,
-        firstName,
-        middleName,
-        lastName,
-        gender,
-        birthDate,
-        email,
-        cellPhone,
-        maritalStatus,
-        active,
         contractStartDate,
         contractEndDate,
         bankName,
         branchName,
         bankAccount,
         insuranceRegistrationNumber,
+        dateJoining,
+        designation,
         districtId,
         facilityId,
         categoryId,
         trainingId,
         carderId,
-        departMentCode,
-        attachmentId,
+        departmentName,
         confirmationId,
-        projectId,
+        isConfirmed,
+        confirmationLetterName,
+        projectName,
+        active,
+        attachmentsId,
         departmentIdId
         );
     }
@@ -412,30 +360,26 @@ public class EmployeeCriteria implements Serializable, Criteria {
         return "EmployeeCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (employeeNumber != null ? "employeeNumber=" + employeeNumber + ", " : "") +
-                (firstName != null ? "firstName=" + firstName + ", " : "") +
-                (middleName != null ? "middleName=" + middleName + ", " : "") +
-                (lastName != null ? "lastName=" + lastName + ", " : "") +
-                (gender != null ? "gender=" + gender + ", " : "") +
-                (birthDate != null ? "birthDate=" + birthDate + ", " : "") +
-                (email != null ? "email=" + email + ", " : "") +
-                (cellPhone != null ? "cellPhone=" + cellPhone + ", " : "") +
-                (maritalStatus != null ? "maritalStatus=" + maritalStatus + ", " : "") +
-                (active != null ? "active=" + active + ", " : "") +
                 (contractStartDate != null ? "contractStartDate=" + contractStartDate + ", " : "") +
                 (contractEndDate != null ? "contractEndDate=" + contractEndDate + ", " : "") +
                 (bankName != null ? "bankName=" + bankName + ", " : "") +
                 (branchName != null ? "branchName=" + branchName + ", " : "") +
                 (bankAccount != null ? "bankAccount=" + bankAccount + ", " : "") +
                 (insuranceRegistrationNumber != null ? "insuranceRegistrationNumber=" + insuranceRegistrationNumber + ", " : "") +
+                (dateJoining != null ? "dateJoining=" + dateJoining + ", " : "") +
+                (designation != null ? "designation=" + designation + ", " : "") +
                 (districtId != null ? "districtId=" + districtId + ", " : "") +
                 (facilityId != null ? "facilityId=" + facilityId + ", " : "") +
                 (categoryId != null ? "categoryId=" + categoryId + ", " : "") +
                 (trainingId != null ? "trainingId=" + trainingId + ", " : "") +
                 (carderId != null ? "carderId=" + carderId + ", " : "") +
-                (departMentCode != null ? "departMentCode=" + departMentCode + ", " : "") +
-                (attachmentId != null ? "attachmentId=" + attachmentId + ", " : "") +
+                (departmentName != null ? "departmentName=" + departmentName + ", " : "") +
                 (confirmationId != null ? "confirmationId=" + confirmationId + ", " : "") +
-                (projectId != null ? "projectId=" + projectId + ", " : "") +
+                (isConfirmed != null ? "isConfirmed=" + isConfirmed + ", " : "") +
+                (confirmationLetterName != null ? "confirmationLetterName=" + confirmationLetterName + ", " : "") +
+                (projectName != null ? "projectName=" + projectName + ", " : "") +
+                (active != null ? "active=" + active + ", " : "") +
+                (attachmentsId != null ? "attachmentsId=" + attachmentsId + ", " : "") +
                 (departmentIdId != null ? "departmentIdId=" + departmentIdId + ", " : "") +
             "}";
     }

@@ -129,6 +129,26 @@ public class EmploymentCategoryResourceIT {
 
     @Test
     @Transactional
+    public void checkNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = employmentCategoryRepository.findAll().size();
+        // set the field null
+        employmentCategory.setName(null);
+
+        // Create the EmploymentCategory, which fails.
+        EmploymentCategoryDTO employmentCategoryDTO = employmentCategoryMapper.toDto(employmentCategory);
+
+
+        restEmploymentCategoryMockMvc.perform(post("/api/employment-categories").with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(employmentCategoryDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<EmploymentCategory> employmentCategoryList = employmentCategoryRepository.findAll();
+        assertThat(employmentCategoryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllEmploymentCategories() throws Exception {
         // Initialize the database
         employmentCategoryRepository.saveAndFlush(employmentCategory);

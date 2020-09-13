@@ -3,6 +3,7 @@ package tz.or.mkapafoundation.hrmis.web.rest;
 import tz.or.mkapafoundation.hrmis.HrmisApp;
 import tz.or.mkapafoundation.hrmis.config.TestSecurityConfiguration;
 import tz.or.mkapafoundation.hrmis.domain.Employee;
+import tz.or.mkapafoundation.hrmis.domain.Attachment;
 import tz.or.mkapafoundation.hrmis.domain.Department;
 import tz.or.mkapafoundation.hrmis.repository.EmployeeRepository;
 import tz.or.mkapafoundation.hrmis.service.EmployeeService;
@@ -20,7 +21,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Base64Utils;
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -43,34 +43,6 @@ public class EmployeeResourceIT {
     private static final String DEFAULT_EMPLOYEE_NUMBER = "AAAAAAAAAA";
     private static final String UPDATED_EMPLOYEE_NUMBER = "BBBBBBBBBB";
 
-    private static final String DEFAULT_FIRST_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_FIRST_NAME = "BBBBBBBBBB";
-
-    private static final String DEFAULT_MIDDLE_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_MIDDLE_NAME = "BBBBBBBBBB";
-
-    private static final String DEFAULT_LAST_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_LAST_NAME = "BBBBBBBBBB";
-
-    private static final String DEFAULT_GENDER = "AAAAAAAAAA";
-    private static final String UPDATED_GENDER = "BBBBBBBBBB";
-
-    private static final LocalDate DEFAULT_BIRTH_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_BIRTH_DATE = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_BIRTH_DATE = LocalDate.ofEpochDay(-1L);
-
-    private static final String DEFAULT_EMAIL = "AAAAAAAAAA";
-    private static final String UPDATED_EMAIL = "BBBBBBBBBB";
-
-    private static final String DEFAULT_CELL_PHONE = "AAAAAAAAAA";
-    private static final String UPDATED_CELL_PHONE = "BBBBBBBBBB";
-
-    private static final String DEFAULT_MARITAL_STATUS = "AAAAAAAAAA";
-    private static final String UPDATED_MARITAL_STATUS = "BBBBBBBBBB";
-
-    private static final Boolean DEFAULT_ACTIVE = false;
-    private static final Boolean UPDATED_ACTIVE = true;
-
     private static final LocalDate DEFAULT_CONTRACT_START_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_CONTRACT_START_DATE = LocalDate.now(ZoneId.systemDefault());
     private static final LocalDate SMALLER_CONTRACT_START_DATE = LocalDate.ofEpochDay(-1L);
@@ -90,6 +62,13 @@ public class EmployeeResourceIT {
 
     private static final String DEFAULT_INSURANCE_REGISTRATION_NUMBER = "AAAAAAAAAA";
     private static final String UPDATED_INSURANCE_REGISTRATION_NUMBER = "BBBBBBBBBB";
+
+    private static final LocalDate DEFAULT_DATE_JOINING = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_DATE_JOINING = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_DATE_JOINING = LocalDate.ofEpochDay(-1L);
+
+    private static final String DEFAULT_DESIGNATION = "AAAAAAAAAA";
+    private static final String UPDATED_DESIGNATION = "BBBBBBBBBB";
 
     private static final Long DEFAULT_DISTRICT_ID = 1L;
     private static final Long UPDATED_DISTRICT_ID = 2L;
@@ -111,26 +90,24 @@ public class EmployeeResourceIT {
     private static final Long UPDATED_CARDER_ID = 2L;
     private static final Long SMALLER_CARDER_ID = 1L - 1L;
 
-    private static final byte[] DEFAULT_PICTURE = TestUtil.createByteArray(1, "0");
-    private static final byte[] UPDATED_PICTURE = TestUtil.createByteArray(1, "1");
-    private static final String DEFAULT_PICTURE_CONTENT_TYPE = "image/jpg";
-    private static final String UPDATED_PICTURE_CONTENT_TYPE = "image/png";
-
-    private static final Long DEFAULT_DEPART_MENT_CODE = 1L;
-    private static final Long UPDATED_DEPART_MENT_CODE = 2L;
-    private static final Long SMALLER_DEPART_MENT_CODE = 1L - 1L;
-
-    private static final Long DEFAULT_ATTACHMENT_ID = 1L;
-    private static final Long UPDATED_ATTACHMENT_ID = 2L;
-    private static final Long SMALLER_ATTACHMENT_ID = 1L - 1L;
+    private static final String DEFAULT_DEPARTMENT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_DEPARTMENT_NAME = "BBBBBBBBBB";
 
     private static final Long DEFAULT_CONFIRMATION_ID = 1L;
     private static final Long UPDATED_CONFIRMATION_ID = 2L;
     private static final Long SMALLER_CONFIRMATION_ID = 1L - 1L;
 
-    private static final Long DEFAULT_PROJECT_ID = 1L;
-    private static final Long UPDATED_PROJECT_ID = 2L;
-    private static final Long SMALLER_PROJECT_ID = 1L - 1L;
+    private static final Boolean DEFAULT_IS_CONFIRMED = false;
+    private static final Boolean UPDATED_IS_CONFIRMED = true;
+
+    private static final String DEFAULT_CONFIRMATION_LETTER_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_CONFIRMATION_LETTER_NAME = "BBBBBBBBBB";
+
+    private static final String DEFAULT_PROJECT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_PROJECT_NAME = "BBBBBBBBBB";
+
+    private static final Boolean DEFAULT_ACTIVE = false;
+    private static final Boolean UPDATED_ACTIVE = true;
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -161,32 +138,25 @@ public class EmployeeResourceIT {
     public static Employee createEntity(EntityManager em) {
         Employee employee = new Employee()
             .employeeNumber(DEFAULT_EMPLOYEE_NUMBER)
-            .firstName(DEFAULT_FIRST_NAME)
-            .middleName(DEFAULT_MIDDLE_NAME)
-            .lastName(DEFAULT_LAST_NAME)
-            .gender(DEFAULT_GENDER)
-            .birthDate(DEFAULT_BIRTH_DATE)
-            .email(DEFAULT_EMAIL)
-            .cellPhone(DEFAULT_CELL_PHONE)
-            .maritalStatus(DEFAULT_MARITAL_STATUS)
-            .active(DEFAULT_ACTIVE)
             .contractStartDate(DEFAULT_CONTRACT_START_DATE)
             .contractEndDate(DEFAULT_CONTRACT_END_DATE)
             .bankName(DEFAULT_BANK_NAME)
             .branchName(DEFAULT_BRANCH_NAME)
             .bankAccount(DEFAULT_BANK_ACCOUNT)
             .insuranceRegistrationNumber(DEFAULT_INSURANCE_REGISTRATION_NUMBER)
+            .dateJoining(DEFAULT_DATE_JOINING)
+            .designation(DEFAULT_DESIGNATION)
             .districtId(DEFAULT_DISTRICT_ID)
             .facilityId(DEFAULT_FACILITY_ID)
             .categoryId(DEFAULT_CATEGORY_ID)
             .trainingId(DEFAULT_TRAINING_ID)
             .carderId(DEFAULT_CARDER_ID)
-            .picture(DEFAULT_PICTURE)
-            .pictureContentType(DEFAULT_PICTURE_CONTENT_TYPE)
-            .departMentCode(DEFAULT_DEPART_MENT_CODE)
-            .attachmentId(DEFAULT_ATTACHMENT_ID)
+            .departmentName(DEFAULT_DEPARTMENT_NAME)
             .confirmationId(DEFAULT_CONFIRMATION_ID)
-            .projectId(DEFAULT_PROJECT_ID);
+            .isConfirmed(DEFAULT_IS_CONFIRMED)
+            .confirmationLetterName(DEFAULT_CONFIRMATION_LETTER_NAME)
+            .projectName(DEFAULT_PROJECT_NAME)
+            .active(DEFAULT_ACTIVE);
         return employee;
     }
     /**
@@ -198,32 +168,25 @@ public class EmployeeResourceIT {
     public static Employee createUpdatedEntity(EntityManager em) {
         Employee employee = new Employee()
             .employeeNumber(UPDATED_EMPLOYEE_NUMBER)
-            .firstName(UPDATED_FIRST_NAME)
-            .middleName(UPDATED_MIDDLE_NAME)
-            .lastName(UPDATED_LAST_NAME)
-            .gender(UPDATED_GENDER)
-            .birthDate(UPDATED_BIRTH_DATE)
-            .email(UPDATED_EMAIL)
-            .cellPhone(UPDATED_CELL_PHONE)
-            .maritalStatus(UPDATED_MARITAL_STATUS)
-            .active(UPDATED_ACTIVE)
             .contractStartDate(UPDATED_CONTRACT_START_DATE)
             .contractEndDate(UPDATED_CONTRACT_END_DATE)
             .bankName(UPDATED_BANK_NAME)
             .branchName(UPDATED_BRANCH_NAME)
             .bankAccount(UPDATED_BANK_ACCOUNT)
             .insuranceRegistrationNumber(UPDATED_INSURANCE_REGISTRATION_NUMBER)
+            .dateJoining(UPDATED_DATE_JOINING)
+            .designation(UPDATED_DESIGNATION)
             .districtId(UPDATED_DISTRICT_ID)
             .facilityId(UPDATED_FACILITY_ID)
             .categoryId(UPDATED_CATEGORY_ID)
             .trainingId(UPDATED_TRAINING_ID)
             .carderId(UPDATED_CARDER_ID)
-            .picture(UPDATED_PICTURE)
-            .pictureContentType(UPDATED_PICTURE_CONTENT_TYPE)
-            .departMentCode(UPDATED_DEPART_MENT_CODE)
-            .attachmentId(UPDATED_ATTACHMENT_ID)
+            .departmentName(UPDATED_DEPARTMENT_NAME)
             .confirmationId(UPDATED_CONFIRMATION_ID)
-            .projectId(UPDATED_PROJECT_ID);
+            .isConfirmed(UPDATED_IS_CONFIRMED)
+            .confirmationLetterName(UPDATED_CONFIRMATION_LETTER_NAME)
+            .projectName(UPDATED_PROJECT_NAME)
+            .active(UPDATED_ACTIVE);
         return employee;
     }
 
@@ -248,32 +211,25 @@ public class EmployeeResourceIT {
         assertThat(employeeList).hasSize(databaseSizeBeforeCreate + 1);
         Employee testEmployee = employeeList.get(employeeList.size() - 1);
         assertThat(testEmployee.getEmployeeNumber()).isEqualTo(DEFAULT_EMPLOYEE_NUMBER);
-        assertThat(testEmployee.getFirstName()).isEqualTo(DEFAULT_FIRST_NAME);
-        assertThat(testEmployee.getMiddleName()).isEqualTo(DEFAULT_MIDDLE_NAME);
-        assertThat(testEmployee.getLastName()).isEqualTo(DEFAULT_LAST_NAME);
-        assertThat(testEmployee.getGender()).isEqualTo(DEFAULT_GENDER);
-        assertThat(testEmployee.getBirthDate()).isEqualTo(DEFAULT_BIRTH_DATE);
-        assertThat(testEmployee.getEmail()).isEqualTo(DEFAULT_EMAIL);
-        assertThat(testEmployee.getCellPhone()).isEqualTo(DEFAULT_CELL_PHONE);
-        assertThat(testEmployee.getMaritalStatus()).isEqualTo(DEFAULT_MARITAL_STATUS);
-        assertThat(testEmployee.isActive()).isEqualTo(DEFAULT_ACTIVE);
         assertThat(testEmployee.getContractStartDate()).isEqualTo(DEFAULT_CONTRACT_START_DATE);
         assertThat(testEmployee.getContractEndDate()).isEqualTo(DEFAULT_CONTRACT_END_DATE);
         assertThat(testEmployee.getBankName()).isEqualTo(DEFAULT_BANK_NAME);
         assertThat(testEmployee.getBranchName()).isEqualTo(DEFAULT_BRANCH_NAME);
         assertThat(testEmployee.getBankAccount()).isEqualTo(DEFAULT_BANK_ACCOUNT);
         assertThat(testEmployee.getInsuranceRegistrationNumber()).isEqualTo(DEFAULT_INSURANCE_REGISTRATION_NUMBER);
+        assertThat(testEmployee.getDateJoining()).isEqualTo(DEFAULT_DATE_JOINING);
+        assertThat(testEmployee.getDesignation()).isEqualTo(DEFAULT_DESIGNATION);
         assertThat(testEmployee.getDistrictId()).isEqualTo(DEFAULT_DISTRICT_ID);
         assertThat(testEmployee.getFacilityId()).isEqualTo(DEFAULT_FACILITY_ID);
         assertThat(testEmployee.getCategoryId()).isEqualTo(DEFAULT_CATEGORY_ID);
         assertThat(testEmployee.getTrainingId()).isEqualTo(DEFAULT_TRAINING_ID);
         assertThat(testEmployee.getCarderId()).isEqualTo(DEFAULT_CARDER_ID);
-        assertThat(testEmployee.getPicture()).isEqualTo(DEFAULT_PICTURE);
-        assertThat(testEmployee.getPictureContentType()).isEqualTo(DEFAULT_PICTURE_CONTENT_TYPE);
-        assertThat(testEmployee.getDepartMentCode()).isEqualTo(DEFAULT_DEPART_MENT_CODE);
-        assertThat(testEmployee.getAttachmentId()).isEqualTo(DEFAULT_ATTACHMENT_ID);
+        assertThat(testEmployee.getDepartmentName()).isEqualTo(DEFAULT_DEPARTMENT_NAME);
         assertThat(testEmployee.getConfirmationId()).isEqualTo(DEFAULT_CONFIRMATION_ID);
-        assertThat(testEmployee.getProjectId()).isEqualTo(DEFAULT_PROJECT_ID);
+        assertThat(testEmployee.isIsConfirmed()).isEqualTo(DEFAULT_IS_CONFIRMED);
+        assertThat(testEmployee.getConfirmationLetterName()).isEqualTo(DEFAULT_CONFIRMATION_LETTER_NAME);
+        assertThat(testEmployee.getProjectName()).isEqualTo(DEFAULT_PROJECT_NAME);
+        assertThat(testEmployee.isActive()).isEqualTo(DEFAULT_ACTIVE);
     }
 
     @Test
@@ -319,6 +275,46 @@ public class EmployeeResourceIT {
 
     @Test
     @Transactional
+    public void checkDistrictIdIsRequired() throws Exception {
+        int databaseSizeBeforeTest = employeeRepository.findAll().size();
+        // set the field null
+        employee.setDistrictId(null);
+
+        // Create the Employee, which fails.
+        EmployeeDTO employeeDTO = employeeMapper.toDto(employee);
+
+
+        restEmployeeMockMvc.perform(post("/api/employees").with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(employeeDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Employee> employeeList = employeeRepository.findAll();
+        assertThat(employeeList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkCategoryIdIsRequired() throws Exception {
+        int databaseSizeBeforeTest = employeeRepository.findAll().size();
+        // set the field null
+        employee.setCategoryId(null);
+
+        // Create the Employee, which fails.
+        EmployeeDTO employeeDTO = employeeMapper.toDto(employee);
+
+
+        restEmployeeMockMvc.perform(post("/api/employees").with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(employeeDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Employee> employeeList = employeeRepository.findAll();
+        assertThat(employeeList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllEmployees() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
@@ -329,32 +325,25 @@ public class EmployeeResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(employee.getId().intValue())))
             .andExpect(jsonPath("$.[*].employeeNumber").value(hasItem(DEFAULT_EMPLOYEE_NUMBER)))
-            .andExpect(jsonPath("$.[*].firstName").value(hasItem(DEFAULT_FIRST_NAME)))
-            .andExpect(jsonPath("$.[*].middleName").value(hasItem(DEFAULT_MIDDLE_NAME)))
-            .andExpect(jsonPath("$.[*].lastName").value(hasItem(DEFAULT_LAST_NAME)))
-            .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER)))
-            .andExpect(jsonPath("$.[*].birthDate").value(hasItem(DEFAULT_BIRTH_DATE.toString())))
-            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
-            .andExpect(jsonPath("$.[*].cellPhone").value(hasItem(DEFAULT_CELL_PHONE)))
-            .andExpect(jsonPath("$.[*].maritalStatus").value(hasItem(DEFAULT_MARITAL_STATUS)))
-            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())))
             .andExpect(jsonPath("$.[*].contractStartDate").value(hasItem(DEFAULT_CONTRACT_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].contractEndDate").value(hasItem(DEFAULT_CONTRACT_END_DATE.toString())))
             .andExpect(jsonPath("$.[*].bankName").value(hasItem(DEFAULT_BANK_NAME)))
             .andExpect(jsonPath("$.[*].branchName").value(hasItem(DEFAULT_BRANCH_NAME)))
             .andExpect(jsonPath("$.[*].bankAccount").value(hasItem(DEFAULT_BANK_ACCOUNT)))
             .andExpect(jsonPath("$.[*].insuranceRegistrationNumber").value(hasItem(DEFAULT_INSURANCE_REGISTRATION_NUMBER)))
+            .andExpect(jsonPath("$.[*].dateJoining").value(hasItem(DEFAULT_DATE_JOINING.toString())))
+            .andExpect(jsonPath("$.[*].designation").value(hasItem(DEFAULT_DESIGNATION)))
             .andExpect(jsonPath("$.[*].districtId").value(hasItem(DEFAULT_DISTRICT_ID.intValue())))
             .andExpect(jsonPath("$.[*].facilityId").value(hasItem(DEFAULT_FACILITY_ID.intValue())))
             .andExpect(jsonPath("$.[*].categoryId").value(hasItem(DEFAULT_CATEGORY_ID.intValue())))
             .andExpect(jsonPath("$.[*].trainingId").value(hasItem(DEFAULT_TRAINING_ID.intValue())))
             .andExpect(jsonPath("$.[*].carderId").value(hasItem(DEFAULT_CARDER_ID.intValue())))
-            .andExpect(jsonPath("$.[*].pictureContentType").value(hasItem(DEFAULT_PICTURE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].picture").value(hasItem(Base64Utils.encodeToString(DEFAULT_PICTURE))))
-            .andExpect(jsonPath("$.[*].departMentCode").value(hasItem(DEFAULT_DEPART_MENT_CODE.intValue())))
-            .andExpect(jsonPath("$.[*].attachmentId").value(hasItem(DEFAULT_ATTACHMENT_ID.intValue())))
+            .andExpect(jsonPath("$.[*].departmentName").value(hasItem(DEFAULT_DEPARTMENT_NAME)))
             .andExpect(jsonPath("$.[*].confirmationId").value(hasItem(DEFAULT_CONFIRMATION_ID.intValue())))
-            .andExpect(jsonPath("$.[*].projectId").value(hasItem(DEFAULT_PROJECT_ID.intValue())));
+            .andExpect(jsonPath("$.[*].isConfirmed").value(hasItem(DEFAULT_IS_CONFIRMED.booleanValue())))
+            .andExpect(jsonPath("$.[*].confirmationLetterName").value(hasItem(DEFAULT_CONFIRMATION_LETTER_NAME)))
+            .andExpect(jsonPath("$.[*].projectName").value(hasItem(DEFAULT_PROJECT_NAME)))
+            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())));
     }
     
     @Test
@@ -369,32 +358,25 @@ public class EmployeeResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(employee.getId().intValue()))
             .andExpect(jsonPath("$.employeeNumber").value(DEFAULT_EMPLOYEE_NUMBER))
-            .andExpect(jsonPath("$.firstName").value(DEFAULT_FIRST_NAME))
-            .andExpect(jsonPath("$.middleName").value(DEFAULT_MIDDLE_NAME))
-            .andExpect(jsonPath("$.lastName").value(DEFAULT_LAST_NAME))
-            .andExpect(jsonPath("$.gender").value(DEFAULT_GENDER))
-            .andExpect(jsonPath("$.birthDate").value(DEFAULT_BIRTH_DATE.toString()))
-            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
-            .andExpect(jsonPath("$.cellPhone").value(DEFAULT_CELL_PHONE))
-            .andExpect(jsonPath("$.maritalStatus").value(DEFAULT_MARITAL_STATUS))
-            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()))
             .andExpect(jsonPath("$.contractStartDate").value(DEFAULT_CONTRACT_START_DATE.toString()))
             .andExpect(jsonPath("$.contractEndDate").value(DEFAULT_CONTRACT_END_DATE.toString()))
             .andExpect(jsonPath("$.bankName").value(DEFAULT_BANK_NAME))
             .andExpect(jsonPath("$.branchName").value(DEFAULT_BRANCH_NAME))
             .andExpect(jsonPath("$.bankAccount").value(DEFAULT_BANK_ACCOUNT))
             .andExpect(jsonPath("$.insuranceRegistrationNumber").value(DEFAULT_INSURANCE_REGISTRATION_NUMBER))
+            .andExpect(jsonPath("$.dateJoining").value(DEFAULT_DATE_JOINING.toString()))
+            .andExpect(jsonPath("$.designation").value(DEFAULT_DESIGNATION))
             .andExpect(jsonPath("$.districtId").value(DEFAULT_DISTRICT_ID.intValue()))
             .andExpect(jsonPath("$.facilityId").value(DEFAULT_FACILITY_ID.intValue()))
             .andExpect(jsonPath("$.categoryId").value(DEFAULT_CATEGORY_ID.intValue()))
             .andExpect(jsonPath("$.trainingId").value(DEFAULT_TRAINING_ID.intValue()))
             .andExpect(jsonPath("$.carderId").value(DEFAULT_CARDER_ID.intValue()))
-            .andExpect(jsonPath("$.pictureContentType").value(DEFAULT_PICTURE_CONTENT_TYPE))
-            .andExpect(jsonPath("$.picture").value(Base64Utils.encodeToString(DEFAULT_PICTURE)))
-            .andExpect(jsonPath("$.departMentCode").value(DEFAULT_DEPART_MENT_CODE.intValue()))
-            .andExpect(jsonPath("$.attachmentId").value(DEFAULT_ATTACHMENT_ID.intValue()))
+            .andExpect(jsonPath("$.departmentName").value(DEFAULT_DEPARTMENT_NAME))
             .andExpect(jsonPath("$.confirmationId").value(DEFAULT_CONFIRMATION_ID.intValue()))
-            .andExpect(jsonPath("$.projectId").value(DEFAULT_PROJECT_ID.intValue()));
+            .andExpect(jsonPath("$.isConfirmed").value(DEFAULT_IS_CONFIRMED.booleanValue()))
+            .andExpect(jsonPath("$.confirmationLetterName").value(DEFAULT_CONFIRMATION_LETTER_NAME))
+            .andExpect(jsonPath("$.projectName").value(DEFAULT_PROJECT_NAME))
+            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()));
     }
 
 
@@ -494,709 +476,6 @@ public class EmployeeResourceIT {
         defaultEmployeeShouldBeFound("employeeNumber.doesNotContain=" + UPDATED_EMPLOYEE_NUMBER);
     }
 
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByFirstNameIsEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where firstName equals to DEFAULT_FIRST_NAME
-        defaultEmployeeShouldBeFound("firstName.equals=" + DEFAULT_FIRST_NAME);
-
-        // Get all the employeeList where firstName equals to UPDATED_FIRST_NAME
-        defaultEmployeeShouldNotBeFound("firstName.equals=" + UPDATED_FIRST_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByFirstNameIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where firstName not equals to DEFAULT_FIRST_NAME
-        defaultEmployeeShouldNotBeFound("firstName.notEquals=" + DEFAULT_FIRST_NAME);
-
-        // Get all the employeeList where firstName not equals to UPDATED_FIRST_NAME
-        defaultEmployeeShouldBeFound("firstName.notEquals=" + UPDATED_FIRST_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByFirstNameIsInShouldWork() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where firstName in DEFAULT_FIRST_NAME or UPDATED_FIRST_NAME
-        defaultEmployeeShouldBeFound("firstName.in=" + DEFAULT_FIRST_NAME + "," + UPDATED_FIRST_NAME);
-
-        // Get all the employeeList where firstName equals to UPDATED_FIRST_NAME
-        defaultEmployeeShouldNotBeFound("firstName.in=" + UPDATED_FIRST_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByFirstNameIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where firstName is not null
-        defaultEmployeeShouldBeFound("firstName.specified=true");
-
-        // Get all the employeeList where firstName is null
-        defaultEmployeeShouldNotBeFound("firstName.specified=false");
-    }
-                @Test
-    @Transactional
-    public void getAllEmployeesByFirstNameContainsSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where firstName contains DEFAULT_FIRST_NAME
-        defaultEmployeeShouldBeFound("firstName.contains=" + DEFAULT_FIRST_NAME);
-
-        // Get all the employeeList where firstName contains UPDATED_FIRST_NAME
-        defaultEmployeeShouldNotBeFound("firstName.contains=" + UPDATED_FIRST_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByFirstNameNotContainsSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where firstName does not contain DEFAULT_FIRST_NAME
-        defaultEmployeeShouldNotBeFound("firstName.doesNotContain=" + DEFAULT_FIRST_NAME);
-
-        // Get all the employeeList where firstName does not contain UPDATED_FIRST_NAME
-        defaultEmployeeShouldBeFound("firstName.doesNotContain=" + UPDATED_FIRST_NAME);
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByMiddleNameIsEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where middleName equals to DEFAULT_MIDDLE_NAME
-        defaultEmployeeShouldBeFound("middleName.equals=" + DEFAULT_MIDDLE_NAME);
-
-        // Get all the employeeList where middleName equals to UPDATED_MIDDLE_NAME
-        defaultEmployeeShouldNotBeFound("middleName.equals=" + UPDATED_MIDDLE_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByMiddleNameIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where middleName not equals to DEFAULT_MIDDLE_NAME
-        defaultEmployeeShouldNotBeFound("middleName.notEquals=" + DEFAULT_MIDDLE_NAME);
-
-        // Get all the employeeList where middleName not equals to UPDATED_MIDDLE_NAME
-        defaultEmployeeShouldBeFound("middleName.notEquals=" + UPDATED_MIDDLE_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByMiddleNameIsInShouldWork() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where middleName in DEFAULT_MIDDLE_NAME or UPDATED_MIDDLE_NAME
-        defaultEmployeeShouldBeFound("middleName.in=" + DEFAULT_MIDDLE_NAME + "," + UPDATED_MIDDLE_NAME);
-
-        // Get all the employeeList where middleName equals to UPDATED_MIDDLE_NAME
-        defaultEmployeeShouldNotBeFound("middleName.in=" + UPDATED_MIDDLE_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByMiddleNameIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where middleName is not null
-        defaultEmployeeShouldBeFound("middleName.specified=true");
-
-        // Get all the employeeList where middleName is null
-        defaultEmployeeShouldNotBeFound("middleName.specified=false");
-    }
-                @Test
-    @Transactional
-    public void getAllEmployeesByMiddleNameContainsSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where middleName contains DEFAULT_MIDDLE_NAME
-        defaultEmployeeShouldBeFound("middleName.contains=" + DEFAULT_MIDDLE_NAME);
-
-        // Get all the employeeList where middleName contains UPDATED_MIDDLE_NAME
-        defaultEmployeeShouldNotBeFound("middleName.contains=" + UPDATED_MIDDLE_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByMiddleNameNotContainsSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where middleName does not contain DEFAULT_MIDDLE_NAME
-        defaultEmployeeShouldNotBeFound("middleName.doesNotContain=" + DEFAULT_MIDDLE_NAME);
-
-        // Get all the employeeList where middleName does not contain UPDATED_MIDDLE_NAME
-        defaultEmployeeShouldBeFound("middleName.doesNotContain=" + UPDATED_MIDDLE_NAME);
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByLastNameIsEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where lastName equals to DEFAULT_LAST_NAME
-        defaultEmployeeShouldBeFound("lastName.equals=" + DEFAULT_LAST_NAME);
-
-        // Get all the employeeList where lastName equals to UPDATED_LAST_NAME
-        defaultEmployeeShouldNotBeFound("lastName.equals=" + UPDATED_LAST_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByLastNameIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where lastName not equals to DEFAULT_LAST_NAME
-        defaultEmployeeShouldNotBeFound("lastName.notEquals=" + DEFAULT_LAST_NAME);
-
-        // Get all the employeeList where lastName not equals to UPDATED_LAST_NAME
-        defaultEmployeeShouldBeFound("lastName.notEquals=" + UPDATED_LAST_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByLastNameIsInShouldWork() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where lastName in DEFAULT_LAST_NAME or UPDATED_LAST_NAME
-        defaultEmployeeShouldBeFound("lastName.in=" + DEFAULT_LAST_NAME + "," + UPDATED_LAST_NAME);
-
-        // Get all the employeeList where lastName equals to UPDATED_LAST_NAME
-        defaultEmployeeShouldNotBeFound("lastName.in=" + UPDATED_LAST_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByLastNameIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where lastName is not null
-        defaultEmployeeShouldBeFound("lastName.specified=true");
-
-        // Get all the employeeList where lastName is null
-        defaultEmployeeShouldNotBeFound("lastName.specified=false");
-    }
-                @Test
-    @Transactional
-    public void getAllEmployeesByLastNameContainsSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where lastName contains DEFAULT_LAST_NAME
-        defaultEmployeeShouldBeFound("lastName.contains=" + DEFAULT_LAST_NAME);
-
-        // Get all the employeeList where lastName contains UPDATED_LAST_NAME
-        defaultEmployeeShouldNotBeFound("lastName.contains=" + UPDATED_LAST_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByLastNameNotContainsSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where lastName does not contain DEFAULT_LAST_NAME
-        defaultEmployeeShouldNotBeFound("lastName.doesNotContain=" + DEFAULT_LAST_NAME);
-
-        // Get all the employeeList where lastName does not contain UPDATED_LAST_NAME
-        defaultEmployeeShouldBeFound("lastName.doesNotContain=" + UPDATED_LAST_NAME);
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByGenderIsEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where gender equals to DEFAULT_GENDER
-        defaultEmployeeShouldBeFound("gender.equals=" + DEFAULT_GENDER);
-
-        // Get all the employeeList where gender equals to UPDATED_GENDER
-        defaultEmployeeShouldNotBeFound("gender.equals=" + UPDATED_GENDER);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByGenderIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where gender not equals to DEFAULT_GENDER
-        defaultEmployeeShouldNotBeFound("gender.notEquals=" + DEFAULT_GENDER);
-
-        // Get all the employeeList where gender not equals to UPDATED_GENDER
-        defaultEmployeeShouldBeFound("gender.notEquals=" + UPDATED_GENDER);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByGenderIsInShouldWork() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where gender in DEFAULT_GENDER or UPDATED_GENDER
-        defaultEmployeeShouldBeFound("gender.in=" + DEFAULT_GENDER + "," + UPDATED_GENDER);
-
-        // Get all the employeeList where gender equals to UPDATED_GENDER
-        defaultEmployeeShouldNotBeFound("gender.in=" + UPDATED_GENDER);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByGenderIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where gender is not null
-        defaultEmployeeShouldBeFound("gender.specified=true");
-
-        // Get all the employeeList where gender is null
-        defaultEmployeeShouldNotBeFound("gender.specified=false");
-    }
-                @Test
-    @Transactional
-    public void getAllEmployeesByGenderContainsSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where gender contains DEFAULT_GENDER
-        defaultEmployeeShouldBeFound("gender.contains=" + DEFAULT_GENDER);
-
-        // Get all the employeeList where gender contains UPDATED_GENDER
-        defaultEmployeeShouldNotBeFound("gender.contains=" + UPDATED_GENDER);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByGenderNotContainsSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where gender does not contain DEFAULT_GENDER
-        defaultEmployeeShouldNotBeFound("gender.doesNotContain=" + DEFAULT_GENDER);
-
-        // Get all the employeeList where gender does not contain UPDATED_GENDER
-        defaultEmployeeShouldBeFound("gender.doesNotContain=" + UPDATED_GENDER);
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByBirthDateIsEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where birthDate equals to DEFAULT_BIRTH_DATE
-        defaultEmployeeShouldBeFound("birthDate.equals=" + DEFAULT_BIRTH_DATE);
-
-        // Get all the employeeList where birthDate equals to UPDATED_BIRTH_DATE
-        defaultEmployeeShouldNotBeFound("birthDate.equals=" + UPDATED_BIRTH_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByBirthDateIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where birthDate not equals to DEFAULT_BIRTH_DATE
-        defaultEmployeeShouldNotBeFound("birthDate.notEquals=" + DEFAULT_BIRTH_DATE);
-
-        // Get all the employeeList where birthDate not equals to UPDATED_BIRTH_DATE
-        defaultEmployeeShouldBeFound("birthDate.notEquals=" + UPDATED_BIRTH_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByBirthDateIsInShouldWork() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where birthDate in DEFAULT_BIRTH_DATE or UPDATED_BIRTH_DATE
-        defaultEmployeeShouldBeFound("birthDate.in=" + DEFAULT_BIRTH_DATE + "," + UPDATED_BIRTH_DATE);
-
-        // Get all the employeeList where birthDate equals to UPDATED_BIRTH_DATE
-        defaultEmployeeShouldNotBeFound("birthDate.in=" + UPDATED_BIRTH_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByBirthDateIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where birthDate is not null
-        defaultEmployeeShouldBeFound("birthDate.specified=true");
-
-        // Get all the employeeList where birthDate is null
-        defaultEmployeeShouldNotBeFound("birthDate.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByBirthDateIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where birthDate is greater than or equal to DEFAULT_BIRTH_DATE
-        defaultEmployeeShouldBeFound("birthDate.greaterThanOrEqual=" + DEFAULT_BIRTH_DATE);
-
-        // Get all the employeeList where birthDate is greater than or equal to UPDATED_BIRTH_DATE
-        defaultEmployeeShouldNotBeFound("birthDate.greaterThanOrEqual=" + UPDATED_BIRTH_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByBirthDateIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where birthDate is less than or equal to DEFAULT_BIRTH_DATE
-        defaultEmployeeShouldBeFound("birthDate.lessThanOrEqual=" + DEFAULT_BIRTH_DATE);
-
-        // Get all the employeeList where birthDate is less than or equal to SMALLER_BIRTH_DATE
-        defaultEmployeeShouldNotBeFound("birthDate.lessThanOrEqual=" + SMALLER_BIRTH_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByBirthDateIsLessThanSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where birthDate is less than DEFAULT_BIRTH_DATE
-        defaultEmployeeShouldNotBeFound("birthDate.lessThan=" + DEFAULT_BIRTH_DATE);
-
-        // Get all the employeeList where birthDate is less than UPDATED_BIRTH_DATE
-        defaultEmployeeShouldBeFound("birthDate.lessThan=" + UPDATED_BIRTH_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByBirthDateIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where birthDate is greater than DEFAULT_BIRTH_DATE
-        defaultEmployeeShouldNotBeFound("birthDate.greaterThan=" + DEFAULT_BIRTH_DATE);
-
-        // Get all the employeeList where birthDate is greater than SMALLER_BIRTH_DATE
-        defaultEmployeeShouldBeFound("birthDate.greaterThan=" + SMALLER_BIRTH_DATE);
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByEmailIsEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where email equals to DEFAULT_EMAIL
-        defaultEmployeeShouldBeFound("email.equals=" + DEFAULT_EMAIL);
-
-        // Get all the employeeList where email equals to UPDATED_EMAIL
-        defaultEmployeeShouldNotBeFound("email.equals=" + UPDATED_EMAIL);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByEmailIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where email not equals to DEFAULT_EMAIL
-        defaultEmployeeShouldNotBeFound("email.notEquals=" + DEFAULT_EMAIL);
-
-        // Get all the employeeList where email not equals to UPDATED_EMAIL
-        defaultEmployeeShouldBeFound("email.notEquals=" + UPDATED_EMAIL);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByEmailIsInShouldWork() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where email in DEFAULT_EMAIL or UPDATED_EMAIL
-        defaultEmployeeShouldBeFound("email.in=" + DEFAULT_EMAIL + "," + UPDATED_EMAIL);
-
-        // Get all the employeeList where email equals to UPDATED_EMAIL
-        defaultEmployeeShouldNotBeFound("email.in=" + UPDATED_EMAIL);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByEmailIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where email is not null
-        defaultEmployeeShouldBeFound("email.specified=true");
-
-        // Get all the employeeList where email is null
-        defaultEmployeeShouldNotBeFound("email.specified=false");
-    }
-                @Test
-    @Transactional
-    public void getAllEmployeesByEmailContainsSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where email contains DEFAULT_EMAIL
-        defaultEmployeeShouldBeFound("email.contains=" + DEFAULT_EMAIL);
-
-        // Get all the employeeList where email contains UPDATED_EMAIL
-        defaultEmployeeShouldNotBeFound("email.contains=" + UPDATED_EMAIL);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByEmailNotContainsSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where email does not contain DEFAULT_EMAIL
-        defaultEmployeeShouldNotBeFound("email.doesNotContain=" + DEFAULT_EMAIL);
-
-        // Get all the employeeList where email does not contain UPDATED_EMAIL
-        defaultEmployeeShouldBeFound("email.doesNotContain=" + UPDATED_EMAIL);
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByCellPhoneIsEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where cellPhone equals to DEFAULT_CELL_PHONE
-        defaultEmployeeShouldBeFound("cellPhone.equals=" + DEFAULT_CELL_PHONE);
-
-        // Get all the employeeList where cellPhone equals to UPDATED_CELL_PHONE
-        defaultEmployeeShouldNotBeFound("cellPhone.equals=" + UPDATED_CELL_PHONE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByCellPhoneIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where cellPhone not equals to DEFAULT_CELL_PHONE
-        defaultEmployeeShouldNotBeFound("cellPhone.notEquals=" + DEFAULT_CELL_PHONE);
-
-        // Get all the employeeList where cellPhone not equals to UPDATED_CELL_PHONE
-        defaultEmployeeShouldBeFound("cellPhone.notEquals=" + UPDATED_CELL_PHONE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByCellPhoneIsInShouldWork() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where cellPhone in DEFAULT_CELL_PHONE or UPDATED_CELL_PHONE
-        defaultEmployeeShouldBeFound("cellPhone.in=" + DEFAULT_CELL_PHONE + "," + UPDATED_CELL_PHONE);
-
-        // Get all the employeeList where cellPhone equals to UPDATED_CELL_PHONE
-        defaultEmployeeShouldNotBeFound("cellPhone.in=" + UPDATED_CELL_PHONE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByCellPhoneIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where cellPhone is not null
-        defaultEmployeeShouldBeFound("cellPhone.specified=true");
-
-        // Get all the employeeList where cellPhone is null
-        defaultEmployeeShouldNotBeFound("cellPhone.specified=false");
-    }
-                @Test
-    @Transactional
-    public void getAllEmployeesByCellPhoneContainsSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where cellPhone contains DEFAULT_CELL_PHONE
-        defaultEmployeeShouldBeFound("cellPhone.contains=" + DEFAULT_CELL_PHONE);
-
-        // Get all the employeeList where cellPhone contains UPDATED_CELL_PHONE
-        defaultEmployeeShouldNotBeFound("cellPhone.contains=" + UPDATED_CELL_PHONE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByCellPhoneNotContainsSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where cellPhone does not contain DEFAULT_CELL_PHONE
-        defaultEmployeeShouldNotBeFound("cellPhone.doesNotContain=" + DEFAULT_CELL_PHONE);
-
-        // Get all the employeeList where cellPhone does not contain UPDATED_CELL_PHONE
-        defaultEmployeeShouldBeFound("cellPhone.doesNotContain=" + UPDATED_CELL_PHONE);
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByMaritalStatusIsEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where maritalStatus equals to DEFAULT_MARITAL_STATUS
-        defaultEmployeeShouldBeFound("maritalStatus.equals=" + DEFAULT_MARITAL_STATUS);
-
-        // Get all the employeeList where maritalStatus equals to UPDATED_MARITAL_STATUS
-        defaultEmployeeShouldNotBeFound("maritalStatus.equals=" + UPDATED_MARITAL_STATUS);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByMaritalStatusIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where maritalStatus not equals to DEFAULT_MARITAL_STATUS
-        defaultEmployeeShouldNotBeFound("maritalStatus.notEquals=" + DEFAULT_MARITAL_STATUS);
-
-        // Get all the employeeList where maritalStatus not equals to UPDATED_MARITAL_STATUS
-        defaultEmployeeShouldBeFound("maritalStatus.notEquals=" + UPDATED_MARITAL_STATUS);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByMaritalStatusIsInShouldWork() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where maritalStatus in DEFAULT_MARITAL_STATUS or UPDATED_MARITAL_STATUS
-        defaultEmployeeShouldBeFound("maritalStatus.in=" + DEFAULT_MARITAL_STATUS + "," + UPDATED_MARITAL_STATUS);
-
-        // Get all the employeeList where maritalStatus equals to UPDATED_MARITAL_STATUS
-        defaultEmployeeShouldNotBeFound("maritalStatus.in=" + UPDATED_MARITAL_STATUS);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByMaritalStatusIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where maritalStatus is not null
-        defaultEmployeeShouldBeFound("maritalStatus.specified=true");
-
-        // Get all the employeeList where maritalStatus is null
-        defaultEmployeeShouldNotBeFound("maritalStatus.specified=false");
-    }
-                @Test
-    @Transactional
-    public void getAllEmployeesByMaritalStatusContainsSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where maritalStatus contains DEFAULT_MARITAL_STATUS
-        defaultEmployeeShouldBeFound("maritalStatus.contains=" + DEFAULT_MARITAL_STATUS);
-
-        // Get all the employeeList where maritalStatus contains UPDATED_MARITAL_STATUS
-        defaultEmployeeShouldNotBeFound("maritalStatus.contains=" + UPDATED_MARITAL_STATUS);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByMaritalStatusNotContainsSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where maritalStatus does not contain DEFAULT_MARITAL_STATUS
-        defaultEmployeeShouldNotBeFound("maritalStatus.doesNotContain=" + DEFAULT_MARITAL_STATUS);
-
-        // Get all the employeeList where maritalStatus does not contain UPDATED_MARITAL_STATUS
-        defaultEmployeeShouldBeFound("maritalStatus.doesNotContain=" + UPDATED_MARITAL_STATUS);
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByActiveIsEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where active equals to DEFAULT_ACTIVE
-        defaultEmployeeShouldBeFound("active.equals=" + DEFAULT_ACTIVE);
-
-        // Get all the employeeList where active equals to UPDATED_ACTIVE
-        defaultEmployeeShouldNotBeFound("active.equals=" + UPDATED_ACTIVE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByActiveIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where active not equals to DEFAULT_ACTIVE
-        defaultEmployeeShouldNotBeFound("active.notEquals=" + DEFAULT_ACTIVE);
-
-        // Get all the employeeList where active not equals to UPDATED_ACTIVE
-        defaultEmployeeShouldBeFound("active.notEquals=" + UPDATED_ACTIVE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByActiveIsInShouldWork() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where active in DEFAULT_ACTIVE or UPDATED_ACTIVE
-        defaultEmployeeShouldBeFound("active.in=" + DEFAULT_ACTIVE + "," + UPDATED_ACTIVE);
-
-        // Get all the employeeList where active equals to UPDATED_ACTIVE
-        defaultEmployeeShouldNotBeFound("active.in=" + UPDATED_ACTIVE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByActiveIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where active is not null
-        defaultEmployeeShouldBeFound("active.specified=true");
-
-        // Get all the employeeList where active is null
-        defaultEmployeeShouldNotBeFound("active.specified=false");
-    }
 
     @Test
     @Transactional
@@ -1717,6 +996,189 @@ public class EmployeeResourceIT {
 
         // Get all the employeeList where insuranceRegistrationNumber does not contain UPDATED_INSURANCE_REGISTRATION_NUMBER
         defaultEmployeeShouldBeFound("insuranceRegistrationNumber.doesNotContain=" + UPDATED_INSURANCE_REGISTRATION_NUMBER);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByDateJoiningIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where dateJoining equals to DEFAULT_DATE_JOINING
+        defaultEmployeeShouldBeFound("dateJoining.equals=" + DEFAULT_DATE_JOINING);
+
+        // Get all the employeeList where dateJoining equals to UPDATED_DATE_JOINING
+        defaultEmployeeShouldNotBeFound("dateJoining.equals=" + UPDATED_DATE_JOINING);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByDateJoiningIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where dateJoining not equals to DEFAULT_DATE_JOINING
+        defaultEmployeeShouldNotBeFound("dateJoining.notEquals=" + DEFAULT_DATE_JOINING);
+
+        // Get all the employeeList where dateJoining not equals to UPDATED_DATE_JOINING
+        defaultEmployeeShouldBeFound("dateJoining.notEquals=" + UPDATED_DATE_JOINING);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByDateJoiningIsInShouldWork() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where dateJoining in DEFAULT_DATE_JOINING or UPDATED_DATE_JOINING
+        defaultEmployeeShouldBeFound("dateJoining.in=" + DEFAULT_DATE_JOINING + "," + UPDATED_DATE_JOINING);
+
+        // Get all the employeeList where dateJoining equals to UPDATED_DATE_JOINING
+        defaultEmployeeShouldNotBeFound("dateJoining.in=" + UPDATED_DATE_JOINING);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByDateJoiningIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where dateJoining is not null
+        defaultEmployeeShouldBeFound("dateJoining.specified=true");
+
+        // Get all the employeeList where dateJoining is null
+        defaultEmployeeShouldNotBeFound("dateJoining.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByDateJoiningIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where dateJoining is greater than or equal to DEFAULT_DATE_JOINING
+        defaultEmployeeShouldBeFound("dateJoining.greaterThanOrEqual=" + DEFAULT_DATE_JOINING);
+
+        // Get all the employeeList where dateJoining is greater than or equal to UPDATED_DATE_JOINING
+        defaultEmployeeShouldNotBeFound("dateJoining.greaterThanOrEqual=" + UPDATED_DATE_JOINING);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByDateJoiningIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where dateJoining is less than or equal to DEFAULT_DATE_JOINING
+        defaultEmployeeShouldBeFound("dateJoining.lessThanOrEqual=" + DEFAULT_DATE_JOINING);
+
+        // Get all the employeeList where dateJoining is less than or equal to SMALLER_DATE_JOINING
+        defaultEmployeeShouldNotBeFound("dateJoining.lessThanOrEqual=" + SMALLER_DATE_JOINING);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByDateJoiningIsLessThanSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where dateJoining is less than DEFAULT_DATE_JOINING
+        defaultEmployeeShouldNotBeFound("dateJoining.lessThan=" + DEFAULT_DATE_JOINING);
+
+        // Get all the employeeList where dateJoining is less than UPDATED_DATE_JOINING
+        defaultEmployeeShouldBeFound("dateJoining.lessThan=" + UPDATED_DATE_JOINING);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByDateJoiningIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where dateJoining is greater than DEFAULT_DATE_JOINING
+        defaultEmployeeShouldNotBeFound("dateJoining.greaterThan=" + DEFAULT_DATE_JOINING);
+
+        // Get all the employeeList where dateJoining is greater than SMALLER_DATE_JOINING
+        defaultEmployeeShouldBeFound("dateJoining.greaterThan=" + SMALLER_DATE_JOINING);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByDesignationIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where designation equals to DEFAULT_DESIGNATION
+        defaultEmployeeShouldBeFound("designation.equals=" + DEFAULT_DESIGNATION);
+
+        // Get all the employeeList where designation equals to UPDATED_DESIGNATION
+        defaultEmployeeShouldNotBeFound("designation.equals=" + UPDATED_DESIGNATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByDesignationIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where designation not equals to DEFAULT_DESIGNATION
+        defaultEmployeeShouldNotBeFound("designation.notEquals=" + DEFAULT_DESIGNATION);
+
+        // Get all the employeeList where designation not equals to UPDATED_DESIGNATION
+        defaultEmployeeShouldBeFound("designation.notEquals=" + UPDATED_DESIGNATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByDesignationIsInShouldWork() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where designation in DEFAULT_DESIGNATION or UPDATED_DESIGNATION
+        defaultEmployeeShouldBeFound("designation.in=" + DEFAULT_DESIGNATION + "," + UPDATED_DESIGNATION);
+
+        // Get all the employeeList where designation equals to UPDATED_DESIGNATION
+        defaultEmployeeShouldNotBeFound("designation.in=" + UPDATED_DESIGNATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByDesignationIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where designation is not null
+        defaultEmployeeShouldBeFound("designation.specified=true");
+
+        // Get all the employeeList where designation is null
+        defaultEmployeeShouldNotBeFound("designation.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllEmployeesByDesignationContainsSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where designation contains DEFAULT_DESIGNATION
+        defaultEmployeeShouldBeFound("designation.contains=" + DEFAULT_DESIGNATION);
+
+        // Get all the employeeList where designation contains UPDATED_DESIGNATION
+        defaultEmployeeShouldNotBeFound("designation.contains=" + UPDATED_DESIGNATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByDesignationNotContainsSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where designation does not contain DEFAULT_DESIGNATION
+        defaultEmployeeShouldNotBeFound("designation.doesNotContain=" + DEFAULT_DESIGNATION);
+
+        // Get all the employeeList where designation does not contain UPDATED_DESIGNATION
+        defaultEmployeeShouldBeFound("designation.doesNotContain=" + UPDATED_DESIGNATION);
     }
 
 
@@ -2247,211 +1709,79 @@ public class EmployeeResourceIT {
 
     @Test
     @Transactional
-    public void getAllEmployeesByDepartMentCodeIsEqualToSomething() throws Exception {
+    public void getAllEmployeesByDepartmentNameIsEqualToSomething() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
 
-        // Get all the employeeList where departMentCode equals to DEFAULT_DEPART_MENT_CODE
-        defaultEmployeeShouldBeFound("departMentCode.equals=" + DEFAULT_DEPART_MENT_CODE);
+        // Get all the employeeList where departmentName equals to DEFAULT_DEPARTMENT_NAME
+        defaultEmployeeShouldBeFound("departmentName.equals=" + DEFAULT_DEPARTMENT_NAME);
 
-        // Get all the employeeList where departMentCode equals to UPDATED_DEPART_MENT_CODE
-        defaultEmployeeShouldNotBeFound("departMentCode.equals=" + UPDATED_DEPART_MENT_CODE);
+        // Get all the employeeList where departmentName equals to UPDATED_DEPARTMENT_NAME
+        defaultEmployeeShouldNotBeFound("departmentName.equals=" + UPDATED_DEPARTMENT_NAME);
     }
 
     @Test
     @Transactional
-    public void getAllEmployeesByDepartMentCodeIsNotEqualToSomething() throws Exception {
+    public void getAllEmployeesByDepartmentNameIsNotEqualToSomething() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
 
-        // Get all the employeeList where departMentCode not equals to DEFAULT_DEPART_MENT_CODE
-        defaultEmployeeShouldNotBeFound("departMentCode.notEquals=" + DEFAULT_DEPART_MENT_CODE);
+        // Get all the employeeList where departmentName not equals to DEFAULT_DEPARTMENT_NAME
+        defaultEmployeeShouldNotBeFound("departmentName.notEquals=" + DEFAULT_DEPARTMENT_NAME);
 
-        // Get all the employeeList where departMentCode not equals to UPDATED_DEPART_MENT_CODE
-        defaultEmployeeShouldBeFound("departMentCode.notEquals=" + UPDATED_DEPART_MENT_CODE);
+        // Get all the employeeList where departmentName not equals to UPDATED_DEPARTMENT_NAME
+        defaultEmployeeShouldBeFound("departmentName.notEquals=" + UPDATED_DEPARTMENT_NAME);
     }
 
     @Test
     @Transactional
-    public void getAllEmployeesByDepartMentCodeIsInShouldWork() throws Exception {
+    public void getAllEmployeesByDepartmentNameIsInShouldWork() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
 
-        // Get all the employeeList where departMentCode in DEFAULT_DEPART_MENT_CODE or UPDATED_DEPART_MENT_CODE
-        defaultEmployeeShouldBeFound("departMentCode.in=" + DEFAULT_DEPART_MENT_CODE + "," + UPDATED_DEPART_MENT_CODE);
+        // Get all the employeeList where departmentName in DEFAULT_DEPARTMENT_NAME or UPDATED_DEPARTMENT_NAME
+        defaultEmployeeShouldBeFound("departmentName.in=" + DEFAULT_DEPARTMENT_NAME + "," + UPDATED_DEPARTMENT_NAME);
 
-        // Get all the employeeList where departMentCode equals to UPDATED_DEPART_MENT_CODE
-        defaultEmployeeShouldNotBeFound("departMentCode.in=" + UPDATED_DEPART_MENT_CODE);
+        // Get all the employeeList where departmentName equals to UPDATED_DEPARTMENT_NAME
+        defaultEmployeeShouldNotBeFound("departmentName.in=" + UPDATED_DEPARTMENT_NAME);
     }
 
     @Test
     @Transactional
-    public void getAllEmployeesByDepartMentCodeIsNullOrNotNull() throws Exception {
+    public void getAllEmployeesByDepartmentNameIsNullOrNotNull() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
 
-        // Get all the employeeList where departMentCode is not null
-        defaultEmployeeShouldBeFound("departMentCode.specified=true");
+        // Get all the employeeList where departmentName is not null
+        defaultEmployeeShouldBeFound("departmentName.specified=true");
 
-        // Get all the employeeList where departMentCode is null
-        defaultEmployeeShouldNotBeFound("departMentCode.specified=false");
+        // Get all the employeeList where departmentName is null
+        defaultEmployeeShouldNotBeFound("departmentName.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllEmployeesByDepartmentNameContainsSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where departmentName contains DEFAULT_DEPARTMENT_NAME
+        defaultEmployeeShouldBeFound("departmentName.contains=" + DEFAULT_DEPARTMENT_NAME);
+
+        // Get all the employeeList where departmentName contains UPDATED_DEPARTMENT_NAME
+        defaultEmployeeShouldNotBeFound("departmentName.contains=" + UPDATED_DEPARTMENT_NAME);
     }
 
     @Test
     @Transactional
-    public void getAllEmployeesByDepartMentCodeIsGreaterThanOrEqualToSomething() throws Exception {
+    public void getAllEmployeesByDepartmentNameNotContainsSomething() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
 
-        // Get all the employeeList where departMentCode is greater than or equal to DEFAULT_DEPART_MENT_CODE
-        defaultEmployeeShouldBeFound("departMentCode.greaterThanOrEqual=" + DEFAULT_DEPART_MENT_CODE);
+        // Get all the employeeList where departmentName does not contain DEFAULT_DEPARTMENT_NAME
+        defaultEmployeeShouldNotBeFound("departmentName.doesNotContain=" + DEFAULT_DEPARTMENT_NAME);
 
-        // Get all the employeeList where departMentCode is greater than or equal to UPDATED_DEPART_MENT_CODE
-        defaultEmployeeShouldNotBeFound("departMentCode.greaterThanOrEqual=" + UPDATED_DEPART_MENT_CODE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByDepartMentCodeIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where departMentCode is less than or equal to DEFAULT_DEPART_MENT_CODE
-        defaultEmployeeShouldBeFound("departMentCode.lessThanOrEqual=" + DEFAULT_DEPART_MENT_CODE);
-
-        // Get all the employeeList where departMentCode is less than or equal to SMALLER_DEPART_MENT_CODE
-        defaultEmployeeShouldNotBeFound("departMentCode.lessThanOrEqual=" + SMALLER_DEPART_MENT_CODE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByDepartMentCodeIsLessThanSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where departMentCode is less than DEFAULT_DEPART_MENT_CODE
-        defaultEmployeeShouldNotBeFound("departMentCode.lessThan=" + DEFAULT_DEPART_MENT_CODE);
-
-        // Get all the employeeList where departMentCode is less than UPDATED_DEPART_MENT_CODE
-        defaultEmployeeShouldBeFound("departMentCode.lessThan=" + UPDATED_DEPART_MENT_CODE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByDepartMentCodeIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where departMentCode is greater than DEFAULT_DEPART_MENT_CODE
-        defaultEmployeeShouldNotBeFound("departMentCode.greaterThan=" + DEFAULT_DEPART_MENT_CODE);
-
-        // Get all the employeeList where departMentCode is greater than SMALLER_DEPART_MENT_CODE
-        defaultEmployeeShouldBeFound("departMentCode.greaterThan=" + SMALLER_DEPART_MENT_CODE);
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByAttachmentIdIsEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where attachmentId equals to DEFAULT_ATTACHMENT_ID
-        defaultEmployeeShouldBeFound("attachmentId.equals=" + DEFAULT_ATTACHMENT_ID);
-
-        // Get all the employeeList where attachmentId equals to UPDATED_ATTACHMENT_ID
-        defaultEmployeeShouldNotBeFound("attachmentId.equals=" + UPDATED_ATTACHMENT_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByAttachmentIdIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where attachmentId not equals to DEFAULT_ATTACHMENT_ID
-        defaultEmployeeShouldNotBeFound("attachmentId.notEquals=" + DEFAULT_ATTACHMENT_ID);
-
-        // Get all the employeeList where attachmentId not equals to UPDATED_ATTACHMENT_ID
-        defaultEmployeeShouldBeFound("attachmentId.notEquals=" + UPDATED_ATTACHMENT_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByAttachmentIdIsInShouldWork() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where attachmentId in DEFAULT_ATTACHMENT_ID or UPDATED_ATTACHMENT_ID
-        defaultEmployeeShouldBeFound("attachmentId.in=" + DEFAULT_ATTACHMENT_ID + "," + UPDATED_ATTACHMENT_ID);
-
-        // Get all the employeeList where attachmentId equals to UPDATED_ATTACHMENT_ID
-        defaultEmployeeShouldNotBeFound("attachmentId.in=" + UPDATED_ATTACHMENT_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByAttachmentIdIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where attachmentId is not null
-        defaultEmployeeShouldBeFound("attachmentId.specified=true");
-
-        // Get all the employeeList where attachmentId is null
-        defaultEmployeeShouldNotBeFound("attachmentId.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByAttachmentIdIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where attachmentId is greater than or equal to DEFAULT_ATTACHMENT_ID
-        defaultEmployeeShouldBeFound("attachmentId.greaterThanOrEqual=" + DEFAULT_ATTACHMENT_ID);
-
-        // Get all the employeeList where attachmentId is greater than or equal to UPDATED_ATTACHMENT_ID
-        defaultEmployeeShouldNotBeFound("attachmentId.greaterThanOrEqual=" + UPDATED_ATTACHMENT_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByAttachmentIdIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where attachmentId is less than or equal to DEFAULT_ATTACHMENT_ID
-        defaultEmployeeShouldBeFound("attachmentId.lessThanOrEqual=" + DEFAULT_ATTACHMENT_ID);
-
-        // Get all the employeeList where attachmentId is less than or equal to SMALLER_ATTACHMENT_ID
-        defaultEmployeeShouldNotBeFound("attachmentId.lessThanOrEqual=" + SMALLER_ATTACHMENT_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByAttachmentIdIsLessThanSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where attachmentId is less than DEFAULT_ATTACHMENT_ID
-        defaultEmployeeShouldNotBeFound("attachmentId.lessThan=" + DEFAULT_ATTACHMENT_ID);
-
-        // Get all the employeeList where attachmentId is less than UPDATED_ATTACHMENT_ID
-        defaultEmployeeShouldBeFound("attachmentId.lessThan=" + UPDATED_ATTACHMENT_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByAttachmentIdIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-
-        // Get all the employeeList where attachmentId is greater than DEFAULT_ATTACHMENT_ID
-        defaultEmployeeShouldNotBeFound("attachmentId.greaterThan=" + DEFAULT_ATTACHMENT_ID);
-
-        // Get all the employeeList where attachmentId is greater than SMALLER_ATTACHMENT_ID
-        defaultEmployeeShouldBeFound("attachmentId.greaterThan=" + SMALLER_ATTACHMENT_ID);
+        // Get all the employeeList where departmentName does not contain UPDATED_DEPARTMENT_NAME
+        defaultEmployeeShouldBeFound("departmentName.doesNotContain=" + UPDATED_DEPARTMENT_NAME);
     }
 
 
@@ -2562,106 +1892,281 @@ public class EmployeeResourceIT {
 
     @Test
     @Transactional
-    public void getAllEmployeesByProjectIdIsEqualToSomething() throws Exception {
+    public void getAllEmployeesByIsConfirmedIsEqualToSomething() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
 
-        // Get all the employeeList where projectId equals to DEFAULT_PROJECT_ID
-        defaultEmployeeShouldBeFound("projectId.equals=" + DEFAULT_PROJECT_ID);
+        // Get all the employeeList where isConfirmed equals to DEFAULT_IS_CONFIRMED
+        defaultEmployeeShouldBeFound("isConfirmed.equals=" + DEFAULT_IS_CONFIRMED);
 
-        // Get all the employeeList where projectId equals to UPDATED_PROJECT_ID
-        defaultEmployeeShouldNotBeFound("projectId.equals=" + UPDATED_PROJECT_ID);
+        // Get all the employeeList where isConfirmed equals to UPDATED_IS_CONFIRMED
+        defaultEmployeeShouldNotBeFound("isConfirmed.equals=" + UPDATED_IS_CONFIRMED);
     }
 
     @Test
     @Transactional
-    public void getAllEmployeesByProjectIdIsNotEqualToSomething() throws Exception {
+    public void getAllEmployeesByIsConfirmedIsNotEqualToSomething() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
 
-        // Get all the employeeList where projectId not equals to DEFAULT_PROJECT_ID
-        defaultEmployeeShouldNotBeFound("projectId.notEquals=" + DEFAULT_PROJECT_ID);
+        // Get all the employeeList where isConfirmed not equals to DEFAULT_IS_CONFIRMED
+        defaultEmployeeShouldNotBeFound("isConfirmed.notEquals=" + DEFAULT_IS_CONFIRMED);
 
-        // Get all the employeeList where projectId not equals to UPDATED_PROJECT_ID
-        defaultEmployeeShouldBeFound("projectId.notEquals=" + UPDATED_PROJECT_ID);
+        // Get all the employeeList where isConfirmed not equals to UPDATED_IS_CONFIRMED
+        defaultEmployeeShouldBeFound("isConfirmed.notEquals=" + UPDATED_IS_CONFIRMED);
     }
 
     @Test
     @Transactional
-    public void getAllEmployeesByProjectIdIsInShouldWork() throws Exception {
+    public void getAllEmployeesByIsConfirmedIsInShouldWork() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
 
-        // Get all the employeeList where projectId in DEFAULT_PROJECT_ID or UPDATED_PROJECT_ID
-        defaultEmployeeShouldBeFound("projectId.in=" + DEFAULT_PROJECT_ID + "," + UPDATED_PROJECT_ID);
+        // Get all the employeeList where isConfirmed in DEFAULT_IS_CONFIRMED or UPDATED_IS_CONFIRMED
+        defaultEmployeeShouldBeFound("isConfirmed.in=" + DEFAULT_IS_CONFIRMED + "," + UPDATED_IS_CONFIRMED);
 
-        // Get all the employeeList where projectId equals to UPDATED_PROJECT_ID
-        defaultEmployeeShouldNotBeFound("projectId.in=" + UPDATED_PROJECT_ID);
+        // Get all the employeeList where isConfirmed equals to UPDATED_IS_CONFIRMED
+        defaultEmployeeShouldNotBeFound("isConfirmed.in=" + UPDATED_IS_CONFIRMED);
     }
 
     @Test
     @Transactional
-    public void getAllEmployeesByProjectIdIsNullOrNotNull() throws Exception {
+    public void getAllEmployeesByIsConfirmedIsNullOrNotNull() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
 
-        // Get all the employeeList where projectId is not null
-        defaultEmployeeShouldBeFound("projectId.specified=true");
+        // Get all the employeeList where isConfirmed is not null
+        defaultEmployeeShouldBeFound("isConfirmed.specified=true");
 
-        // Get all the employeeList where projectId is null
-        defaultEmployeeShouldNotBeFound("projectId.specified=false");
+        // Get all the employeeList where isConfirmed is null
+        defaultEmployeeShouldNotBeFound("isConfirmed.specified=false");
     }
 
     @Test
     @Transactional
-    public void getAllEmployeesByProjectIdIsGreaterThanOrEqualToSomething() throws Exception {
+    public void getAllEmployeesByConfirmationLetterNameIsEqualToSomething() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
 
-        // Get all the employeeList where projectId is greater than or equal to DEFAULT_PROJECT_ID
-        defaultEmployeeShouldBeFound("projectId.greaterThanOrEqual=" + DEFAULT_PROJECT_ID);
+        // Get all the employeeList where confirmationLetterName equals to DEFAULT_CONFIRMATION_LETTER_NAME
+        defaultEmployeeShouldBeFound("confirmationLetterName.equals=" + DEFAULT_CONFIRMATION_LETTER_NAME);
 
-        // Get all the employeeList where projectId is greater than or equal to UPDATED_PROJECT_ID
-        defaultEmployeeShouldNotBeFound("projectId.greaterThanOrEqual=" + UPDATED_PROJECT_ID);
+        // Get all the employeeList where confirmationLetterName equals to UPDATED_CONFIRMATION_LETTER_NAME
+        defaultEmployeeShouldNotBeFound("confirmationLetterName.equals=" + UPDATED_CONFIRMATION_LETTER_NAME);
     }
 
     @Test
     @Transactional
-    public void getAllEmployeesByProjectIdIsLessThanOrEqualToSomething() throws Exception {
+    public void getAllEmployeesByConfirmationLetterNameIsNotEqualToSomething() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
 
-        // Get all the employeeList where projectId is less than or equal to DEFAULT_PROJECT_ID
-        defaultEmployeeShouldBeFound("projectId.lessThanOrEqual=" + DEFAULT_PROJECT_ID);
+        // Get all the employeeList where confirmationLetterName not equals to DEFAULT_CONFIRMATION_LETTER_NAME
+        defaultEmployeeShouldNotBeFound("confirmationLetterName.notEquals=" + DEFAULT_CONFIRMATION_LETTER_NAME);
 
-        // Get all the employeeList where projectId is less than or equal to SMALLER_PROJECT_ID
-        defaultEmployeeShouldNotBeFound("projectId.lessThanOrEqual=" + SMALLER_PROJECT_ID);
+        // Get all the employeeList where confirmationLetterName not equals to UPDATED_CONFIRMATION_LETTER_NAME
+        defaultEmployeeShouldBeFound("confirmationLetterName.notEquals=" + UPDATED_CONFIRMATION_LETTER_NAME);
     }
 
     @Test
     @Transactional
-    public void getAllEmployeesByProjectIdIsLessThanSomething() throws Exception {
+    public void getAllEmployeesByConfirmationLetterNameIsInShouldWork() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
 
-        // Get all the employeeList where projectId is less than DEFAULT_PROJECT_ID
-        defaultEmployeeShouldNotBeFound("projectId.lessThan=" + DEFAULT_PROJECT_ID);
+        // Get all the employeeList where confirmationLetterName in DEFAULT_CONFIRMATION_LETTER_NAME or UPDATED_CONFIRMATION_LETTER_NAME
+        defaultEmployeeShouldBeFound("confirmationLetterName.in=" + DEFAULT_CONFIRMATION_LETTER_NAME + "," + UPDATED_CONFIRMATION_LETTER_NAME);
 
-        // Get all the employeeList where projectId is less than UPDATED_PROJECT_ID
-        defaultEmployeeShouldBeFound("projectId.lessThan=" + UPDATED_PROJECT_ID);
+        // Get all the employeeList where confirmationLetterName equals to UPDATED_CONFIRMATION_LETTER_NAME
+        defaultEmployeeShouldNotBeFound("confirmationLetterName.in=" + UPDATED_CONFIRMATION_LETTER_NAME);
     }
 
     @Test
     @Transactional
-    public void getAllEmployeesByProjectIdIsGreaterThanSomething() throws Exception {
+    public void getAllEmployeesByConfirmationLetterNameIsNullOrNotNull() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
 
-        // Get all the employeeList where projectId is greater than DEFAULT_PROJECT_ID
-        defaultEmployeeShouldNotBeFound("projectId.greaterThan=" + DEFAULT_PROJECT_ID);
+        // Get all the employeeList where confirmationLetterName is not null
+        defaultEmployeeShouldBeFound("confirmationLetterName.specified=true");
 
-        // Get all the employeeList where projectId is greater than SMALLER_PROJECT_ID
-        defaultEmployeeShouldBeFound("projectId.greaterThan=" + SMALLER_PROJECT_ID);
+        // Get all the employeeList where confirmationLetterName is null
+        defaultEmployeeShouldNotBeFound("confirmationLetterName.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllEmployeesByConfirmationLetterNameContainsSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where confirmationLetterName contains DEFAULT_CONFIRMATION_LETTER_NAME
+        defaultEmployeeShouldBeFound("confirmationLetterName.contains=" + DEFAULT_CONFIRMATION_LETTER_NAME);
+
+        // Get all the employeeList where confirmationLetterName contains UPDATED_CONFIRMATION_LETTER_NAME
+        defaultEmployeeShouldNotBeFound("confirmationLetterName.contains=" + UPDATED_CONFIRMATION_LETTER_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByConfirmationLetterNameNotContainsSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where confirmationLetterName does not contain DEFAULT_CONFIRMATION_LETTER_NAME
+        defaultEmployeeShouldNotBeFound("confirmationLetterName.doesNotContain=" + DEFAULT_CONFIRMATION_LETTER_NAME);
+
+        // Get all the employeeList where confirmationLetterName does not contain UPDATED_CONFIRMATION_LETTER_NAME
+        defaultEmployeeShouldBeFound("confirmationLetterName.doesNotContain=" + UPDATED_CONFIRMATION_LETTER_NAME);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByProjectNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where projectName equals to DEFAULT_PROJECT_NAME
+        defaultEmployeeShouldBeFound("projectName.equals=" + DEFAULT_PROJECT_NAME);
+
+        // Get all the employeeList where projectName equals to UPDATED_PROJECT_NAME
+        defaultEmployeeShouldNotBeFound("projectName.equals=" + UPDATED_PROJECT_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByProjectNameIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where projectName not equals to DEFAULT_PROJECT_NAME
+        defaultEmployeeShouldNotBeFound("projectName.notEquals=" + DEFAULT_PROJECT_NAME);
+
+        // Get all the employeeList where projectName not equals to UPDATED_PROJECT_NAME
+        defaultEmployeeShouldBeFound("projectName.notEquals=" + UPDATED_PROJECT_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByProjectNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where projectName in DEFAULT_PROJECT_NAME or UPDATED_PROJECT_NAME
+        defaultEmployeeShouldBeFound("projectName.in=" + DEFAULT_PROJECT_NAME + "," + UPDATED_PROJECT_NAME);
+
+        // Get all the employeeList where projectName equals to UPDATED_PROJECT_NAME
+        defaultEmployeeShouldNotBeFound("projectName.in=" + UPDATED_PROJECT_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByProjectNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where projectName is not null
+        defaultEmployeeShouldBeFound("projectName.specified=true");
+
+        // Get all the employeeList where projectName is null
+        defaultEmployeeShouldNotBeFound("projectName.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllEmployeesByProjectNameContainsSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where projectName contains DEFAULT_PROJECT_NAME
+        defaultEmployeeShouldBeFound("projectName.contains=" + DEFAULT_PROJECT_NAME);
+
+        // Get all the employeeList where projectName contains UPDATED_PROJECT_NAME
+        defaultEmployeeShouldNotBeFound("projectName.contains=" + UPDATED_PROJECT_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByProjectNameNotContainsSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where projectName does not contain DEFAULT_PROJECT_NAME
+        defaultEmployeeShouldNotBeFound("projectName.doesNotContain=" + DEFAULT_PROJECT_NAME);
+
+        // Get all the employeeList where projectName does not contain UPDATED_PROJECT_NAME
+        defaultEmployeeShouldBeFound("projectName.doesNotContain=" + UPDATED_PROJECT_NAME);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByActiveIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where active equals to DEFAULT_ACTIVE
+        defaultEmployeeShouldBeFound("active.equals=" + DEFAULT_ACTIVE);
+
+        // Get all the employeeList where active equals to UPDATED_ACTIVE
+        defaultEmployeeShouldNotBeFound("active.equals=" + UPDATED_ACTIVE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByActiveIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where active not equals to DEFAULT_ACTIVE
+        defaultEmployeeShouldNotBeFound("active.notEquals=" + DEFAULT_ACTIVE);
+
+        // Get all the employeeList where active not equals to UPDATED_ACTIVE
+        defaultEmployeeShouldBeFound("active.notEquals=" + UPDATED_ACTIVE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByActiveIsInShouldWork() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where active in DEFAULT_ACTIVE or UPDATED_ACTIVE
+        defaultEmployeeShouldBeFound("active.in=" + DEFAULT_ACTIVE + "," + UPDATED_ACTIVE);
+
+        // Get all the employeeList where active equals to UPDATED_ACTIVE
+        defaultEmployeeShouldNotBeFound("active.in=" + UPDATED_ACTIVE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByActiveIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where active is not null
+        defaultEmployeeShouldBeFound("active.specified=true");
+
+        // Get all the employeeList where active is null
+        defaultEmployeeShouldNotBeFound("active.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByAttachmentsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+        Attachment attachments = AttachmentResourceIT.createEntity(em);
+        em.persist(attachments);
+        em.flush();
+        employee.addAttachments(attachments);
+        employeeRepository.saveAndFlush(employee);
+        Long attachmentsId = attachments.getId();
+
+        // Get all the employeeList where attachments equals to attachmentsId
+        defaultEmployeeShouldBeFound("attachmentsId.equals=" + attachmentsId);
+
+        // Get all the employeeList where attachments equals to attachmentsId + 1
+        defaultEmployeeShouldNotBeFound("attachmentsId.equals=" + (attachmentsId + 1));
     }
 
 
@@ -2693,32 +2198,25 @@ public class EmployeeResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(employee.getId().intValue())))
             .andExpect(jsonPath("$.[*].employeeNumber").value(hasItem(DEFAULT_EMPLOYEE_NUMBER)))
-            .andExpect(jsonPath("$.[*].firstName").value(hasItem(DEFAULT_FIRST_NAME)))
-            .andExpect(jsonPath("$.[*].middleName").value(hasItem(DEFAULT_MIDDLE_NAME)))
-            .andExpect(jsonPath("$.[*].lastName").value(hasItem(DEFAULT_LAST_NAME)))
-            .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER)))
-            .andExpect(jsonPath("$.[*].birthDate").value(hasItem(DEFAULT_BIRTH_DATE.toString())))
-            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
-            .andExpect(jsonPath("$.[*].cellPhone").value(hasItem(DEFAULT_CELL_PHONE)))
-            .andExpect(jsonPath("$.[*].maritalStatus").value(hasItem(DEFAULT_MARITAL_STATUS)))
-            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())))
             .andExpect(jsonPath("$.[*].contractStartDate").value(hasItem(DEFAULT_CONTRACT_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].contractEndDate").value(hasItem(DEFAULT_CONTRACT_END_DATE.toString())))
             .andExpect(jsonPath("$.[*].bankName").value(hasItem(DEFAULT_BANK_NAME)))
             .andExpect(jsonPath("$.[*].branchName").value(hasItem(DEFAULT_BRANCH_NAME)))
             .andExpect(jsonPath("$.[*].bankAccount").value(hasItem(DEFAULT_BANK_ACCOUNT)))
             .andExpect(jsonPath("$.[*].insuranceRegistrationNumber").value(hasItem(DEFAULT_INSURANCE_REGISTRATION_NUMBER)))
+            .andExpect(jsonPath("$.[*].dateJoining").value(hasItem(DEFAULT_DATE_JOINING.toString())))
+            .andExpect(jsonPath("$.[*].designation").value(hasItem(DEFAULT_DESIGNATION)))
             .andExpect(jsonPath("$.[*].districtId").value(hasItem(DEFAULT_DISTRICT_ID.intValue())))
             .andExpect(jsonPath("$.[*].facilityId").value(hasItem(DEFAULT_FACILITY_ID.intValue())))
             .andExpect(jsonPath("$.[*].categoryId").value(hasItem(DEFAULT_CATEGORY_ID.intValue())))
             .andExpect(jsonPath("$.[*].trainingId").value(hasItem(DEFAULT_TRAINING_ID.intValue())))
             .andExpect(jsonPath("$.[*].carderId").value(hasItem(DEFAULT_CARDER_ID.intValue())))
-            .andExpect(jsonPath("$.[*].pictureContentType").value(hasItem(DEFAULT_PICTURE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].picture").value(hasItem(Base64Utils.encodeToString(DEFAULT_PICTURE))))
-            .andExpect(jsonPath("$.[*].departMentCode").value(hasItem(DEFAULT_DEPART_MENT_CODE.intValue())))
-            .andExpect(jsonPath("$.[*].attachmentId").value(hasItem(DEFAULT_ATTACHMENT_ID.intValue())))
+            .andExpect(jsonPath("$.[*].departmentName").value(hasItem(DEFAULT_DEPARTMENT_NAME)))
             .andExpect(jsonPath("$.[*].confirmationId").value(hasItem(DEFAULT_CONFIRMATION_ID.intValue())))
-            .andExpect(jsonPath("$.[*].projectId").value(hasItem(DEFAULT_PROJECT_ID.intValue())));
+            .andExpect(jsonPath("$.[*].isConfirmed").value(hasItem(DEFAULT_IS_CONFIRMED.booleanValue())))
+            .andExpect(jsonPath("$.[*].confirmationLetterName").value(hasItem(DEFAULT_CONFIRMATION_LETTER_NAME)))
+            .andExpect(jsonPath("$.[*].projectName").value(hasItem(DEFAULT_PROJECT_NAME)))
+            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())));
 
         // Check, that the count call also returns 1
         restEmployeeMockMvc.perform(get("/api/employees/count?sort=id,desc&" + filter))
@@ -2766,32 +2264,25 @@ public class EmployeeResourceIT {
         em.detach(updatedEmployee);
         updatedEmployee
             .employeeNumber(UPDATED_EMPLOYEE_NUMBER)
-            .firstName(UPDATED_FIRST_NAME)
-            .middleName(UPDATED_MIDDLE_NAME)
-            .lastName(UPDATED_LAST_NAME)
-            .gender(UPDATED_GENDER)
-            .birthDate(UPDATED_BIRTH_DATE)
-            .email(UPDATED_EMAIL)
-            .cellPhone(UPDATED_CELL_PHONE)
-            .maritalStatus(UPDATED_MARITAL_STATUS)
-            .active(UPDATED_ACTIVE)
             .contractStartDate(UPDATED_CONTRACT_START_DATE)
             .contractEndDate(UPDATED_CONTRACT_END_DATE)
             .bankName(UPDATED_BANK_NAME)
             .branchName(UPDATED_BRANCH_NAME)
             .bankAccount(UPDATED_BANK_ACCOUNT)
             .insuranceRegistrationNumber(UPDATED_INSURANCE_REGISTRATION_NUMBER)
+            .dateJoining(UPDATED_DATE_JOINING)
+            .designation(UPDATED_DESIGNATION)
             .districtId(UPDATED_DISTRICT_ID)
             .facilityId(UPDATED_FACILITY_ID)
             .categoryId(UPDATED_CATEGORY_ID)
             .trainingId(UPDATED_TRAINING_ID)
             .carderId(UPDATED_CARDER_ID)
-            .picture(UPDATED_PICTURE)
-            .pictureContentType(UPDATED_PICTURE_CONTENT_TYPE)
-            .departMentCode(UPDATED_DEPART_MENT_CODE)
-            .attachmentId(UPDATED_ATTACHMENT_ID)
+            .departmentName(UPDATED_DEPARTMENT_NAME)
             .confirmationId(UPDATED_CONFIRMATION_ID)
-            .projectId(UPDATED_PROJECT_ID);
+            .isConfirmed(UPDATED_IS_CONFIRMED)
+            .confirmationLetterName(UPDATED_CONFIRMATION_LETTER_NAME)
+            .projectName(UPDATED_PROJECT_NAME)
+            .active(UPDATED_ACTIVE);
         EmployeeDTO employeeDTO = employeeMapper.toDto(updatedEmployee);
 
         restEmployeeMockMvc.perform(put("/api/employees").with(csrf())
@@ -2804,32 +2295,25 @@ public class EmployeeResourceIT {
         assertThat(employeeList).hasSize(databaseSizeBeforeUpdate);
         Employee testEmployee = employeeList.get(employeeList.size() - 1);
         assertThat(testEmployee.getEmployeeNumber()).isEqualTo(UPDATED_EMPLOYEE_NUMBER);
-        assertThat(testEmployee.getFirstName()).isEqualTo(UPDATED_FIRST_NAME);
-        assertThat(testEmployee.getMiddleName()).isEqualTo(UPDATED_MIDDLE_NAME);
-        assertThat(testEmployee.getLastName()).isEqualTo(UPDATED_LAST_NAME);
-        assertThat(testEmployee.getGender()).isEqualTo(UPDATED_GENDER);
-        assertThat(testEmployee.getBirthDate()).isEqualTo(UPDATED_BIRTH_DATE);
-        assertThat(testEmployee.getEmail()).isEqualTo(UPDATED_EMAIL);
-        assertThat(testEmployee.getCellPhone()).isEqualTo(UPDATED_CELL_PHONE);
-        assertThat(testEmployee.getMaritalStatus()).isEqualTo(UPDATED_MARITAL_STATUS);
-        assertThat(testEmployee.isActive()).isEqualTo(UPDATED_ACTIVE);
         assertThat(testEmployee.getContractStartDate()).isEqualTo(UPDATED_CONTRACT_START_DATE);
         assertThat(testEmployee.getContractEndDate()).isEqualTo(UPDATED_CONTRACT_END_DATE);
         assertThat(testEmployee.getBankName()).isEqualTo(UPDATED_BANK_NAME);
         assertThat(testEmployee.getBranchName()).isEqualTo(UPDATED_BRANCH_NAME);
         assertThat(testEmployee.getBankAccount()).isEqualTo(UPDATED_BANK_ACCOUNT);
         assertThat(testEmployee.getInsuranceRegistrationNumber()).isEqualTo(UPDATED_INSURANCE_REGISTRATION_NUMBER);
+        assertThat(testEmployee.getDateJoining()).isEqualTo(UPDATED_DATE_JOINING);
+        assertThat(testEmployee.getDesignation()).isEqualTo(UPDATED_DESIGNATION);
         assertThat(testEmployee.getDistrictId()).isEqualTo(UPDATED_DISTRICT_ID);
         assertThat(testEmployee.getFacilityId()).isEqualTo(UPDATED_FACILITY_ID);
         assertThat(testEmployee.getCategoryId()).isEqualTo(UPDATED_CATEGORY_ID);
         assertThat(testEmployee.getTrainingId()).isEqualTo(UPDATED_TRAINING_ID);
         assertThat(testEmployee.getCarderId()).isEqualTo(UPDATED_CARDER_ID);
-        assertThat(testEmployee.getPicture()).isEqualTo(UPDATED_PICTURE);
-        assertThat(testEmployee.getPictureContentType()).isEqualTo(UPDATED_PICTURE_CONTENT_TYPE);
-        assertThat(testEmployee.getDepartMentCode()).isEqualTo(UPDATED_DEPART_MENT_CODE);
-        assertThat(testEmployee.getAttachmentId()).isEqualTo(UPDATED_ATTACHMENT_ID);
+        assertThat(testEmployee.getDepartmentName()).isEqualTo(UPDATED_DEPARTMENT_NAME);
         assertThat(testEmployee.getConfirmationId()).isEqualTo(UPDATED_CONFIRMATION_ID);
-        assertThat(testEmployee.getProjectId()).isEqualTo(UPDATED_PROJECT_ID);
+        assertThat(testEmployee.isIsConfirmed()).isEqualTo(UPDATED_IS_CONFIRMED);
+        assertThat(testEmployee.getConfirmationLetterName()).isEqualTo(UPDATED_CONFIRMATION_LETTER_NAME);
+        assertThat(testEmployee.getProjectName()).isEqualTo(UPDATED_PROJECT_NAME);
+        assertThat(testEmployee.isActive()).isEqualTo(UPDATED_ACTIVE);
     }
 
     @Test

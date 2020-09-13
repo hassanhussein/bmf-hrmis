@@ -3,6 +3,8 @@ package tz.or.mkapafoundation.hrmis.web.rest;
 import tz.or.mkapafoundation.hrmis.HrmisApp;
 import tz.or.mkapafoundation.hrmis.config.TestSecurityConfiguration;
 import tz.or.mkapafoundation.hrmis.domain.Attachment;
+import tz.or.mkapafoundation.hrmis.domain.AttachmentType;
+import tz.or.mkapafoundation.hrmis.domain.EmployeeRecord;
 import tz.or.mkapafoundation.hrmis.repository.AttachmentRepository;
 import tz.or.mkapafoundation.hrmis.service.AttachmentService;
 import tz.or.mkapafoundation.hrmis.service.dto.AttachmentDTO;
@@ -75,6 +77,26 @@ public class AttachmentResourceIT {
             .contentId(DEFAULT_CONTENT_ID)
             .contentLength(DEFAULT_CONTENT_LENGTH)
             .mimeType(DEFAULT_MIME_TYPE);
+        // Add required entity
+        AttachmentType attachmentType;
+        if (TestUtil.findAll(em, AttachmentType.class).isEmpty()) {
+            attachmentType = AttachmentTypeResourceIT.createEntity(em);
+            em.persist(attachmentType);
+            em.flush();
+        } else {
+            attachmentType = TestUtil.findAll(em, AttachmentType.class).get(0);
+        }
+        attachment.setType(attachmentType);
+        // Add required entity
+        EmployeeRecord employeeRecord;
+        if (TestUtil.findAll(em, EmployeeRecord.class).isEmpty()) {
+            employeeRecord = EmployeeRecordResourceIT.createEntity(em);
+            em.persist(employeeRecord);
+            em.flush();
+        } else {
+            employeeRecord = TestUtil.findAll(em, EmployeeRecord.class).get(0);
+        }
+        attachment.setEmployee(employeeRecord);
         return attachment;
     }
     /**
@@ -89,6 +111,26 @@ public class AttachmentResourceIT {
             .contentId(UPDATED_CONTENT_ID)
             .contentLength(UPDATED_CONTENT_LENGTH)
             .mimeType(UPDATED_MIME_TYPE);
+        // Add required entity
+        AttachmentType attachmentType;
+        if (TestUtil.findAll(em, AttachmentType.class).isEmpty()) {
+            attachmentType = AttachmentTypeResourceIT.createUpdatedEntity(em);
+            em.persist(attachmentType);
+            em.flush();
+        } else {
+            attachmentType = TestUtil.findAll(em, AttachmentType.class).get(0);
+        }
+        attachment.setType(attachmentType);
+        // Add required entity
+        EmployeeRecord employeeRecord;
+        if (TestUtil.findAll(em, EmployeeRecord.class).isEmpty()) {
+            employeeRecord = EmployeeRecordResourceIT.createUpdatedEntity(em);
+            em.persist(employeeRecord);
+            em.flush();
+        } else {
+            employeeRecord = TestUtil.findAll(em, EmployeeRecord.class).get(0);
+        }
+        attachment.setEmployee(employeeRecord);
         return attachment;
     }
 

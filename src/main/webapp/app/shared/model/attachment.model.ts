@@ -4,6 +4,9 @@ export interface IAttachment {
   contentId?: string;
   contentLength?: number;
   mimeType?: string;
+  typeName?: string;
+  typeId?: number;
+  employeeId?: number;
 }
 
 export class Attachment implements IAttachment {
@@ -12,6 +15,9 @@ export class Attachment implements IAttachment {
     public name?: string,
     public contentId?: string,
     public contentLength?: number,
-    public mimeType?: string
+    public mimeType?: string,
+    public typeName?: string,
+    public typeId?: number,
+    public employeeId?: number
   ) {}
 }

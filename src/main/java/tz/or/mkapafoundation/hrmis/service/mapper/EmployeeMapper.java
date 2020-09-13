@@ -15,6 +15,8 @@ public interface EmployeeMapper extends EntityMapper<EmployeeDTO, Employee> {
     @Mapping(source = "departmentId.id", target = "departmentIdId")
     EmployeeDTO toDto(Employee employee);
 
+    @Mapping(target = "attachments", ignore = true)
+    @Mapping(target = "removeAttachments", ignore = true)
     @Mapping(source = "departmentIdId", target = "departmentId")
     Employee toEntity(EmployeeDTO employeeDTO);
 

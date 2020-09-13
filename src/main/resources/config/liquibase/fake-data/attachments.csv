@@ -1,11 +1,11 @@
-id;name;content_id;content_length;mime_type
-1;Savings Account;Towels indexing;15779;Soap
-2;European Unit of Account 17(E.U.A.-17);online back-end;25807;input Generic Metal Shirt Personal Loan Account
-3;Tasty Concrete Soap implement reinvent;Baby Senior Designer;93657;Usability Serbian Dinar
-4;toolset;Stravenue;15734;Land withdrawal
-5;bandwidth Car;one-to-one Product;89540;withdrawal turn-key
-6;navigate Lead GB;Cotton payment benchmark;18547;Rubber Generic Cotton Pizza
-7;Liaison Cove;Mississippi Games;46010;virtual Investment Account
-8;Borders Auto Loan Account;Reduced Berkshire New Hampshire;75608;synergy SQL well-modulated
-9;Lebanese Pound;Investor cross-media input;34168;Ecuador Architect
-10;Avon;overriding;76304;Baby
+id;name;content_id;content_length;mime_type;type_id;employee_id
+1;Savings Account;Towels indexing;15779;Soap;1;1
+2;European Unit of Account 17(E.U.A.-17);online back-end;25807;input Generic Metal Shirt Personal Loan Account;2;2
+3;Tasty Concrete Soap implement reinvent;Baby Senior Designer;93657;Usability Serbian Dinar;3;3
+4;toolset;Stravenue;15734;Land withdrawal;4;4
+5;bandwidth Car;one-to-one Product;89540;withdrawal turn-key;5;5
+6;navigate Lead GB;Cotton payment benchmark;18547;Rubber Generic Cotton Pizza;6;6
+7;Liaison Cove;Mississippi Games;46010;virtual Investment Account;7;7
+8;Borders Auto Loan Account;Reduced Berkshire New Hampshire;75608;synergy SQL well-modulated;8;8
+9;Lebanese Pound;Investor cross-media input;34168;Ecuador Architect;9;9
+10;Avon;overriding;76304;Baby;10;10

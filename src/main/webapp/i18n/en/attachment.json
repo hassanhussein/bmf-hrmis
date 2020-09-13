@@ -19,7 +19,9 @@
       "name": "Name",
       "contentId": "Content Id",
       "contentLength": "Content Length",
-      "mimeType": "Mime Type"
+      "mimeType": "Mime Type",
+      "type": "Type",
+      "employee": "Employee"
     }
   }
 }

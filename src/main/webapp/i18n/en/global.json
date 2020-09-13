@@ -14,6 +14,12 @@
         "department": "Department",
         "carder": "Carder",
         "attachment": "Attachment",
+        "facilityType": "Facility Type",
+        "geographicLevel": "Geographic Level",
+        "geographicZone": "Geographic Zone",
+        "facility": "Facility",
+        "attachmentType": "Attachment Type",
+        "employeeRecord": "Employee Record",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

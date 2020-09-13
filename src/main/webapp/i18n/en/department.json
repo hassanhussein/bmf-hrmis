@@ -17,8 +17,7 @@
         "title": "Department"
       },
       "code": "Code",
-      "name": "Name",
-      "employee": "Employee"
+      "name": "Name"
     }
   }
 }

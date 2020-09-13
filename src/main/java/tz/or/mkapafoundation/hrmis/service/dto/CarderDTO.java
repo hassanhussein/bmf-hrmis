@@ -1,5 +1,6 @@
 package tz.or.mkapafoundation.hrmis.service.dto;
 
+import javax.validation.constraints.*;
 import java.io.Serializable;
 
 /**
@@ -9,8 +10,10 @@ public class CarderDTO implements Serializable {
     
     private Long id;
 
+    
     private String code;
 
+    @NotNull
     private String name;
 
     

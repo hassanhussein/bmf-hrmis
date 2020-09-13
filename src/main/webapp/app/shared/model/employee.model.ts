@@ -1,34 +1,29 @@
 import { Moment } from 'moment';
+import { IAttachment } from 'app/shared/model/attachment.model';
 
 export interface IEmployee {
   id?: number;
   employeeNumber?: string;
-  firstName?: string;
-  middleName?: string;
-  lastName?: string;
-  gender?: string;
-  birthDate?: Moment;
-  email?: string;
-  cellPhone?: string;
-  maritalStatus?: string;
-  active?: boolean;
   contractStartDate?: Moment;
   contractEndDate?: Moment;
   bankName?: string;
   branchName?: string;
   bankAccount?: string;
   insuranceRegistrationNumber?: string;
+  dateJoining?: Moment;
+  designation?: string;
   districtId?: number;
   facilityId?: number;
   categoryId?: number;
   trainingId?: number;
   carderId?: number;
-  pictureContentType?: string;
-  picture?: any;
-  departMentCode?: number;
-  attachmentId?: number;
+  departmentName?: string;
   confirmationId?: number;
-  projectId?: number;
+  isConfirmed?: boolean;
+  confirmationLetterName?: string;
+  projectName?: string;
+  active?: boolean;
+  attachments?: IAttachment[];
   departmentIdId?: number;
 }
 
@@ -36,34 +31,29 @@ export class Employee implements IEmployee {
   constructor(
     public id?: number,
     public employeeNumber?: string,
-    public firstName?: string,
-    public middleName?: string,
-    public lastName?: string,
-    public gender?: string,
-    public birthDate?: Moment,
-    public email?: string,
-    public cellPhone?: string,
-    public maritalStatus?: string,
-    public active?: boolean,
     public contractStartDate?: Moment,
     public contractEndDate?: Moment,
     public bankName?: string,
     public branchName?: string,
     public bankAccount?: string,
     public insuranceRegistrationNumber?: string,
+    public dateJoining?: Moment,
+    public designation?: string,
     public districtId?: number,
     public facilityId?: number,
     public categoryId?: number,
     public trainingId?: number,
     public carderId?: number,
-    public pictureContentType?: string,
-    public picture?: any,
-    public departMentCode?: number,
-    public attachmentId?: number,
+    public departmentName?: string,
     public confirmationId?: number,
-    public projectId?: number,
+    public isConfirmed?: boolean,
+    public confirmationLetterName?: string,
+    public projectName?: string,
+    public active?: boolean,
+    public attachments?: IAttachment[],
     public departmentIdId?: number
   ) {
+    this.isConfirmed = this.isConfirmed || false;
     this.active = this.active || false;
   }
 }

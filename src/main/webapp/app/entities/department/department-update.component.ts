@@ -18,7 +18,7 @@ export class DepartmentUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     code: [null, []],
-    name: [],
+    name: [null, [Validators.required]],
   });
 
   constructor(protected departmentService: DepartmentService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}

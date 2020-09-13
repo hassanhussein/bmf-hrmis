@@ -8,23 +8,17 @@
     },
     {
       "fieldName": "name",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
     }
   ],
-  "relationships": [
-    {
-      "relationshipType": "one-to-many",
-      "otherEntityName": "employee",
-      "otherEntityRelationshipName": "departmentId",
-      "relationshipName": "employee"
-    }
-  ],
+  "relationships": [],
   "changelogDate": "20200902165218",
   "entityTableName": "departments",
   "dto": "mapstruct",
-  "pagination": "no",
+  "pagination": "pagination",
   "service": "serviceClass",
-  "jpaMetamodelFiltering": false,
+  "jpaMetamodelFiltering": true,
   "fluentMethods": true,
   "readOnly": false,
   "embedded": false,

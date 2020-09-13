@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface CarderRepository extends JpaRepository<Carder, Long> {
+public interface CarderRepository extends JpaRepository<Carder, Long>, JpaSpecificationExecutor<Carder> {
 }

@@ -24,6 +24,18 @@
                 <dd>
                     <span>{{ attachment.mimeType }}</span>
                 </dd>
+                <dt><span jhiTranslate="hrmisApp.attachment.type">Type</span></dt>
+                <dd>
+                    <div *ngIf="attachment.typeId">
+                        <a [routerLink]="['/attachment-type', attachment.typeId, 'view']">{{ attachment.typeName }}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.attachment.employee">Employee</span></dt>
+                <dd>
+                    <div *ngIf="attachment.employeeId">
+                        <a [routerLink]="['/employee-record', attachment.employeeId, 'view']">{{ attachment.employeeId }}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

@@ -3,15 +3,24 @@ package tz.or.mkapafoundation.hrmis.web.rest;
 import tz.or.mkapafoundation.hrmis.service.ProjectService;
 import tz.or.mkapafoundation.hrmis.web.rest.errors.BadRequestAlertException;
 import tz.or.mkapafoundation.hrmis.service.dto.ProjectDTO;
+import tz.or.mkapafoundation.hrmis.service.dto.ProjectCriteria;
+import tz.or.mkapafoundation.hrmis.service.ProjectQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
+import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -33,8 +42,11 @@ public class ProjectResource {
 
     private final ProjectService projectService;
 
-    public ProjectResource(ProjectService projectService) {
+    private final ProjectQueryService projectQueryService;
+
+    public ProjectResource(ProjectService projectService, ProjectQueryService projectQueryService) {
         this.projectService = projectService;
+        this.projectQueryService = projectQueryService;
     }
 
     /**
@@ -45,7 +57,7 @@ public class ProjectResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/projects")
-    public ResponseEntity<ProjectDTO> createProject(@RequestBody ProjectDTO projectDTO) throws URISyntaxException {
+    public ResponseEntity<ProjectDTO> createProject(@Valid @RequestBody ProjectDTO projectDTO) throws URISyntaxException {
         log.debug("REST request to save Project : {}", projectDTO);
         if (projectDTO.getId() != null) {
             throw new BadRequestAlertException("A new project cannot already have an ID", ENTITY_NAME, "idexists");
@@ -66,7 +78,7 @@ public class ProjectResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/projects")
-    public ResponseEntity<ProjectDTO> updateProject(@RequestBody ProjectDTO projectDTO) throws URISyntaxException {
+    public ResponseEntity<ProjectDTO> updateProject(@Valid @RequestBody ProjectDTO projectDTO) throws URISyntaxException {
         log.debug("REST request to update Project : {}", projectDTO);
         if (projectDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -80,12 +92,28 @@ public class ProjectResource {
     /**
      * {@code GET  /projects} : get all the projects.
      *
+     * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of projects in body.
      */
     @GetMapping("/projects")
-    public List<ProjectDTO> getAllProjects() {
-        log.debug("REST request to get all Projects");
-        return projectService.findAll();
+    public ResponseEntity<List<ProjectDTO>> getAllProjects(ProjectCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Projects by criteria: {}", criteria);
+        Page<ProjectDTO> page = projectQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /projects/count} : count all the projects.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/projects/count")
+    public ResponseEntity<Long> countProjects(ProjectCriteria criteria) {
+        log.debug("REST request to count Projects by criteria: {}", criteria);
+        return ResponseEntity.ok().body(projectQueryService.countByCriteria(criteria));
     }
 
     /**

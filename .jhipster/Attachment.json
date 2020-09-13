@@ -18,7 +18,24 @@
       "fieldType": "String"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "attachmentType",
+      "otherEntityRelationshipName": "attachment",
+      "relationshipValidateRules": "required",
+      "relationshipName": "type",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "employeeRecord",
+      "otherEntityRelationshipName": "attachments",
+      "relationshipValidateRules": "required",
+      "relationshipName": "employee",
+      "otherEntityField": "id"
+    }
+  ],
   "changelogDate": "20200902165418",
   "entityTableName": "attachments",
   "dto": "mapstruct",

@@ -17,8 +17,8 @@ export class CarderUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    code: [],
-    name: [],
+    code: [null, []],
+    name: [null, [Validators.required]],
   });
 
   constructor(protected carderService: CarderService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}

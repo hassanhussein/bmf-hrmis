@@ -1,6 +1,15 @@
 package tz.or.mkapafoundation.hrmis.web.rest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.multipart.MultipartFile;
+import tz.or.mkapafoundation.hrmis.domain.Attachment;
+import tz.or.mkapafoundation.hrmis.repository.AttachmentRepository;
 import tz.or.mkapafoundation.hrmis.service.AttachmentService;
+import tz.or.mkapafoundation.hrmis.service.AttachmentStore;
 import tz.or.mkapafoundation.hrmis.web.rest.errors.BadRequestAlertException;
 import tz.or.mkapafoundation.hrmis.service.dto.AttachmentDTO;
 
@@ -12,6 +21,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -32,9 +44,42 @@ public class AttachmentResource {
     private String applicationName;
 
     private final AttachmentService attachmentService;
+    private final AttachmentRepository attachmentRepository;
+    private final AttachmentStore attachmentStore;
 
-    public AttachmentResource(AttachmentService attachmentService) {
+
+    public AttachmentResource(
+
+        AttachmentService attachmentService,
+        AttachmentStore attachmentStore,
+        AttachmentRepository attachmentRepository) {
         this.attachmentService = attachmentService;
+        this.attachmentStore = attachmentStore;
+        this.attachmentRepository = attachmentRepository;
+    }
+
+    @PostMapping("/attachments/upload")
+    public ResponseEntity<Attachment> upload(@RequestParam String name,
+                                             @RequestParam("file") final MultipartFile file) throws IOException {
+        final Attachment attachment = new Attachment();
+        attachment.setName(name);
+        attachment.setMimeType(file.getContentType());
+        attachmentStore.setContent(attachment, file.getInputStream());
+        attachmentRepository.save(attachment);
+        return ResponseEntity.ok(attachment);
+    }
+
+    @GetMapping("attachments/download/{contentId}")
+    public ResponseEntity<?> getContent(@PathVariable("contentId") String contentId, HttpServletResponse response) throws IOException {
+        Optional<Attachment> f = attachmentRepository.findByContentId(contentId);
+        if (f.isPresent()) {
+            InputStreamResource inputStreamResource = new InputStreamResource(attachmentStore.getContent(f.get()));
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentLength(f.get().getContentLength());
+            headers.set("Content-Type", f.get().getMimeType());
+            return new ResponseEntity<Object>(inputStreamResource, headers, HttpStatus.OK);
+        }
+        return null;
     }
 
     /**
@@ -45,7 +90,7 @@ public class AttachmentResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/attachments")
-    public ResponseEntity<AttachmentDTO> createAttachment(@RequestBody AttachmentDTO attachmentDTO) throws URISyntaxException {
+    public ResponseEntity<AttachmentDTO> createAttachment(@Valid @RequestBody AttachmentDTO attachmentDTO) throws URISyntaxException {
         log.debug("REST request to save Attachment : {}", attachmentDTO);
         if (attachmentDTO.getId() != null) {
             throw new BadRequestAlertException("A new attachment cannot already have an ID", ENTITY_NAME, "idexists");
@@ -66,7 +111,7 @@ public class AttachmentResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/attachments")
-    public ResponseEntity<AttachmentDTO> updateAttachment(@RequestBody AttachmentDTO attachmentDTO) throws URISyntaxException {
+    public ResponseEntity<AttachmentDTO> updateAttachment(@Valid @RequestBody AttachmentDTO attachmentDTO) throws URISyntaxException {
         log.debug("REST request to update Attachment : {}", attachmentDTO);
         if (attachmentDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

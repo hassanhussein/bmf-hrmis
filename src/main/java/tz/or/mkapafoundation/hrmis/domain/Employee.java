@@ -9,6 +9,8 @@ import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A Employee.
@@ -29,34 +31,6 @@ public class Employee implements Serializable {
     @Column(name = "employee_number", nullable = false)
     private String employeeNumber;
 
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "middle_name")
-    private String middleName;
-
-    @Column(name = "last_name")
-    private String lastName;
-
-    @Column(name = "gender")
-    private String gender;
-
-    @Column(name = "birth_date")
-    private LocalDate birthDate;
-
-    
-    @Column(name = "email", unique = true)
-    private String email;
-
-    @Column(name = "cell_phone")
-    private String cellPhone;
-
-    @Column(name = "marital_status")
-    private String maritalStatus;
-
-    @Column(name = "active")
-    private Boolean active;
-
     @Column(name = "contract_start_date")
     private LocalDate contractStartDate;
 
@@ -75,13 +49,21 @@ public class Employee implements Serializable {
     @Column(name = "insurance_registration_number")
     private String insuranceRegistrationNumber;
 
-    @Column(name = "district_id")
+    @Column(name = "date_joining")
+    private LocalDate dateJoining;
+
+    @Column(name = "designation")
+    private String designation;
+
+    @NotNull
+    @Column(name = "district_id", nullable = false)
     private Long districtId;
 
     @Column(name = "facility_id")
     private Long facilityId;
 
-    @Column(name = "category_id")
+    @NotNull
+    @Column(name = "category_id", nullable = false)
     private Long categoryId;
 
     @Column(name = "training_id")
@@ -90,24 +72,27 @@ public class Employee implements Serializable {
     @Column(name = "carder_id")
     private Long carderId;
 
-    @Lob
-    @Column(name = "picture")
-    private byte[] picture;
-
-    @Column(name = "picture_content_type")
-    private String pictureContentType;
-
-    @Column(name = "depart_ment_code")
-    private Long departMentCode;
-
-    @Column(name = "attachment_id")
-    private Long attachmentId;
+    @Column(name = "department_name")
+    private String departmentName;
 
     @Column(name = "confirmation_id")
     private Long confirmationId;
 
-    @Column(name = "project_id")
-    private Long projectId;
+    @Column(name = "is_confirmed")
+    private Boolean isConfirmed;
+
+    @Column(name = "confirmation_letter_name")
+    private String confirmationLetterName;
+
+    @Column(name = "project_name")
+    private String projectName;
+
+    @Column(name = "active")
+    private Boolean active;
+
+    @OneToMany(mappedBy = "employee")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<Attachment> attachments = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties(value = "employees", allowSetters = true)
@@ -133,123 +118,6 @@ public class Employee implements Serializable {
 
     public void setEmployeeNumber(String employeeNumber) {
         this.employeeNumber = employeeNumber;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public Employee firstName(String firstName) {
-        this.firstName = firstName;
-        return this;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public Employee middleName(String middleName) {
-        this.middleName = middleName;
-        return this;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public Employee lastName(String lastName) {
-        this.lastName = lastName;
-        return this;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public Employee gender(String gender) {
-        this.gender = gender;
-        return this;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    public Employee birthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-        return this;
-    }
-
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public Employee email(String email) {
-        this.email = email;
-        return this;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getCellPhone() {
-        return cellPhone;
-    }
-
-    public Employee cellPhone(String cellPhone) {
-        this.cellPhone = cellPhone;
-        return this;
-    }
-
-    public void setCellPhone(String cellPhone) {
-        this.cellPhone = cellPhone;
-    }
-
-    public String getMaritalStatus() {
-        return maritalStatus;
-    }
-
-    public Employee maritalStatus(String maritalStatus) {
-        this.maritalStatus = maritalStatus;
-        return this;
-    }
-
-    public void setMaritalStatus(String maritalStatus) {
-        this.maritalStatus = maritalStatus;
-    }
-
-    public Boolean isActive() {
-        return active;
-    }
-
-    public Employee active(Boolean active) {
-        this.active = active;
-        return this;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
     }
 
     public LocalDate getContractStartDate() {
@@ -330,6 +198,32 @@ public class Employee implements Serializable {
         this.insuranceRegistrationNumber = insuranceRegistrationNumber;
     }
 
+    public LocalDate getDateJoining() {
+        return dateJoining;
+    }
+
+    public Employee dateJoining(LocalDate dateJoining) {
+        this.dateJoining = dateJoining;
+        return this;
+    }
+
+    public void setDateJoining(LocalDate dateJoining) {
+        this.dateJoining = dateJoining;
+    }
+
+    public String getDesignation() {
+        return designation;
+    }
+
+    public Employee designation(String designation) {
+        this.designation = designation;
+        return this;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
+
     public Long getDistrictId() {
         return districtId;
     }
@@ -395,56 +289,17 @@ public class Employee implements Serializable {
         this.carderId = carderId;
     }
 
-    public byte[] getPicture() {
-        return picture;
+    public String getDepartmentName() {
+        return departmentName;
     }
 
-    public Employee picture(byte[] picture) {
-        this.picture = picture;
+    public Employee departmentName(String departmentName) {
+        this.departmentName = departmentName;
         return this;
     }
 
-    public void setPicture(byte[] picture) {
-        this.picture = picture;
-    }
-
-    public String getPictureContentType() {
-        return pictureContentType;
-    }
-
-    public Employee pictureContentType(String pictureContentType) {
-        this.pictureContentType = pictureContentType;
-        return this;
-    }
-
-    public void setPictureContentType(String pictureContentType) {
-        this.pictureContentType = pictureContentType;
-    }
-
-    public Long getDepartMentCode() {
-        return departMentCode;
-    }
-
-    public Employee departMentCode(Long departMentCode) {
-        this.departMentCode = departMentCode;
-        return this;
-    }
-
-    public void setDepartMentCode(Long departMentCode) {
-        this.departMentCode = departMentCode;
-    }
-
-    public Long getAttachmentId() {
-        return attachmentId;
-    }
-
-    public Employee attachmentId(Long attachmentId) {
-        this.attachmentId = attachmentId;
-        return this;
-    }
-
-    public void setAttachmentId(Long attachmentId) {
-        this.attachmentId = attachmentId;
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
     }
 
     public Long getConfirmationId() {
@@ -460,17 +315,81 @@ public class Employee implements Serializable {
         this.confirmationId = confirmationId;
     }
 
-    public Long getProjectId() {
-        return projectId;
+    public Boolean isIsConfirmed() {
+        return isConfirmed;
     }
 
-    public Employee projectId(Long projectId) {
-        this.projectId = projectId;
+    public Employee isConfirmed(Boolean isConfirmed) {
+        this.isConfirmed = isConfirmed;
         return this;
     }
 
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
+    public void setIsConfirmed(Boolean isConfirmed) {
+        this.isConfirmed = isConfirmed;
+    }
+
+    public String getConfirmationLetterName() {
+        return confirmationLetterName;
+    }
+
+    public Employee confirmationLetterName(String confirmationLetterName) {
+        this.confirmationLetterName = confirmationLetterName;
+        return this;
+    }
+
+    public void setConfirmationLetterName(String confirmationLetterName) {
+        this.confirmationLetterName = confirmationLetterName;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public Employee projectName(String projectName) {
+        this.projectName = projectName;
+        return this;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public Boolean isActive() {
+        return active;
+    }
+
+    public Employee active(Boolean active) {
+        this.active = active;
+        return this;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Set<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public Employee attachments(Set<Attachment> attachments) {
+        this.attachments = attachments;
+        return this;
+    }
+
+    public Employee addAttachments(Attachment attachment) {
+        this.attachments.add(attachment);
+        //attachment.setEmployee(this);
+        return this;
+    }
+
+    public Employee removeAttachments(Attachment attachment) {
+        this.attachments.remove(attachment);
+        attachment.setEmployee(null);
+        return this;
+    }
+
+    public void setAttachments(Set<Attachment> attachments) {
+        this.attachments = attachments;
     }
 
     public Department getDepartmentId() {
@@ -509,32 +428,25 @@ public class Employee implements Serializable {
         return "Employee{" +
             "id=" + getId() +
             ", employeeNumber='" + getEmployeeNumber() + "'" +
-            ", firstName='" + getFirstName() + "'" +
-            ", middleName='" + getMiddleName() + "'" +
-            ", lastName='" + getLastName() + "'" +
-            ", gender='" + getGender() + "'" +
-            ", birthDate='" + getBirthDate() + "'" +
-            ", email='" + getEmail() + "'" +
-            ", cellPhone='" + getCellPhone() + "'" +
-            ", maritalStatus='" + getMaritalStatus() + "'" +
-            ", active='" + isActive() + "'" +
             ", contractStartDate='" + getContractStartDate() + "'" +
             ", contractEndDate='" + getContractEndDate() + "'" +
             ", bankName='" + getBankName() + "'" +
             ", branchName='" + getBranchName() + "'" +
             ", bankAccount='" + getBankAccount() + "'" +
             ", insuranceRegistrationNumber='" + getInsuranceRegistrationNumber() + "'" +
+            ", dateJoining='" + getDateJoining() + "'" +
+            ", designation='" + getDesignation() + "'" +
             ", districtId=" + getDistrictId() +
             ", facilityId=" + getFacilityId() +
             ", categoryId=" + getCategoryId() +
             ", trainingId=" + getTrainingId() +
             ", carderId=" + getCarderId() +
-            ", picture='" + getPicture() + "'" +
-            ", pictureContentType='" + getPictureContentType() + "'" +
-            ", departMentCode=" + getDepartMentCode() +
-            ", attachmentId=" + getAttachmentId() +
+            ", departmentName='" + getDepartmentName() + "'" +
             ", confirmationId=" + getConfirmationId() +
-            ", projectId=" + getProjectId() +
+            ", isConfirmed='" + isIsConfirmed() + "'" +
+            ", confirmationLetterName='" + getConfirmationLetterName() + "'" +
+            ", projectName='" + getProjectName() + "'" +
+            ", active='" + isActive() + "'" +
             "}";
     }
 }

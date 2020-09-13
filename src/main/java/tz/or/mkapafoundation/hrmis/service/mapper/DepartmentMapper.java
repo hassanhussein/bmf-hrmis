@@ -13,9 +13,6 @@ import org.mapstruct.*;
 public interface DepartmentMapper extends EntityMapper<DepartmentDTO, Department> {
 
 
-    @Mapping(target = "employees", ignore = true)
-    @Mapping(target = "removeEmployee", ignore = true)
-    Department toEntity(DepartmentDTO departmentDTO);
 
     default Department fromId(Long id) {
         if (id == null) {

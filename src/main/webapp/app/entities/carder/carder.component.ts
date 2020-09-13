@@ -1,10 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
-import { Subscription } from 'rxjs';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { ActivatedRoute, ParamMap, Router, Data } from '@angular/router';
+import { Subscription, combineLatest } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ICarder } from 'app/shared/model/carder.model';
+
+import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { CarderService } from './carder.service';
 import { CarderDeleteDialogComponent } from './carder-delete-dialog.component';
 
@@ -15,16 +18,54 @@ import { CarderDeleteDialogComponent } from './carder-delete-dialog.component';
 export class CarderComponent implements OnInit, OnDestroy {
   carders?: ICarder[];
   eventSubscriber?: Subscription;
+  totalItems = 0;
+  itemsPerPage = ITEMS_PER_PAGE;
+  page!: number;
+  predicate!: string;
+  ascending!: boolean;
+  ngbPaginationPage = 1;
 
-  constructor(protected carderService: CarderService, protected eventManager: JhiEventManager, protected modalService: NgbModal) {}
+  constructor(
+    protected carderService: CarderService,
+    protected activatedRoute: ActivatedRoute,
+    protected router: Router,
+    protected eventManager: JhiEventManager,
+    protected modalService: NgbModal
+  ) {}
 
-  loadAll(): void {
-    this.carderService.query().subscribe((res: HttpResponse<ICarder[]>) => (this.carders = res.body || []));
+  loadPage(page?: number, dontNavigate?: boolean): void {
+    const pageToLoad: number = page || this.page || 1;
+
+    this.carderService
+      .query({
+        page: pageToLoad - 1,
+        size: this.itemsPerPage,
+        sort: this.sort(),
+      })
+      .subscribe(
+        (res: HttpResponse<ICarder[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
+        () => this.onError()
+      );
   }
 
   ngOnInit(): void {
-    this.loadAll();
+    this.handleNavigation();
     this.registerChangeInCarders();
+  }
+
+  protected handleNavigation(): void {
+    combineLatest(this.activatedRoute.data, this.activatedRoute.queryParamMap, (data: Data, params: ParamMap) => {
+      const page = params.get('page');
+      const pageNumber = page !== null ? +page : 1;
+      const sort = (params.get('sort') ?? data['defaultSort']).split(',');
+      const predicate = sort[0];
+      const ascending = sort[1] === 'asc';
+      if (pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) {
+        this.predicate = predicate;
+        this.ascending = ascending;
+        this.loadPage(pageNumber, true);
+      }
+    }).subscribe();
   }
 
   ngOnDestroy(): void {
@@ -39,11 +80,39 @@ export class CarderComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInCarders(): void {
-    this.eventSubscriber = this.eventManager.subscribe('carderListModification', () => this.loadAll());
+    this.eventSubscriber = this.eventManager.subscribe('carderListModification', () => this.loadPage());
   }
 
   delete(carder: ICarder): void {
     const modalRef = this.modalService.open(CarderDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.carder = carder;
+  }
+
+  sort(): string[] {
+    const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
+    if (this.predicate !== 'id') {
+      result.push('id');
+    }
+    return result;
+  }
+
+  protected onSuccess(data: ICarder[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
+    this.totalItems = Number(headers.get('X-Total-Count'));
+    this.page = page;
+    if (navigate) {
+      this.router.navigate(['/carder'], {
+        queryParams: {
+          page: this.page,
+          size: this.itemsPerPage,
+          sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
+        },
+      });
+    }
+    this.carders = data || [];
+    this.ngbPaginationPage = this.page;
+  }
+
+  protected onError(): void {
+    this.ngbPaginationPage = this.page ?? 1;
   }
 }

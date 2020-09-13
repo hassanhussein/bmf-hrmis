@@ -40,6 +40,7 @@ export const projectRoute: Routes = [
     component: ProjectComponent,
     data: {
       authorities: [Authority.USER],
+      defaultSort: 'id,asc',
       pageTitle: 'hrmisApp.project.home.title',
     },
     canActivate: [UserRouteAccessService],

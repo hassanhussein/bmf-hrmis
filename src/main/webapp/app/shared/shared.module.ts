@@ -8,7 +8,11 @@ import { HasAnyAuthorityDirective } from './auth/has-any-authority.directive';
 import { JhMaterialModule } from 'app/shared/jh-material.module';
 @NgModule({
   imports: [JhMaterialModule, HrmisSharedLibsModule],
-  declarations: [FindLanguageFromKeyPipe, AlertComponent, AlertErrorComponent, HasAnyAuthorityDirective],
+  declarations: [FindLanguageFromKeyPipe,
+  AlertComponent,
+  AlertErrorComponent,
+   HasAnyAuthorityDirective
+   ],
   exports: [
     JhMaterialModule,
     HrmisSharedLibsModule,

@@ -40,6 +40,7 @@ export const carderRoute: Routes = [
     component: CarderComponent,
     data: {
       authorities: [Authority.USER],
+      defaultSort: 'id,asc',
       pageTitle: 'hrmisApp.carder.home.title',
     },
     canActivate: [UserRouteAccessService],

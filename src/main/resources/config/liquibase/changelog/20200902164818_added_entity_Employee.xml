@@ -18,33 +18,6 @@
             <column name="employee_number" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="first_name" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="middle_name" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="last_name" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="gender" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="birth_date" type="date">
-                <constraints nullable="true" />
-            </column>
-            <column name="email" type="varchar(255)">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_employees_email" />
-            </column>
-            <column name="cell_phone" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="marital_status" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="active" type="boolean">
-                <constraints nullable="true" />
-            </column>
             <column name="contract_start_date" type="date">
                 <constraints nullable="true" />
             </column>
@@ -63,14 +36,20 @@
             <column name="insurance_registration_number" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="district_id" type="bigint">
+            <column name="date_joining" type="date">
                 <constraints nullable="true" />
+            </column>
+            <column name="designation" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="district_id" type="bigint">
+                <constraints nullable="false" />
             </column>
             <column name="facility_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <column name="category_id" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="training_id" type="bigint">
                 <constraints nullable="true" />
@@ -78,22 +57,22 @@
             <column name="carder_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="picture" type="longblob">
-                <constraints nullable="true" />
-            </column>
-            <column name="picture_content_type" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="depart_ment_code" type="bigint">
-                <constraints nullable="true" />
-            </column>
-            <column name="attachment_id" type="bigint">
+            <column name="department_name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="confirmation_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="project_id" type="bigint">
+            <column name="is_confirmed" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="confirmation_letter_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="project_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="active" type="boolean">
                 <constraints nullable="true" />
             </column>
             <column name="department_id_id" type="bigint">
@@ -123,32 +102,25 @@
                   tableName="employees">
             <column name="id" type="numeric"/>
             <column name="employee_number" type="string"/>
-            <column name="first_name" type="string"/>
-            <column name="middle_name" type="string"/>
-            <column name="last_name" type="string"/>
-            <column name="gender" type="string"/>
-            <column name="birth_date" type="date"/>
-            <column name="email" type="string"/>
-            <column name="cell_phone" type="string"/>
-            <column name="marital_status" type="string"/>
-            <column name="active" type="boolean"/>
             <column name="contract_start_date" type="date"/>
             <column name="contract_end_date" type="date"/>
             <column name="bank_name" type="string"/>
             <column name="branch_name" type="string"/>
             <column name="bank_account" type="string"/>
             <column name="insurance_registration_number" type="string"/>
+            <column name="date_joining" type="date"/>
+            <column name="designation" type="string"/>
             <column name="district_id" type="numeric"/>
             <column name="facility_id" type="numeric"/>
             <column name="category_id" type="numeric"/>
             <column name="training_id" type="numeric"/>
             <column name="carder_id" type="numeric"/>
-            <column name="picture" type="blob"/>
-            <column name="picture_content_type" type="string"/>
-            <column name="depart_ment_code" type="numeric"/>
-            <column name="attachment_id" type="numeric"/>
+            <column name="department_name" type="string"/>
             <column name="confirmation_id" type="numeric"/>
-            <column name="project_id" type="numeric"/>
+            <column name="is_confirmed" type="boolean"/>
+            <column name="confirmation_letter_name" type="string"/>
+            <column name="project_name" type="string"/>
+            <column name="active" type="boolean"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

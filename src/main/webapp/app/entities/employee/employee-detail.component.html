@@ -12,42 +12,6 @@
                 <dd>
                     <span>{{ employee.employeeNumber }}</span>
                 </dd>
-                <dt><span jhiTranslate="hrmisApp.employee.firstName">First Name</span></dt>
-                <dd>
-                    <span>{{ employee.firstName }}</span>
-                </dd>
-                <dt><span jhiTranslate="hrmisApp.employee.middleName">Middle Name</span></dt>
-                <dd>
-                    <span>{{ employee.middleName }}</span>
-                </dd>
-                <dt><span jhiTranslate="hrmisApp.employee.lastName">Last Name</span></dt>
-                <dd>
-                    <span>{{ employee.lastName }}</span>
-                </dd>
-                <dt><span jhiTranslate="hrmisApp.employee.gender">Gender</span></dt>
-                <dd>
-                    <span>{{ employee.gender }}</span>
-                </dd>
-                <dt><span jhiTranslate="hrmisApp.employee.birthDate">Birth Date</span></dt>
-                <dd>
-                    <span>{{ employee.birthDate }}</span>
-                </dd>
-                <dt><span jhiTranslate="hrmisApp.employee.email">Email</span></dt>
-                <dd>
-                    <span>{{ employee.email }}</span>
-                </dd>
-                <dt><span jhiTranslate="hrmisApp.employee.cellPhone">Cell Phone</span></dt>
-                <dd>
-                    <span>{{ employee.cellPhone }}</span>
-                </dd>
-                <dt><span jhiTranslate="hrmisApp.employee.maritalStatus">Marital Status</span></dt>
-                <dd>
-                    <span>{{ employee.maritalStatus }}</span>
-                </dd>
-                <dt><span jhiTranslate="hrmisApp.employee.active">Active</span></dt>
-                <dd>
-                    <span>{{ employee.active }}</span>
-                </dd>
                 <dt><span jhiTranslate="hrmisApp.employee.contractStartDate">Contract Start Date</span></dt>
                 <dd>
                     <span>{{ employee.contractStartDate }}</span>
@@ -72,6 +36,14 @@
                 <dd>
                     <span>{{ employee.insuranceRegistrationNumber }}</span>
                 </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.dateJoining">Date Joining</span></dt>
+                <dd>
+                    <span>{{ employee.dateJoining }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.designation">Designation</span></dt>
+                <dd>
+                    <span>{{ employee.designation }}</span>
+                </dd>
                 <dt><span jhiTranslate="hrmisApp.employee.districtId">District Id</span></dt>
                 <dd>
                     <span>{{ employee.districtId }}</span>
@@ -92,30 +64,29 @@
                 <dd>
                     <span>{{ employee.carderId }}</span>
                 </dd>
-                <dt><span jhiTranslate="hrmisApp.employee.picture">Picture</span></dt>
+                <dt><span jhiTranslate="hrmisApp.employee.departmentName">Department Name</span></dt>
                 <dd>
-                    <div *ngIf="employee.picture">
-                        <a (click)="openFile(employee.pictureContentType, employee.picture)">
-                            <img [src]="'data:' + employee.pictureContentType + ';base64,' + employee.picture" style="max-width: 100%;" alt="employee image"/>
-                        </a>
-                        {{ employee.pictureContentType }}, {{ byteSize(employee.picture) }}
-                    </div>
-                </dd>
-                <dt><span jhiTranslate="hrmisApp.employee.departMentCode">Depart Ment Code</span></dt>
-                <dd>
-                    <span>{{ employee.departMentCode }}</span>
-                </dd>
-                <dt><span jhiTranslate="hrmisApp.employee.attachmentId">Attachment Id</span></dt>
-                <dd>
-                    <span>{{ employee.attachmentId }}</span>
+                    <span>{{ employee.departmentName }}</span>
                 </dd>
                 <dt><span jhiTranslate="hrmisApp.employee.confirmationId">Confirmation Id</span></dt>
                 <dd>
                     <span>{{ employee.confirmationId }}</span>
                 </dd>
-                <dt><span jhiTranslate="hrmisApp.employee.projectId">Project Id</span></dt>
+                <dt><span jhiTranslate="hrmisApp.employee.isConfirmed">Is Confirmed</span></dt>
                 <dd>
-                    <span>{{ employee.projectId }}</span>
+                    <span>{{ employee.isConfirmed }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.confirmationLetterName">Confirmation Letter Name</span></dt>
+                <dd>
+                    <span>{{ employee.confirmationLetterName }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.projectName">Project Name</span></dt>
+                <dd>
+                    <span>{{ employee.projectName }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.employee.active">Active</span></dt>
+                <dd>
+                    <span>{{ employee.active }}</span>
                 </dd>
                 <dt><span jhiTranslate="hrmisApp.employee.departmentId">Department Id</span></dt>
                 <dd>
