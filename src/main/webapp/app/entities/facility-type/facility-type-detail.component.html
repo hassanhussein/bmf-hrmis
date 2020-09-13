@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="facilityType">
+            <h2><span jhiTranslate="hrmisApp.facilityType.detail.title">Facility Type</span> {{ facilityType.id }}</h2>
+
+            <hr>
+
+            <bmf-alert-error></bmf-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="hrmisApp.facilityType.code">Code</span></dt>
+                <dd>
+                    <span>{{ facilityType.code }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.facilityType.name">Name</span></dt>
+                <dd>
+                    <span>{{ facilityType.name }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.facilityType.description">Description</span></dt>
+                <dd>
+                    <span>{{ facilityType.description }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.facilityType.displayOrder">Display Order</span></dt>
+                <dd>
+                    <span>{{ facilityType.displayOrder }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.facilityType.active">Active</span></dt>
+                <dd>
+                    <span>{{ facilityType.active }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/facility-type', facilityType.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

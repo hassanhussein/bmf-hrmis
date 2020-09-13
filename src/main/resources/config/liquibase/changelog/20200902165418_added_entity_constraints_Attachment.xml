@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <!--
+        Added the constraints for entity Attachment.
+    -->
+    <changeSet id="20200902165418-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="type_id"
+                                 baseTableName="attachments"
+                                 constraintName="fk_attachments_type_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="attachment_types"/>
+
+        <addForeignKeyConstraint baseColumnNames="employee_id"
+                                 baseTableName="attachments"
+                                 constraintName="fk_attachments_employee_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="employee_records"/>
+
+    </changeSet>
+</databaseChangeLog>

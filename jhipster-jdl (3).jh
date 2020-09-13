@@ -1,0 +1,199 @@
+entity Attachment(attachments) {
+  name String  
+  contentId String
+  contentLength Long
+  mimeType String
+}
+
+entity AttachmentType(attachmentTypes) {
+  
+  code String unique,
+    
+  name String required
+
+}
+
+entity EmployeeRecord(employee_records){
+
+ firstName String required,
+ middleName String ,
+ lastName String required ,
+ address String,
+ gender String ,
+ birthDate LocalDate required ,
+ email String unique,
+ cellPhone String,
+ telephone String,
+ maritalStatus String,
+ picture ImageBlob,
+ employeeNumber String required,
+ active Boolean,
+ dateJoining LocalDate,
+ salary  Double,
+ contractStartDate LocalDate,
+ contractEndDate LocalDate, 
+ bankName String ,
+ branchName String ,
+ bankAccount String ,
+ insuranceRegistrationNumber String
+}
+
+relationship ManyToOne {
+Attachment{type(name) required} to AttachmentType
+}
+
+relationship OneToMany {
+
+EmployeeRecord{attachments} to Attachment{employee required}
+
+}
+
+
+
+entity FacilityType(facility_types) {
+
+ code String unique,
+ name String required,
+ description String,
+ displayOrder Integer,
+ active Boolean 
+ 
+}
+
+
+
+entity GeographicLevel (geographic_levels) {
+
+ code String unique,
+ name String required,
+ levelNumber Integer unique,
+ active Boolean
+
+}
+
+
+entity GeographicZone (geographic_zones) {
+
+ code String unique,
+ name String required,
+ latitude Float,
+ longitude Float
+
+}
+
+relationship ManyToOne {
+    GeographicZone{parent(name)} to GeographicZone
+
+}
+
+relationship ManyToOne {
+    GeographicZone{level(name) required} to GeographicLevel
+}
+
+
+entity Facility (facilities) {
+
+    active Boolean required,
+    code String unique,
+    name String required,
+    postalAddress String,
+    ward String,
+    village String,
+    comment String,
+    description String,
+    startDate LocalDate,
+    operatedby String
+
+}
+
+relationship ManyToOne {
+    Facility{district(name)} to GeographicZone
+
+}
+
+
+relationship ManyToOne{
+  Facility{type(name)} to FacilityType
+} 
+
+
+
+entity EmploymentCategory(employment_categories) {
+
+code String unique,
+name String required 
+
+}
+
+entity Project(projects) {
+
+code String unique,
+
+name String required,
+
+startDate LocalDate,
+
+endDate LocalDate
+
+}
+
+
+entity Department(departments) {
+
+code String unique,
+
+name String required
+
+}
+
+entity Carder(carders) {
+
+code String unique,
+
+name String required
+
+}
+
+relationship ManyToOne {
+    EmployeeRecord{department(name) required} to Department
+}
+
+
+relationship ManyToOne {
+    EmployeeRecord{employeeType(name) required} to EmploymentCategory
+}
+
+relationship ManyToOne {
+    EmployeeRecord{designation(name) required} to Carder
+}
+
+
+relationship ManyToOne {
+    EmployeeRecord{facility(name) required} to Facility
+}
+
+
+relationship ManyToOne {
+    EmployeeRecord{project(name) required} to Project
+}
+
+
+paginate GeographicZone with pagination
+paginate Facility with pagination
+paginate Department with pagination
+paginate Carder with pagination
+paginate Project with pagination
+paginate AttachmentType with pagination
+paginate EmployeeRecord with pagination
+dto all with mapstruct
+
+filter EmployeeRecord
+filter GeographicLevel
+filter Department
+filter Carder
+filter Project
+filter AttachmentType
+
+
+
+

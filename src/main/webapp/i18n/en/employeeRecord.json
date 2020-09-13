@@ -1,0 +1,48 @@
+{
+  "hrmisApp": {
+    "employeeRecord": {
+      "home": {
+        "title": "Employee Records",
+        "createLabel": "Create a new Employee ",
+        "createOrEditLabel": "Create or edit Employee ",
+        "notFound": "No Employee Records found"
+      },
+      "created": "A new Employee Record is created with identifier {{ param }}",
+      "updated": "A Employee Record is updated with identifier {{ param }}",
+      "deleted": "A Employee Record is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Employee Record {{ id }}?"
+      },
+      "detail": {
+        "title": "Employee Record"
+      },
+      "firstName": "First Name",
+      "middleName": "Middle Name",
+      "lastName": "Last Name",
+      "address": "Address",
+      "gender": "Gender",
+      "birthDate": "Birth Date",
+      "email": "Email",
+      "cellPhone": "Cell Phone",
+      "telephone": "Telephone",
+      "maritalStatus": "Marital Status",
+      "picture": "Picture",
+      "employeeNumber": "Employee Number",
+      "active": "Active",
+      "dateJoining": "Date Joining",
+      "salary": "Salary",
+      "contractStartDate": "Contract Start Date",
+      "contractEndDate": "Contract End Date",
+      "bankName": "Bank Name",
+      "branchName": "Branch Name",
+      "bankAccount": "Bank Account",
+      "insuranceRegistrationNumber": "Insurance Registration Number",
+      "attachments": "Attachments",
+      "department": "Department",
+      "employeeType": "Employee Type",
+      "designation": "Designation",
+      "facility": "Office Assigned",
+      "project": "Project"
+    }
+  }
+}

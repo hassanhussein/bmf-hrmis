@@ -1,0 +1,27 @@
+{
+  "hrmisApp": {
+    "geographicZone": {
+      "home": {
+        "title": "Geographic Zones",
+        "createLabel": "Create a new Geographic Zone",
+        "createOrEditLabel": "Create or edit a Geographic Zone",
+        "notFound": "No Geographic Zones found"
+      },
+      "created": "A new Geographic Zone is created with identifier {{ param }}",
+      "updated": "A Geographic Zone is updated with identifier {{ param }}",
+      "deleted": "A Geographic Zone is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Geographic Zone {{ id }}?"
+      },
+      "detail": {
+        "title": "Geographic Zone"
+      },
+      "code": "Code",
+      "name": "Name",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "parent": "Parent",
+      "level": "Level"
+    }
+  }
+}

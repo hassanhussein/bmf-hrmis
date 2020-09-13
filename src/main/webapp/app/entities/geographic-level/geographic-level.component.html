@@ -1,0 +1,67 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="hrmisApp.geographicLevel.home.title">Geographic Levels</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-geographic-level" [routerLink]="['/geographic-level/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="hrmisApp.geographicLevel.home.createLabel">
+            Create a new Geographic Level
+            </span>
+        </button>
+    </h2>
+
+    <bmf-alert-error></bmf-alert-error>
+
+    <bmf-alert></bmf-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="geographicLevels?.length === 0">
+        <span jhiTranslate="hrmisApp.geographicLevel.home.notFound">No geographicLevels found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="geographicLevels && geographicLevels.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr>
+                    <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
+                    <th scope="col" ><span jhiTranslate="hrmisApp.geographicLevel.code">Code</span></th>
+                    <th scope="col" ><span jhiTranslate="hrmisApp.geographicLevel.name">Name</span></th>
+                    <th scope="col" ><span jhiTranslate="hrmisApp.geographicLevel.levelNumber">Level Number</span></th>
+                    <th scope="col" ><span jhiTranslate="hrmisApp.geographicLevel.active">Active</span></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let geographicLevel of geographicLevels ;trackBy: trackId">
+                    <td><a [routerLink]="['/geographic-level', geographicLevel.id, 'view']">{{ geographicLevel.id }}</a></td>
+                    <td>{{ geographicLevel.code }}</td>
+                    <td>{{ geographicLevel.name }}</td>
+                    <td>{{ geographicLevel.levelNumber }}</td>
+                    <td>{{ geographicLevel.active }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/geographic-level', geographicLevel.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/geographic-level', geographicLevel.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(geographicLevel)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

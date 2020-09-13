@@ -1,0 +1,78 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="facility">
+            <h2><span jhiTranslate="hrmisApp.facility.detail.title">Facility</span> {{ facility.id }}</h2>
+
+            <hr>
+
+            <bmf-alert-error></bmf-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="hrmisApp.facility.active">Active</span></dt>
+                <dd>
+                    <span>{{ facility.active }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.facility.code">Code</span></dt>
+                <dd>
+                    <span>{{ facility.code }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.facility.name">Name</span></dt>
+                <dd>
+                    <span>{{ facility.name }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.facility.postalAddress">Postal Address</span></dt>
+                <dd>
+                    <span>{{ facility.postalAddress }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.facility.ward">Ward</span></dt>
+                <dd>
+                    <span>{{ facility.ward }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.facility.village">Village</span></dt>
+                <dd>
+                    <span>{{ facility.village }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.facility.comment">Comment</span></dt>
+                <dd>
+                    <span>{{ facility.comment }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.facility.description">Description</span></dt>
+                <dd>
+                    <span>{{ facility.description }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.facility.startDate">Start Date</span></dt>
+                <dd>
+                    <span>{{ facility.startDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.facility.operatedby">Operatedby</span></dt>
+                <dd>
+                    <span>{{ facility.operatedby }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.facility.district">District</span></dt>
+                <dd>
+                    <div *ngIf="facility.districtId">
+                        <a [routerLink]="['/geographic-zone', facility.districtId, 'view']">{{ facility.districtName }}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.facility.type">Type</span></dt>
+                <dd>
+                    <div *ngIf="facility.typeId">
+                        <a [routerLink]="['/facility-type', facility.typeId, 'view']">{{ facility.typeName }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/facility', facility.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

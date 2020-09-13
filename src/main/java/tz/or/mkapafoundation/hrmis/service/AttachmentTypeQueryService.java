@@ -1,0 +1,103 @@
+package tz.or.mkapafoundation.hrmis.service;
+
+import java.util.List;
+
+import javax.persistence.criteria.JoinType;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import io.github.jhipster.service.QueryService;
+
+import tz.or.mkapafoundation.hrmis.domain.AttachmentType;
+import tz.or.mkapafoundation.hrmis.domain.*; // for static metamodels
+import tz.or.mkapafoundation.hrmis.repository.AttachmentTypeRepository;
+import tz.or.mkapafoundation.hrmis.service.dto.AttachmentTypeCriteria;
+import tz.or.mkapafoundation.hrmis.service.dto.AttachmentTypeDTO;
+import tz.or.mkapafoundation.hrmis.service.mapper.AttachmentTypeMapper;
+
+/**
+ * Service for executing complex queries for {@link AttachmentType} entities in the database.
+ * The main input is a {@link AttachmentTypeCriteria} which gets converted to {@link Specification},
+ * in a way that all the filters must apply.
+ * It returns a {@link List} of {@link AttachmentTypeDTO} or a {@link Page} of {@link AttachmentTypeDTO} which fulfills the criteria.
+ */
+@Service
+@Transactional(readOnly = true)
+public class AttachmentTypeQueryService extends QueryService<AttachmentType> {
+
+    private final Logger log = LoggerFactory.getLogger(AttachmentTypeQueryService.class);
+
+    private final AttachmentTypeRepository attachmentTypeRepository;
+
+    private final AttachmentTypeMapper attachmentTypeMapper;
+
+    public AttachmentTypeQueryService(AttachmentTypeRepository attachmentTypeRepository, AttachmentTypeMapper attachmentTypeMapper) {
+        this.attachmentTypeRepository = attachmentTypeRepository;
+        this.attachmentTypeMapper = attachmentTypeMapper;
+    }
+
+    /**
+     * Return a {@link List} of {@link AttachmentTypeDTO} which matches the criteria from the database.
+     * @param criteria The object which holds all the filters, which the entities should match.
+     * @return the matching entities.
+     */
+    @Transactional(readOnly = true)
+    public List<AttachmentTypeDTO> findByCriteria(AttachmentTypeCriteria criteria) {
+        log.debug("find by criteria : {}", criteria);
+        final Specification<AttachmentType> specification = createSpecification(criteria);
+        return attachmentTypeMapper.toDto(attachmentTypeRepository.findAll(specification));
+    }
+
+    /**
+     * Return a {@link Page} of {@link AttachmentTypeDTO} which matches the criteria from the database.
+     * @param criteria The object which holds all the filters, which the entities should match.
+     * @param page The page, which should be returned.
+     * @return the matching entities.
+     */
+    @Transactional(readOnly = true)
+    public Page<AttachmentTypeDTO> findByCriteria(AttachmentTypeCriteria criteria, Pageable page) {
+        log.debug("find by criteria : {}, page: {}", criteria, page);
+        final Specification<AttachmentType> specification = createSpecification(criteria);
+        return attachmentTypeRepository.findAll(specification, page)
+            .map(attachmentTypeMapper::toDto);
+    }
+
+    /**
+     * Return the number of matching entities in the database.
+     * @param criteria The object which holds all the filters, which the entities should match.
+     * @return the number of matching entities.
+     */
+    @Transactional(readOnly = true)
+    public long countByCriteria(AttachmentTypeCriteria criteria) {
+        log.debug("count by criteria : {}", criteria);
+        final Specification<AttachmentType> specification = createSpecification(criteria);
+        return attachmentTypeRepository.count(specification);
+    }
+
+    /**
+     * Function to convert {@link AttachmentTypeCriteria} to a {@link Specification}
+     * @param criteria The object which holds all the filters, which the entities should match.
+     * @return the matching {@link Specification} of the entity.
+     */
+    protected Specification<AttachmentType> createSpecification(AttachmentTypeCriteria criteria) {
+        Specification<AttachmentType> specification = Specification.where(null);
+        if (criteria != null) {
+            if (criteria.getId() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getId(), AttachmentType_.id));
+            }
+            if (criteria.getCode() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCode(), AttachmentType_.code));
+            }
+            if (criteria.getName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getName(), AttachmentType_.name));
+            }
+        }
+        return specification;
+    }
+}

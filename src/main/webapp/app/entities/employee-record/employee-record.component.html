@@ -1,0 +1,146 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="hrmisApp.employeeRecord.home.title">Employee Records</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-employee-record" [routerLink]="['/employee-record/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="hrmisApp.employeeRecord.home.createLabel">
+            Create a new Employee Record
+            </span>
+        </button>
+    </h2>
+
+    <bmf-alert-error></bmf-alert-error>
+
+    <bmf-alert></bmf-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="employeeRecords?.length === 0">
+        <span jhiTranslate="hrmisApp.employeeRecord.home.notFound">No employeeRecords found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="employeeRecords && employeeRecords.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="firstName"><span jhiTranslate="hrmisApp.employeeRecord.firstName">First Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="middleName"><span jhiTranslate="hrmisApp.employeeRecord.middleName">Middle Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="lastName"><span jhiTranslate="hrmisApp.employeeRecord.lastName">Last Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="address"><span jhiTranslate="hrmisApp.employeeRecord.address">Address</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="gender"><span jhiTranslate="hrmisApp.employeeRecord.gender">Gender</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="birthDate"><span jhiTranslate="hrmisApp.employeeRecord.birthDate">Birth Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="email"><span jhiTranslate="hrmisApp.employeeRecord.email">Email</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="cellPhone"><span jhiTranslate="hrmisApp.employeeRecord.cellPhone">Cell Phone</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="telephone"><span jhiTranslate="hrmisApp.employeeRecord.telephone">Telephone</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="maritalStatus"><span jhiTranslate="hrmisApp.employeeRecord.maritalStatus">Marital Status</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="picture"><span jhiTranslate="hrmisApp.employeeRecord.picture">Picture</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="employeeNumber"><span jhiTranslate="hrmisApp.employeeRecord.employeeNumber">Employee Number</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="active"><span jhiTranslate="hrmisApp.employeeRecord.active">Active</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="dateJoining"><span jhiTranslate="hrmisApp.employeeRecord.dateJoining">Date Joining</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="salary"><span jhiTranslate="hrmisApp.employeeRecord.salary">Salary</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="contractStartDate"><span jhiTranslate="hrmisApp.employeeRecord.contractStartDate">Contract Start Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="contractEndDate"><span jhiTranslate="hrmisApp.employeeRecord.contractEndDate">Contract End Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="bankName"><span jhiTranslate="hrmisApp.employeeRecord.bankName">Bank Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="branchName"><span jhiTranslate="hrmisApp.employeeRecord.branchName">Branch Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="bankAccount"><span jhiTranslate="hrmisApp.employeeRecord.bankAccount">Bank Account</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="insuranceRegistrationNumber"><span jhiTranslate="hrmisApp.employeeRecord.insuranceRegistrationNumber">Insurance Registration Number</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="departmentName"><span jhiTranslate="hrmisApp.employeeRecord.department">Department</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="employeeTypeName"><span jhiTranslate="hrmisApp.employeeRecord.employeeType">Employee Type</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="designationName"><span jhiTranslate="hrmisApp.employeeRecord.designation">Designation</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="facilityName"><span jhiTranslate="hrmisApp.employeeRecord.facility">Facility</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="projectName"><span jhiTranslate="hrmisApp.employeeRecord.project">Project</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let employeeRecord of employeeRecords ;trackBy: trackId">
+                    <td><a [routerLink]="['/employee-record', employeeRecord.id, 'view']">{{ employeeRecord.id }}</a></td>
+                    <td>{{ employeeRecord.firstName }}</td>
+                    <td>{{ employeeRecord.middleName }}</td>
+                    <td>{{ employeeRecord.lastName }}</td>
+                    <td>{{ employeeRecord.address }}</td>
+                    <td>{{ employeeRecord.gender }}</td>
+                    <td>{{ employeeRecord.birthDate | date:'mediumDate' }}</td>
+                    <td>{{ employeeRecord.email }}</td>
+                    <td>{{ employeeRecord.cellPhone }}</td>
+                    <td>{{ employeeRecord.telephone }}</td>
+                    <td>{{ employeeRecord.maritalStatus }}</td>
+                    <td>
+                        <a *ngIf="employeeRecord.picture" (click)="openFile(employeeRecord.pictureContentType, employeeRecord.picture)">
+                            <img [src]="'data:' + employeeRecord.pictureContentType + ';base64,' + employeeRecord.picture" style="max-height: 30px;" alt="employeeRecord image"/>
+                        </a>
+                        <span *ngIf="employeeRecord.picture">{{ employeeRecord.pictureContentType }}, {{ byteSize(employeeRecord.picture) }}</span>
+                    </td>
+                    <td>{{ employeeRecord.employeeNumber }}</td>
+                    <td>{{ employeeRecord.active }}</td>
+                    <td>{{ employeeRecord.dateJoining | date:'mediumDate' }}</td>
+                    <td>{{ employeeRecord.salary }}</td>
+                    <td>{{ employeeRecord.contractStartDate | date:'mediumDate' }}</td>
+                    <td>{{ employeeRecord.contractEndDate | date:'mediumDate' }}</td>
+                    <td>{{ employeeRecord.bankName }}</td>
+                    <td>{{ employeeRecord.branchName }}</td>
+                    <td>{{ employeeRecord.bankAccount }}</td>
+                    <td>{{ employeeRecord.insuranceRegistrationNumber }}</td>
+                    <td>
+                        <div *ngIf="employeeRecord.departmentId">
+                            <a [routerLink]="['/department', employeeRecord.departmentId , 'view']" >{{ employeeRecord.departmentName }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="employeeRecord.employeeTypeId">
+                            <a [routerLink]="['/employment-category', employeeRecord.employeeTypeId , 'view']" >{{ employeeRecord.employeeTypeName }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="employeeRecord.designationId">
+                            <a [routerLink]="['/carder', employeeRecord.designationId , 'view']" >{{ employeeRecord.designationName }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="employeeRecord.facilityId">
+                            <a [routerLink]="['/facility', employeeRecord.facilityId , 'view']" >{{ employeeRecord.facilityName }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="employeeRecord.projectId">
+                            <a [routerLink]="['/project', employeeRecord.projectId , 'view']" >{{ employeeRecord.projectName }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/employee-record', employeeRecord.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/employee-record', employeeRecord.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(employeeRecord)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="employeeRecords && employeeRecords.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

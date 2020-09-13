@@ -1,0 +1,25 @@
+{
+  "hrmisApp": {
+    "geographicLevel": {
+      "home": {
+        "title": "Geographic Levels",
+        "createLabel": "Create a new Geographic Level",
+        "createOrEditLabel": "Create or edit a Geographic Level",
+        "notFound": "No Geographic Levels found"
+      },
+      "created": "A new Geographic Level is created with identifier {{ param }}",
+      "updated": "A Geographic Level is updated with identifier {{ param }}",
+      "deleted": "A Geographic Level is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Geographic Level {{ id }}?"
+      },
+      "detail": {
+        "title": "Geographic Level"
+      },
+      "code": "Code",
+      "name": "Name",
+      "levelNumber": "Level Number",
+      "active": "Active"
+    }
+  }
+}

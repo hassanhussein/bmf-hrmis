@@ -1,0 +1,51 @@
+{
+  "name": "GeographicZone",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique"]
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "latitude",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "longitude",
+      "fieldType": "Float"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "geographicZone",
+      "otherEntityRelationshipName": "geographicZone",
+      "relationshipName": "parent",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "geographicLevel",
+      "otherEntityRelationshipName": "geographicZone",
+      "relationshipValidateRules": "required",
+      "relationshipName": "level",
+      "otherEntityField": "name"
+    }
+  ],
+  "changelogDate": "20200905063838",
+  "entityTableName": "geographic_zones",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

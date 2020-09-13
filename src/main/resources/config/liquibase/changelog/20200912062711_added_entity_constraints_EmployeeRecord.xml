@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <!--
+        Added the constraints for entity EmployeeRecord.
+    -->
+    <changeSet id="20200912062711-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="department_id"
+                                 baseTableName="employee_records"
+                                 constraintName="fk_employee_records_department_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="departments"/>
+
+        <addForeignKeyConstraint baseColumnNames="employee_type_id"
+                                 baseTableName="employee_records"
+                                 constraintName="fk_employee_records_employee_type_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="employment_categories"/>
+
+        <addForeignKeyConstraint baseColumnNames="designation_id"
+                                 baseTableName="employee_records"
+                                 constraintName="fk_employee_records_designation_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="carders"/>
+
+        <addForeignKeyConstraint baseColumnNames="facility_id"
+                                 baseTableName="employee_records"
+                                 constraintName="fk_employee_records_facility_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="facilities"/>
+
+        <addForeignKeyConstraint baseColumnNames="project_id"
+                                 baseTableName="employee_records"
+                                 constraintName="fk_employee_records_project_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="projects"/>
+
+    </changeSet>
+</databaseChangeLog>

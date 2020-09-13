@@ -1,0 +1,54 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="geographicZone">
+            <h2><span jhiTranslate="hrmisApp.geographicZone.detail.title">Geographic Zone</span> {{ geographicZone.id }}</h2>
+
+            <hr>
+
+            <bmf-alert-error></bmf-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="hrmisApp.geographicZone.code">Code</span></dt>
+                <dd>
+                    <span>{{ geographicZone.code }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.geographicZone.name">Name</span></dt>
+                <dd>
+                    <span>{{ geographicZone.name }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.geographicZone.latitude">Latitude</span></dt>
+                <dd>
+                    <span>{{ geographicZone.latitude }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.geographicZone.longitude">Longitude</span></dt>
+                <dd>
+                    <span>{{ geographicZone.longitude }}</span>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.geographicZone.parent">Parent</span></dt>
+                <dd>
+                    <div *ngIf="geographicZone.parentId">
+                        <a [routerLink]="['/geographic-zone', geographicZone.parentId, 'view']">{{ geographicZone.parentName }}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="hrmisApp.geographicZone.level">Level</span></dt>
+                <dd>
+                    <div *ngIf="geographicZone.levelId">
+                        <a [routerLink]="['/geographic-level', geographicZone.levelId, 'view']">{{ geographicZone.levelName }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/geographic-zone', geographicZone.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

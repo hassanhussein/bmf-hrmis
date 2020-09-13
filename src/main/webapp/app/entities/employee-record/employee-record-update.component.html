@@ -1,0 +1,1023 @@
+<style>
+
+.mat-form-field {
+  width: 100%;
+}
+
+.ng-invalid:not(form) {
+     border-left: 0px solid white !important;
+}
+.ng-valid[required], .ng-valid.required {
+     border-left: 0px solid white;
+}
+
+
+</style>
+
+
+<div class="container">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+
+
+        <mat-label>
+            <span style="font-size: 15px !important; color:green !important;"
+                  jhiTranslate="hrmisApp.employee.home.createOrEditLabel"></span>
+        </mat-label>
+        <hr style="border: 1px solid grey;"/>
+        <mat-accordion class="example-headers-align">
+            <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+
+            <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon color="primary">people</mat-icon>&nbsp;
+                        <mat-label style="font-size: 15px !important; color:green !important;">Personal Details
+                        </mat-label>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <bmf-alert></bmf-alert>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value" [hidden]="true">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly/>
+                </div>
+                <div fxLayout="row"
+                     fxLayout
+                     fxLayout.xs="column"
+                     fxLayoutAlign="center"
+                     fxLayoutGap="10px"
+                     fxLayoutGap.xs="0px">
+
+                    <div class="item" fxFlex="8%" fxLayoutAlign="end" flex-offset="1">
+                        <mat-label style="align-self: center;">Full Name:</mat-label>
+                    </div>
+                    <div class="item" fxFlex="22%">
+                        <mat-form-field appearance="outline">
+                            <mat-label><span jhiTranslate="hrmisApp.employeeRecord.firstName"></span></mat-label>
+                            <input matInput type="text" name="firstName" formControlName="firstName" required/>
+                            <!-- <mat-error>
+                                 <bmf-alert [control]="editForm.get('firstName')"  label="First Name">
+                                 </bmf-alert>
+                             </mat-error>-->
+
+                        </mat-form-field>
+                    </div>
+                    <div class="item" fxFlex="35%">
+                        <mat-form-field appearance="outline">
+                            <mat-label><span jhiTranslate="hrmisApp.employeeRecord.middleName"></span></mat-label>
+
+                            <input matInput type="text" name="middleName" formControlName="middleName"/>
+                            <!-- <mat-error>
+                                 <bmf-alert [control]="editForm.get('middleName')" label="First Name">
+                                 </bmf-alert>
+                             </mat-error>-->
+                        </mat-form-field>
+
+                    </div>
+                    <div class="item" fxFlex="35%">
+                        <mat-form-field appearance="outline">
+
+                            <mat-label><span jhiTranslate="hrmisApp.employeeRecord.lastName"></span></mat-label>
+                            <input matInput type="text" name="lastName" formControlName="lastName" required/>
+                            <!-- <mat-error>
+                                 <bmf-alert [control]="editForm.get('lastName')"  label="Last Name">
+                                 </bmf-alert>
+                             </mat-error>-->
+                        </mat-form-field>
+
+                    </div>
+
+                </div>
+
+                <div fxLayout="row"
+                     fxLayout
+                     fxLayout.xs="column"
+                     fxLayoutAlign="center"
+                     fxLayoutGap="10px"
+                     fxLayoutGap.xs="0px">
+
+                    <div class="item" fxFlex="8%" fxLayoutAlign="end" flex-offset="1">
+                        <mat-label style="align-self: center;"><span
+                            jhiTranslate="hrmisApp.employeeRecord.address"></span>:
+                        </mat-label>
+                    </div>
+                    <div class="item" fxFlex="92%">
+                        <mat-form-field appearance="outline">
+                            <mat-label><span jhiTranslate="hrmisApp.employeeRecord.address"></span></mat-label>
+                            <input matInput type="text" name="address" formControlName="address" required/>
+                            <!-- <mat-error>
+                                 <bmf-alert [control]="editForm.get('address')"  label="Address">
+                                 </bmf-alert>
+                             </mat-error>-->
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+
+                <div fxLayout="row"
+                     fxLayout
+                     fxLayout.xs="column"
+                     fxLayoutAlign="center"
+                     fxLayoutGap="10px"
+                     fxLayoutGap.xs="0px">
+
+                    <div class="item" fxFlex="8%" fxLayoutAlign="end center" flex-offset="1">
+                        <mat-label style="align-self: center;">Gender:</mat-label>
+                    </div>
+
+                    <div class="item" fxFlex="22%">
+                        <mat-button-toggle-group matInput name="gender" formControlName="gender" aria-label="Gender"
+                                                 value="male">
+                            <mat-button-toggle mat-button value="male">Male</mat-button-toggle>
+                            <mat-button-toggle matInput mat-button value="female" name="gender"
+                                               formControlName="gender">Female
+                            </mat-button-toggle>
+                        </mat-button-toggle-group>
+
+                    </div>
+                    <div class="item" fxFlex="70%">
+
+                        <mat-form-field appearance="outline">
+                            <input matInput type="text" formControlName="birthDate" name="birthDate" ngbDatepicker
+                                   container="body" #birthDate="ngbDatepicker" (click)="birthDate.open()"
+                                   placeholder="Date Of Birth"/>
+                        </mat-form-field>
+
+                    </div>
+
+                </div>
+
+                <div fxLayout="row"
+                     fxLayout
+                     fxLayout.xs="column"
+                     fxLayoutAlign="center"
+                     fxLayoutGap="10px"
+                     fxLayoutGap.xs="0px">
+
+                    <div class="item" fxFlex="8%" fxLayoutAlign="end" flex-offset="1">
+                        <mat-label style="align-self: center;">Contact:</mat-label>
+                    </div>
+                    <div class="item" fxFlex="22%">
+                        <mat-form-field appearance="outline">
+                            <mat-label><span jhiTranslate="hrmisApp.employeeRecord.email"></span></mat-label>
+
+                            <input matInput type="text" name="email" formControlName="email" required/>
+                            <!-- <mat-error>
+                                 <bmf-alert [control]="editForm.get('email')"  label="Email">
+                                 </bmf-alert>
+                             </mat-error>-->
+
+                        </mat-form-field>
+                    </div>
+                    <div class="item" fxFlex="35%">
+                        <mat-form-field appearance="outline">
+                            <mat-label><span jhiTranslate="hrmisApp.employeeRecord.cellPhone"></span></mat-label>
+                            <input matInput type="text" name="cellPhone" formControlName="cellPhone" required/>
+                            <!--  <mat-error>
+                                  <bmf-alert [control]="editForm.get('cellPhone')"  label="Mobile">
+                                  </bmf-alert>
+                              </mat-error>-->
+
+
+                        </mat-form-field>
+
+                    </div>
+                    <div class="item" fxFlex="35%">
+                        <mat-form-field appearance="outline">
+                            <mat-label><span jhiTranslate="hrmisApp.employeeRecord.telephone"
+                                             appearance="outline"></span></mat-label>
+                            <input matInput type="text" name="telephone" formControlName="telephone" required/>
+
+                        </mat-form-field>
+
+                    </div>
+
+                </div>
+
+                <div fxLayout="row"
+                     fxLayout
+                     fxLayout.xs="column"
+                     fxLayoutAlign="center"
+                     fxLayoutGap="10px"
+                     fxLayoutGap.xs="0px">
+
+
+                    <div class="item" fxFlex="100%">
+
+                        <mat-label>Marital Status:</mat-label>
+
+                        <mat-button-toggle-group matInput name="maritalStatus" formControlName="maritalStatus"
+                                                 aria-label="maritalStatus" value="true">
+                            <mat-button-toggle mat-button value="false">Single</mat-button-toggle>
+                            <mat-button-toggle matInput mat-button name="maritalStatus" formControlName="maritalStatus"
+                                               value="true">Married
+                            </mat-button-toggle>
+                        </mat-button-toggle-group>
+
+                    </div>
+
+                </div>
+
+                <div fxLayout="row"
+                     fxLayout
+                     fxLayout.xs="column"
+                     fxLayoutAlign="end"
+                     fxLayoutGap="10px"
+                     fxLayoutGap.xs="0px">
+
+
+                    <div class="item" fxFlex="100%">
+
+                        <div class="form-group">
+                            <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.picture"
+                                   for="field_picture">Picture</label>
+                            <div>
+                                <img
+                                    [src]="'data:' + editForm.get('pictureContentType')!.value + ';base64,' + editForm.get('picture')!.value"
+                                    style="max-height: 100px;" *ngIf="editForm.get('picture')!.value"
+                                    alt="employeeRecord image"/>
+                                <div *ngIf="editForm.get('picture')!.value" class="form-text text-danger clearfix">
+                                    <span class="pull-left">{{ editForm.get('pictureContentType')!.value }}, {{ byteSize(editForm.get('picture')!.value) }}</span>
+                                    <button type="button"
+                                            (click)="clearInputImage('picture', 'pictureContentType', 'file_picture')"
+                                            class="btn btn-secondary btn-xs pull-right">
+                                        <fa-icon icon="times"></fa-icon>
+                                    </button>
+                                </div>
+                                <input type="file" id="file_picture" (change)="setFileData($event, 'picture', true)"
+                                       accept="image/*" jhiTranslate="entity.action.addimage"/>
+                            </div>
+                            <input type="hidden" class="form-control" name="picture" id="field_picture"
+                                   formControlName="picture"/>
+                            <input type="hidden" class="form-control" name="pictureContentType"
+                                   id="field_pictureContentType"
+                                   formControlName="pictureContentType"/>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+                <mat-action-row>
+
+                    <button mat-button (click)="nextStep()" color="primary" mat-raised-button>Next</button>
+
+                </mat-action-row>
+
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+
+                <mat-expansion-panel-header>
+
+                    <mat-panel-title>
+                        <mat-icon color="primary">work</mat-icon>&nbsp;
+                        <span style="font-size: 15px !important; color:#000080 !important;">Employment Details</span>
+                    </mat-panel-title>
+
+                </mat-expansion-panel-header>
+
+                <div fxLayout="row"
+                     fxLayout
+                     fxLayout.xs="column"
+                     fxLayoutAlign="center"
+                     fxLayoutGap="10px"
+                     fxLayoutGap.xs="0px">
+
+
+                    <div class="item" fxFlex="50%">
+
+                        <mat-form-field appearance="outline">
+                            <mat-label><span jhiTranslate="hrmisApp.employeeRecord.employeeNumber"></span></mat-label>
+
+                            <input matInput type="text" name="employeeNumber" formControlName="employeeNumber"
+                                   required/>
+                            <!--   <mat-error>
+                                   <bmf-alert [control]="editForm.get('employeeNumber')"  label="Employee Number">
+                                   </bmf-alert>
+                               </mat-error>-->
+
+                        </mat-form-field>
+
+
+                    </div>
+                    <div class="item" fxFlex="50%">
+                        <mat-form-field fxFlex appearance="outline">
+
+                            <mat-label>
+                                <span jhiTranslate="hrmisApp.employee.departmentName"></span>
+                            </mat-label>
+
+                            <mat-select>
+                                <mat-option [value]='c.id' *ngFor="let c of departments">
+                                    {{c.name}}
+                                </mat-option>
+                            </mat-select>
+
+                        </mat-form-field>
+
+
+                    </div>
+
+
+                </div>
+
+                <div fxLayout="row"
+                     fxLayout
+                     fxLayout.xs="column"
+                     fxLayoutAlign="center"
+                     fxLayoutGap="10px"
+                     fxLayoutGap.xs="0px">
+
+
+                    <div class="item" fxFlex="50%">
+                        <mat-form-field appearance="outline">
+                            <mat-label>
+                                <span jhiTranslate="hrmisApp.employeeRecord.employeeType"></span>
+                            </mat-label>
+
+                            <mat-select>
+                                <mat-option [value]='c.id' *ngFor="let c of employmentcategories">
+                                    {{c.name}}
+                                </mat-option>
+                            </mat-select>
+
+                        </mat-form-field>
+                    </div>
+                    <div class="item" fxFlex="50%">
+                        <mat-form-field fxFlex appearance="outline">
+
+                            <mat-label><span jhiTranslate="hrmisApp.employeeRecord.designation"></span></mat-label>
+
+                            <!--
+                                                        <input matInput type="text" name="designation" formControlName="designation" required/>
+                            -->
+                            <mat-select>
+                                <mat-option [value]='c.id' *ngFor="let c of carders">
+                                    {{c.name}}
+                                </mat-option>
+                            </mat-select>
+
+                            <!-- <mat-error>
+                               <bmf-alert [control]="editForm.get('designation')"  label="Designation">
+                               </bmf-alert>
+                           </mat-error>-->
+
+                        </mat-form-field>
+
+
+                    </div>
+
+
+                </div>
+
+                <div fxLayout="row"
+                     fxLayout
+                     fxLayout.xs="column"
+                     fxLayoutAlign="center"
+                     fxLayoutGap="10px"
+                     fxLayoutGap.xs="0px">
+
+                    <div class="item" fxFlex="50%">
+                        <mat-label><span>Status</span></mat-label>
+
+                        <mat-button-toggle-group matInput name="status" formNameControl="status" aria-label="Status"
+                                                 value="active">
+                            <mat-button-toggle mat-button value="true">Active</mat-button-toggle>
+                            <mat-button-toggle matInput mat-button value="false">Not Active</mat-button-toggle>
+                        </mat-button-toggle-group>
+                    </div>
+                    <div class="item" fxFlex="50%">
+
+                        <mat-form-field appearance="outline">
+                            <input matInput type="text" formControlName="dateJoining" name="dateJoining" ngbDatepicker
+                                   container="body" #dateJoiningDp="ngbDatepicker" (click)="dateJoiningDp.open()"
+                                   placeholder="Joining Date"/>
+                        </mat-form-field>
+
+                    </div>
+
+                </div>
+
+                <div fxLayout="row"
+                     fxLayout
+                     fxLayout.xs="column"
+                     fxLayoutAlign="center"
+                     fxLayoutGap="10px"
+                     fxLayoutGap.xs="0px">
+
+
+                    <div class="item" fxFlex="50%">
+
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>
+                                <span jhiTranslate="hrmisApp.employeeRecord.facility"></span>
+                            </mat-label>
+
+                            <mat-select>
+                                <mat-option [value]='c.id' *ngFor="let c of facilities">
+                                    {{c.name}}
+                                </mat-option>
+                            </mat-select>
+
+                        </mat-form-field>
+                    </div>
+
+                    <div class="item" fxFlex="50%">
+
+                        <mat-form-field fxFlex appearance="outline">
+                            <mat-label>
+                                <span jhiTranslate="hrmisApp.employeeRecord.salary"></span>
+                            </mat-label>
+                            <input matInput type="number" name="salary" formControlName="salary"/>
+
+                        </mat-form-field>
+
+                    </div>
+
+
+                </div>
+
+                <div fxLayout="row"
+                     fxLayout
+                     fxLayout.xs="column"
+                     fxLayoutAlign="center"
+                     fxLayoutGap="10px"
+                     fxLayoutGap.xs="0px">
+
+
+                    <div class="item" fxFlex="50%">
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>
+                                <span jhiTranslate="hrmisApp.employeeRecord.contractStartDate"></span>
+                            </mat-label>
+
+                            <input matInput type="text" formControlName="contractStartDateDp" name="contractStartDate"
+                                   ngbDatepicker container="body" #contractStartDateDp="ngbDatepicker"
+                                   (click)="contractStartDateDp.open()" placeholder="Contract Start Date"/>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="item" fxFlex="50%">
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>
+                                <span jhiTranslate="hrmisApp.employeeRecord.contractEndDate"></span>
+                            </mat-label>
+
+                            <input matInput type="text" formControlName="contractEndDate" name="contractEndDate"
+                                   ngbDatepicker container="body" #contractEndDateDp="ngbDatepicker"
+                                   (click)="contractEndDateDp.open()" placeholder="Contract End Date"/>
+                        </mat-form-field>
+
+                    </div>
+
+                </div>
+
+                <div fxLayout="row"
+                     fxLayout
+                     fxLayout.xs="column"
+                     fxLayoutAlign="center"
+                     fxLayoutGap="10px"
+                     fxLayoutGap.xs="0px">
+
+
+                    <div class="item" fxFlex="33.3%">
+
+                        <mat-form-field appearance="outline">
+
+                            <mat-label>
+                                <span jhiTranslate="hrmisApp.employeeRecord.bankAccount"></span>
+                            </mat-label>
+                            <input matInput type="text" name="bankAccount" formControlName="bankAccount" required/>
+                            <!-- <mat-error>
+                                 <bmf-alert [control]="editForm.get('bankAccount')"  label="Bank Account">
+                                 </bmf-alert>
+                             </mat-error>-->
+
+
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="item" fxFlex="33.3%">
+
+                        <mat-form-field appearance="outline">
+
+                            <mat-label>
+                                <span jhiTranslate="hrmisApp.employeeRecord.bankName"></span>
+                            </mat-label>
+                            <input matInput type="text" name="bankName" formControlName="bankName" required/>
+                            <!-- <mat-error>
+                                 <bmf-alert [control]="editForm.get('bankName')"  label="Bank Name">
+                                 </bmf-alert>
+                             </mat-error>-->
+
+                        </mat-form-field>
+
+                    </div>
+                    <div class="item" fxFlex="33.3%">
+
+                        <mat-form-field appearance="outline">
+
+                            <mat-label>
+                                <span jhiTranslate="hrmisApp.employeeRecord.branchName"></span>
+                            </mat-label>
+                            <input matInput type="text" name="branchName" formControlName="branchName"/>
+
+                        </mat-form-field>
+
+                    </div>
+
+                </div>
+
+                <div fxLayout="row"
+                     fxLayout
+                     fxLayout.xs="column"
+                     fxLayoutAlign="center"
+                     fxLayoutGap="10px"
+                     fxLayoutGap.xs="0px">
+
+
+                    <div class="item" fxFlex="50%">
+
+                        <mat-form-field appearance="outline">
+
+                            <mat-label>
+                                <span jhiTranslate="hrmisApp.employeeRecord.insuranceRegistrationNumber"></span>
+                            </mat-label>
+                            <input matInput type="text" name="insuranceRegistrationNumber"
+                                   formControlName="insuranceRegistrationNumber"/>
+
+                        </mat-form-field>
+
+
+                    </div>
+
+                    <div class="item" fxFlex="50%">
+
+                        <mat-form-field appearance="outline">
+
+                            <mat-label>
+                                <span>Project Name</span>
+                            </mat-label>
+
+                            <mat-select>
+                                <mat-option [value]='c.id' *ngFor="let c of projects">
+                                    {{c.name}}
+                                </mat-option>
+                            </mat-select>
+
+                        </mat-form-field>
+
+                    </div>
+
+                </div>
+
+
+                <mat-action-row>
+
+                    <button mat-button (click)="prevStep()" color="warn" mat-raised-button>Previous</button>
+                    <button mat-button color="primary" (click)="nextStep()" mat-raised-button>Next</button>
+                </mat-action-row>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+                <mat-expansion-panel-header>
+
+                    <mat-panel-title>
+                        <mat-icon color="primary">my_library_books</mat-icon>&nbsp;
+                        <span style="font-size: 15px !important; color:blue !important;">Resume</span>
+                    </mat-panel-title>
+
+
+                </mat-expansion-panel-header>
+
+
+                <div fxLayout="row"
+                     fxLayout
+                     fxLayout.xs="column"
+                     fxLayoutAlign="center"
+                     fxLayoutGap="10px"
+                     fxLayoutGap.xs="0px">
+
+
+                    <div class="item" fxFlex="50%">
+                        <mat-form-field appearance="outline">
+                            <mat-label>
+                                <span jhiTranslate="hrmisApp.employeeRecord.attachmentType"></span>
+                            </mat-label>
+
+                            <mat-select>
+                                <mat-option [value]='c.id' *ngFor="let c of departments">
+                                    {{c.name}}
+                                </mat-option>
+                            </mat-select>
+
+                        </mat-form-field>
+                    </div>
+                    <div class="item" fxFlex="50%">
+                        <mat-form-field fxFlex appearance="outline">
+
+                            <mat-label>
+                                <span jhiTranslate="hrmisApp.employeeRecord.attachment"></span>
+                            </mat-label>
+
+                            <input matInput type="number" min="1">
+
+                        </mat-form-field>
+
+
+                    </div>
+
+
+                </div>
+
+                <mat-action-row>
+                    <button mat-button color="warn" (click)="prevStep()" mat-raised-button>Previous</button>
+                    <button mat-button color="primary" (click)="nextStep()" mat-raised-button disabled>End</button>
+                </mat-action-row>
+
+            </mat-expansion-panel>
+
+        </mat-accordion>
+
+        <br/>
+
+        <div fxLayout="row"
+             fxLayout
+             fxLayout.xs="column"
+             fxLayoutAlign="end"
+             fxLayoutGap="10px"
+             fxLayoutGap.xs="0px">
+
+            <div ng-show="false">
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving"
+                        class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+
+        </div>
+
+    </form>
+</div>
+
+
+<!--<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="bmf-employee-record-heading" jhiTranslate="hrmisApp.employeeRecord.home.createOrEditLabel">Create or
+                edit a Employee Record</h2>
+
+            <div>
+                <bmf-alert-error></bmf-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly/>
+                </div>
+
+                &lt;!&ndash;<div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.firstName"
+                           for="field_firstName">First Name</label>
+                    <input type="text" class="form-control" name="firstName" id="field_firstName"
+                           formControlName="firstName"/>
+                    <div
+                        *ngIf="editForm.get('firstName')!.invalid && (editForm.get('firstName')!.dirty || editForm.get('firstName')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('firstName')?.errors?.required"
+                               jhiTranslate="entity.validation.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>&ndash;&gt;
+
+              &lt;!&ndash;  <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.middleName"
+                           for="field_middleName">Middle Name</label>
+                    <input type="text" class="form-control" name="middleName" id="field_middleName"
+                           formControlName="middleName"/>
+                </div>&ndash;&gt;
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.lastName"
+                           for="field_lastName">Last Name</label>
+                    <input type="text" class="form-control" name="lastName" id="field_lastName"
+                           formControlName="lastName"/>
+                    <div
+                        *ngIf="editForm.get('lastName')!.invalid && (editForm.get('lastName')!.dirty || editForm.get('lastName')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('lastName')?.errors?.required"
+                               jhiTranslate="entity.validation.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.address"
+                           for="field_address">Address</label>
+                    <input type="text" class="form-control" name="address" id="field_address"
+                           formControlName="address"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.gender" for="field_gender">Gender</label>
+                    <input type="text" class="form-control" name="gender" id="field_gender"
+                           formControlName="gender"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.birthDate"
+                           for="field_birthDate">Birth Date</label>
+                    <div class="input-group">
+                        <input id="field_birthDate" type="text" class="form-control" name="birthDate" ngbDatepicker
+                               #birthDateDp="ngbDatepicker" formControlName="birthDate"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="birthDateDp.toggle()"><fa-icon
+                                icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div
+                        *ngIf="editForm.get('birthDate')!.invalid && (editForm.get('birthDate')!.dirty || editForm.get('birthDate')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('birthDate')?.errors?.required"
+                               jhiTranslate="entity.validation.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.email" for="field_email">Email</label>
+                    <input type="text" class="form-control" name="email" id="field_email"
+                           formControlName="email"/>
+                    <div
+                        *ngIf="editForm.get('email')!.invalid && (editForm.get('email')!.dirty || editForm.get('email')!.touched)">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.cellPhone"
+                           for="field_cellPhone">Cell Phone</label>
+                    <input type="text" class="form-control" name="cellPhone" id="field_cellPhone"
+                           formControlName="cellPhone"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.telephone"
+                           for="field_telephone">Telephone</label>
+                    <input type="text" class="form-control" name="telephone" id="field_telephone"
+                           formControlName="telephone"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.maritalStatus"
+                           for="field_maritalStatus">Marital Status</label>
+                    <input type="text" class="form-control" name="maritalStatus" id="field_maritalStatus"
+                           formControlName="maritalStatus"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.picture"
+                           for="field_picture">Picture</label>
+                    <div>
+                        <img
+                            [src]="'data:' + editForm.get('pictureContentType')!.value + ';base64,' + editForm.get('picture')!.value"
+                            style="max-height: 100px;" *ngIf="editForm.get('picture')!.value"
+                            alt="employeeRecord image"/>
+                        <div *ngIf="editForm.get('picture')!.value" class="form-text text-danger clearfix">
+                            <span class="pull-left">{{ editForm.get('pictureContentType')!.value }}, {{ byteSize(editForm.get('picture')!.value) }}</span>
+                            <button type="button"
+                                    (click)="clearInputImage('picture', 'pictureContentType', 'file_picture')"
+                                    class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon icon="times"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_picture" (change)="setFileData($event, 'picture', true)"
+                               accept="image/*" jhiTranslate="entity.action.addimage"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="picture" id="field_picture"
+                           formControlName="picture"/>
+                    <input type="hidden" class="form-control" name="pictureContentType" id="field_pictureContentType"
+                           formControlName="pictureContentType"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.employeeNumber"
+                           for="field_employeeNumber">Employee Number</label>
+                    <input type="text" class="form-control" name="employeeNumber" id="field_employeeNumber"
+                           formControlName="employeeNumber"/>
+                    <div
+                        *ngIf="editForm.get('employeeNumber')!.invalid && (editForm.get('employeeNumber')!.dirty || editForm.get('employeeNumber')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('employeeNumber')?.errors?.required"
+                               jhiTranslate="entity.validation.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.active" for="field_active">Active</label>
+                    <input type="checkbox" class="form-control" name="active" id="field_active"
+                           formControlName="active"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.dateJoining"
+                           for="field_dateJoining">Date Joining</label>
+                    <div class="input-group">
+                        <input id="field_dateJoining" type="text" class="form-control" name="dateJoining" ngbDatepicker
+                               #dateJoiningDp="ngbDatepicker" formControlName="dateJoining"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="dateJoiningDp.toggle()"><fa-icon
+                                icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.salary" for="field_salary">Salary</label>
+                    <input type="number" class="form-control" name="salary" id="field_salary"
+                           formControlName="salary"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.contractStartDate"
+                           for="field_contractStartDate">Contract Start Date</label>
+                    <div class="input-group">
+                        <input id="field_contractStartDate" type="text" class="form-control" name="contractStartDate"
+                               ngbDatepicker #contractStartDateDp="ngbDatepicker" formControlName="contractStartDate"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="contractStartDateDp.toggle()"><fa-icon
+                                icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.contractEndDate"
+                           for="field_contractEndDate">Contract End Date</label>
+                    <div class="input-group">
+                        <input id="field_contractEndDate" type="text" class="form-control" name="contractEndDate"
+                               ngbDatepicker #contractEndDateDp="ngbDatepicker" formControlName="contractEndDate"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="contractEndDateDp.toggle()"><fa-icon
+                                icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.bankName"
+                           for="field_bankName">Bank Name</label>
+                    <input type="text" class="form-control" name="bankName" id="field_bankName"
+                           formControlName="bankName"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.branchName"
+                           for="field_branchName">Branch Name</label>
+                    <input type="text" class="form-control" name="branchName" id="field_branchName"
+                           formControlName="branchName"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.bankAccount"
+                           for="field_bankAccount">Bank Account</label>
+                    <input type="text" class="form-control" name="bankAccount" id="field_bankAccount"
+                           formControlName="bankAccount"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.insuranceRegistrationNumber"
+                           for="field_insuranceRegistrationNumber">Insurance Registration Number</label>
+                    <input type="text" class="form-control" name="insuranceRegistrationNumber"
+                           id="field_insuranceRegistrationNumber"
+                           formControlName="insuranceRegistrationNumber"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.department"
+                           for="field_department">Department</label>
+                    <select class="form-control" id="field_department" name="department" formControlName="departmentId">
+                        <option *ngIf="!editForm.get('departmentId')!.value" [ngValue]="null" selected></option>
+                        <option [ngValue]="departmentOption.id"
+                                *ngFor="let departmentOption of departments; trackBy: trackById">{{
+                            departmentOption.name }}
+                        </option>
+                    </select>
+                </div>
+                <div
+                    *ngIf="editForm.get('departmentId')!.invalid && (editForm.get('departmentId')!.dirty || editForm.get('departmentId')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('departmentId')?.errors?.required"
+                           jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.employeeType"
+                           for="field_employeeType">Employee Type</label>
+                    <select class="form-control" id="field_employeeType" name="employeeType"
+                            formControlName="employeeTypeId">
+                        <option *ngIf="!editForm.get('employeeTypeId')!.value" [ngValue]="null" selected></option>
+                        <option [ngValue]="employmentCategoryOption.id"
+                                *ngFor="let employmentCategoryOption of employmentcategories; trackBy: trackById">{{
+                            employmentCategoryOption.name }}
+                        </option>
+                    </select>
+                </div>
+                <div
+                    *ngIf="editForm.get('employeeTypeId')!.invalid && (editForm.get('employeeTypeId')!.dirty || editForm.get('employeeTypeId')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('employeeTypeId')?.errors?.required"
+                           jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.designation"
+                           for="field_designation">Designation</label>
+                    <select class="form-control" id="field_designation" name="designation"
+                            formControlName="designationId">
+                        <option *ngIf="!editForm.get('designationId')!.value" [ngValue]="null" selected></option>
+                        <option [ngValue]="carderOption.id" *ngFor="let carderOption of carders; trackBy: trackById">{{
+                            carderOption.name }}
+                        </option>
+                    </select>
+                </div>
+                <div
+                    *ngIf="editForm.get('designationId')!.invalid && (editForm.get('designationId')!.dirty || editForm.get('designationId')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('designationId')?.errors?.required"
+                           jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.facility"
+                           for="field_facility">Facility</label>
+                    <select class="form-control" id="field_facility" name="facility" formControlName="facilityId">
+                        <option *ngIf="!editForm.get('facilityId')!.value" [ngValue]="null" selected></option>
+                        <option [ngValue]="facilityOption.id"
+                                *ngFor="let facilityOption of facilities; trackBy: trackById">{{ facilityOption.name }}
+                        </option>
+                    </select>
+                </div>
+                <div
+                    *ngIf="editForm.get('facilityId')!.invalid && (editForm.get('facilityId')!.dirty || editForm.get('facilityId')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('facilityId')?.errors?.required"
+                           jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="hrmisApp.employeeRecord.project"
+                           for="field_project">Project</label>
+                    <select class="form-control" id="field_project" name="project" formControlName="projectId">
+                        <option *ngIf="!editForm.get('projectId')!.value" [ngValue]="null" selected></option>
+                        <option [ngValue]="projectOption.id" *ngFor="let projectOption of projects; trackBy: trackById">
+                            {{ projectOption.name }}
+                        </option>
+                    </select>
+                </div>
+                <div
+                    *ngIf="editForm.get('projectId')!.invalid && (editForm.get('projectId')!.dirty || editForm.get('projectId')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('projectId')?.errors?.required"
+                           jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving"
+                        class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>-->

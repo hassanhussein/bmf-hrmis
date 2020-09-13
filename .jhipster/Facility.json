@@ -1,0 +1,75 @@
+{
+  "name": "Facility",
+  "fields": [
+    {
+      "fieldName": "active",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "code",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique"]
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "postalAddress",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ward",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "village",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "comment",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "startDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "operatedby",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "geographicZone",
+      "otherEntityRelationshipName": "facility",
+      "relationshipName": "district",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "facilityType",
+      "otherEntityRelationshipName": "facility",
+      "relationshipName": "type",
+      "otherEntityField": "name"
+    }
+  ],
+  "changelogDate": "20200905063938",
+  "entityTableName": "facilities",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

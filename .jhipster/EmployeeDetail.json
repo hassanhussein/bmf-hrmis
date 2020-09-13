@@ -1,0 +1,154 @@
+{
+  "name": "EmployeeDetail",
+  "fields": [
+    {
+      "fieldName": "firstName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "middleName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "gender",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "birthDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique"]
+    },
+    {
+      "fieldName": "cellPhone",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "telephone",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "maritalStatus",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "picture",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "employeeNumber",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "active",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "dateJoining",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "salary",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "contractStartDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "contractEndDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "bankName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branchName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bankAccount",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "insuranceRegistrationNumber",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "attachment",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "attachments"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "department",
+      "otherEntityRelationshipName": "employeeDetail",
+      "relationshipValidateRules": "required",
+      "relationshipName": "department",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "employmentCategory",
+      "otherEntityRelationshipName": "employeeDetail",
+      "relationshipValidateRules": "required",
+      "relationshipName": "employeeType",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "carder",
+      "otherEntityRelationshipName": "employeeDetail",
+      "relationshipValidateRules": "required",
+      "relationshipName": "designation",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "facility",
+      "otherEntityRelationshipName": "employeeDetail",
+      "relationshipValidateRules": "required",
+      "relationshipName": "facility",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "project",
+      "otherEntityRelationshipName": "employeeDetail",
+      "relationshipValidateRules": "required",
+      "relationshipName": "project",
+      "otherEntityField": "name"
+    }
+  ],
+  "changelogDate": "20200912062303",
+  "entityTableName": "employee_details",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}
