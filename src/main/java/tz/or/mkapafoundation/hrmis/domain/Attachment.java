@@ -3,6 +3,8 @@ package tz.or.mkapafoundation.hrmis.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.content.commons.annotations.ContentId;
+import org.springframework.content.commons.annotations.ContentLength;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -28,9 +30,11 @@ public class Attachment implements Serializable {
     private String name;
 
     @Column(name = "content_id")
+    @ContentId
     private String contentId;
 
     @Column(name = "content_length")
+    @ContentLength
     private Long contentLength;
 
     @Column(name = "mime_type")

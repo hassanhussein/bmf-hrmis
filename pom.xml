@@ -268,10 +268,10 @@
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.github.paulcwarren/spring-content-rest -->
         <dependency>
-            <groupId>com.github.paulcwarren</groupId>
-            <artifactId>spring-content-rest</artifactId>
-            <version>1.1.0.M2</version>
-        </dependency>
+			<groupId>com.github.paulcwarren</groupId>
+            <artifactId>spring-content-fs-boot-starter</artifactId>
+			<version>1.1.0.M2</version>
+		</dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>
