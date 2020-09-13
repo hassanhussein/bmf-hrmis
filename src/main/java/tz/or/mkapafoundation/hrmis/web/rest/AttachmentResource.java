@@ -1,6 +1,5 @@
 package tz.or.mkapafoundation.hrmis.web.rest;
 
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
