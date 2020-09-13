@@ -38,7 +38,7 @@ public class Attachment implements Serializable {
 
     @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = "attachmentss", allowSetters = true)
+    @JsonIgnoreProperties(value = "attachments", allowSetters = true)
     private AttachmentType type;
 
     @ManyToOne(optional = false)

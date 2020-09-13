@@ -1,7 +1,6 @@
 package tz.or.mkapafoundation.hrmis.web.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -9,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import tz.or.mkapafoundation.hrmis.domain.Attachment;
 import tz.or.mkapafoundation.hrmis.repository.AttachmentRepository;
 import tz.or.mkapafoundation.hrmis.service.AttachmentService;
-import tz.or.mkapafoundation.hrmis.service.AttachmentStore;
+import tz.or.mkapafoundation.hrmis.service.mapper.AttachmentStore;
 import tz.or.mkapafoundation.hrmis.web.rest.errors.BadRequestAlertException;
 import tz.or.mkapafoundation.hrmis.service.dto.AttachmentDTO;
 
@@ -48,11 +47,11 @@ public class AttachmentResource {
     private final AttachmentStore attachmentStore;
 
 
-    public AttachmentResource(
+    public AttachmentResource (
 
         AttachmentService attachmentService,
-        AttachmentStore attachmentStore,
-        AttachmentRepository attachmentRepository) {
+        AttachmentRepository attachmentRepository,
+        AttachmentStore attachmentStore) {
         this.attachmentService = attachmentService;
         this.attachmentStore = attachmentStore;
         this.attachmentRepository = attachmentRepository;
