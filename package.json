@@ -29,7 +29,7 @@
     "bootstrap": "4.5.0",
     "flex-layout": "1.0.1",
     "hammerjs": "latest",
-    "moment": "2.27.0",
+    "moment": "2.29.2",
     "ng-jhipster": "0.14.0",
     "ngx-avatar": "^4.0.0",
     "ngx-cookie-service": "3.0.4",
